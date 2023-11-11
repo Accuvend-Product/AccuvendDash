@@ -2,9 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 import DetailsCard from "./details-card";
-import TransactionTable from "./transaction-table";
+import TransactionTable from "./table/table";
 
 const TransactionDetails = () => {
+    // can get the data and columns from some constant file
     return (
         <>
             <Navbar />
