@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
+import { flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 import Data from "../../contants/MOCK_DATA"
 import { useState } from "react"
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from "lucide-react";
 
 const columns = [
     {
@@ -51,15 +51,21 @@ const columns = [
 const TransactionTable = () => {
     const [data, setData] = useState(Data);
     const [currentPage, setCurrentPage] = useState(1);
+    const [sorting, setSorting] = useState([])
 
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         initialState: {
             pageIndex: currentPage - 1,
-        }
+        },
+        state: {
+            sorting: sorting,
+        },
+        onSortingChange: setSorting,
     });
 
     const goToPage = (pageNumber) => {
@@ -74,10 +80,17 @@ const TransactionTable = () => {
                         <tr key={headerGroup.id} className="bg-[#F8F7F7] text-body2">
                             {headerGroup.headers.map((header, index) => (
                                 <th
+                                    onClick={header.column.getToggleSortingHandler()}
                                     key={header.id}
                                     className={`p-2 font-bold border-b border-[#F8F7F7] ${index === 0 ? 'rounded-tl-lg' : ''} ${index === headerGroup.headers.length - 1 ? 'rounded-tr-lg' : ''} text-left`}
                                 >
-                                    {flexRender(header.column.columnDef.header)}
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                    {
+                                        {
+                                            asc: <ArrowUp className="inline-flex w-4 h-4 ml-1 items-center"/>,
+                                            desc: <ArrowDown className="inline-flex w-4 h-4 ml-1 items-center"/>,
+                                        }[header.column.getIsSorted() ?? null]
+                                    }
                                 </th>
                             ))}
                         </tr>
