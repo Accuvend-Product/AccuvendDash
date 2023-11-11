@@ -1,6 +1,8 @@
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+/* eslint-disable react/prop-types */
+import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
 import Data from "../../contants/MOCK_DATA"
 import { useState } from "react"
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const columns = [
     {
@@ -48,12 +50,22 @@ const columns = [
 
 const TransactionTable = () => {
     const [data, setData] = useState(Data);
+    const [currentPage, setCurrentPage] = useState(1);
+
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel()
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        initialState: {
+            pageIndex: currentPage - 1,
+        }
     });
 
+    const goToPage = (pageNumber) => {
+        table.setPageIndex(pageNumber - 1); // Subtract 1 since pageIndex is zero-based
+        setCurrentPage(pageNumber);
+    };
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full border-b border-[#F8F7F7]">
@@ -75,7 +87,7 @@ const TransactionTable = () => {
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id} className="border-b border-[#F8F7F7]">
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className="p-2 text-left">
+                                <td key={cell.id} className="py-5 px-2 text-left">
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
@@ -83,9 +95,52 @@ const TransactionTable = () => {
                     ))}
                 </tbody>
             </table>
+            {/* Pagination */}
+
+            <Pagination
+                currentPage={currentPage}
+                totalPages={table.getPageCount()}
+                goToPage={goToPage}
+                table={table}
+            />
+        </div>
+    );
+};
+
+export default TransactionTable;
+
+const Pagination = ({ currentPage, totalPages, goToPage, table }) => {
+    const handlePrevPage = () => {
+        goToPage(currentPage - 1);
+    };
+
+    const handleNextPage = () => {
+        goToPage(currentPage + 1);
+    };
+
+    return (
+        <div className="flex items-center justify-center mt-10">
+            <div className="flex justify-between items-center gap-5">
+                <span className="mr-2">Page {currentPage} of {totalPages}</span>
+                <div className="flex items-center">
+                    <button
+                        onClick={handlePrevPage}
+                        disabled={!table.getCanPreviousPage()}
+                        className={`px-1.5 py-1 rounded-l-md text-white bg-primary ${!table.getCanPreviousPage() ? 'cursor-not-allowed opacity-50' : ''}`}
+                    >
+                        <ArrowLeft />
+                    </button>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={!table.getCanNextPage()}
+                        className={`px-1.5 py-1 rounded-r-md text-white bg-primary ${!table.getCanNextPage() ? 'cursor-not-allowed opacity-50' : ''}`}
+                    >
+                        <ArrowRight />
+                    </button>
+                </div>
+            </div>
         </div>
     );
 
 };
 
-export default TransactionTable;
