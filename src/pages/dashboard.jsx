@@ -8,7 +8,7 @@ const Dashboard = () => {
             <Navbar />
             <div className="flex">
                 <Sidebar />
-                <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1">
+                <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
                     <div className=" ml-auto py-10">
                         {/* cards */}
                         <div className="flex space-x-12 items-center justify-end">

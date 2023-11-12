@@ -6,7 +6,7 @@ import columns from "../table/columns"
 import { useState } from "react"
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Search } from "lucide-react";
 
-const TransactionTable = ({tableData, colums}) => {
+const TransactionTable = ({ tableData, colums }) => {
     const [data, setData] = useState(Data);
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([])
@@ -86,7 +86,7 @@ const TransactionTable = ({tableData, colums}) => {
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id} className="border-b border-[#F8F7F7]">
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className="py-5 px-2 text-left">
+                                <td key={cell.id} className={`py-5 px-2 ${cell.column.id === 'status' ? 'text-center' : 'text-left'}`}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
