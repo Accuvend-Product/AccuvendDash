@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import TransactionTable from "./transaction/table/table";
 
 const Dashboard = () => {
     return (
@@ -7,8 +8,8 @@ const Dashboard = () => {
             <Navbar />
             <div className="flex">
                 <Sidebar />
-                <div className="ml-auto px-8 sm:px-10 md:px-12 border-b border-body1">
-                    <div className="py-10">
+                <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1">
+                    <div className=" ml-auto py-10">
                         {/* cards */}
                         <div className="flex space-x-12 items-center justify-end">
                             <div className="">
@@ -25,6 +26,9 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* table */}
+                    <TransactionTable />
                 </div>
             </div>
         </>
