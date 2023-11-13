@@ -11,7 +11,7 @@ const links = [
         name: "PROFILE",
         icon: <User className="h-5 w-5 mr-2" />,
         active: false,
-        href: "/profile",
+        href: "partner-dashboard/profile",
     },
     {
         name: "RESOLUTION CENTER",
@@ -23,7 +23,7 @@ const links = [
         name: "DEV CENTER",
         icon: <Cpu className="h-5 w-5 mr-2" />,
         active: false,
-        href: "/dev-center",
+        href: "/partner-dashboard/devcenter",
     },
 ]
 

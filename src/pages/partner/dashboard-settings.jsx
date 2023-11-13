@@ -6,6 +6,7 @@ import BellIcon from "../../components/icons/bell";
 import LinkIcon from "../../components/icons/link";
 import LockIcon from "../../components/icons/lock";
 import PhoneIcon from "../../components/icons/phone";
+import { Link } from 'react-router-dom';
 
 const PartnerDashboardSettings = () => {
     return (
@@ -18,9 +19,9 @@ const PartnerDashboardSettings = () => {
                         <h1 className="text-2xl font-bold">Preferences</h1>
                         <p className="text-body1">Take a look at your policies and the new policy to see what is covered</p>
                         <div className="flex ">
-                            <button className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md">Profile</button>
-                            <button className="px-2 py-1 border-y border-gray-300 text-primary font-semibold  ">Preferences</button>
-                            <button className="px-2 py-1 border border-gray-300 text-body1 rounded-r-md ">Team members</button>
+                            <Link to="/partner-dashboard/profile"  className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md">Profile</Link>
+                            <Link to="/partner-dashboard/preferences"  className="px-2 py-1 border-y border-gray-300 text-primary font-semibold  ">Preferences</Link>
+                            <Link to="/partner-dashboard/team-settings" className="px-2 py-1 border border-gray-300 text-body1 rounded-r-md ">Team members</Link>
                         </div>
                     </div>
 
