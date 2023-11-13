@@ -10,6 +10,7 @@ import PartnerDevCenter from "./pages/partner/dev-center";
 import PartnerDashboardProfile from "./pages/partner/profile";
 import PartnerTeamSettings from "./pages/partner/team-members-settings";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { Toaster } from 'react-hot-toast';
 
 import {
     QueryClient,
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/transaction/details/:id" element={<TransactionDetails />} />
                 <Route path="/partner/transaction/details/:id" element={<PartnerTransactionDetails />} />
             </Routes>
+            <Toaster />
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );

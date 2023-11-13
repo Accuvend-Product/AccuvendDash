@@ -2,7 +2,10 @@
 import { useState } from 'react';
 import logo from '../assets/brandmark-design.png'
 import { Link } from 'react-router-dom';
-import useSignIn from '../api/auth';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const SignIn = () => {
 
@@ -11,14 +14,25 @@ const SignIn = () => {
         password: '',
     });
 
-    const { mutate, isLoading, isError, error } = useSignIn();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(formData);
+        setIsLoading(true);
 
-        // Call the mutation function to perform the sign-in
-        mutate(formData);
+        try {
+            const response = await axios.post(BASE_URL + 'auth/login', formData);
+            console.log('Successful sign-in:', response.data);
+            toast.success('Login Successful');
+        } catch (error) {
+            toast.error('Login Failed');
+            console.error('Error signing in:', error);
+            setError(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
     return (
         <section className="flex justify-center items-center h-screen">
@@ -29,11 +43,23 @@ const SignIn = () => {
                 <form className="mt-[50px]" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-2xl font-medium mb-2 text-left">Email</label>
-                        <input type="email" id="email" className="border border-gray-300 rounded-lg w-full px-2 py-4 focus:outline-none focus:ring-0 focus:border-blue-600" />
+                        <input
+                            type="email"
+                            id="email"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            className="border border-gray-300 rounded-lg w-full px-2 py-4 focus:outline-none focus:ring-0 focus:border-blue-600"
+                        />
                     </div>
                     <div className="mt-[20px]">
                         <label htmlFor="password" className="block mb-2 text-2xl font-medium text-left">Password</label>
-                        <input type="password" id="password" className="border border-gray-300 rounded-lg w-full px-2 py-4 focus:outline-none focus:ring-0 focus:border-blue-600" />
+                        <input
+                            type="password"
+                            id="password"
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            className="border border-gray-300 rounded-lg w-full px-2 py-4 focus:outline-none focus:ring-0 focus:border-blue-600"
+                        />
                     </div>
                     <div className="flex items-center justify-between">
                         <div className="flex items-start">
@@ -47,7 +73,7 @@ const SignIn = () => {
                     >
                         {isLoading ? 'Logging in...' : 'Log in'}
                     </button>
-                    {isError && <p className="text-red-500 mt-[20px]">Error: {error.message}</p>}
+                    {error && <p className="text-red-500 mt-[20px]">Error: {error.message}</p>}
                     <p className="text-lg font-medium text-gray-400 dark:text-gray-400 mt-[20px]">
                         Don't have an account yet? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500 pl-1">Create an account</Link>
                     </p>
