@@ -14,8 +14,8 @@ const PartnerDashboardProfile = () => {
                         <h1 className="text-2xl font-bold">Profile</h1>
                         <p className="text-body1">Take a look at your policies and the new policy to see what is covered</p>
                         <div className="flex ">
-                            <button className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md">Profile</button>
-                            <button className="px-2 py-1 border-y border-gray-300 text-primary font-semibold  ">Preferences</button>
+                            <button className="px-2 py-1 border bg-gray-200 border-gray-300 font-semibold text-primary rounded-l-md">Profile</button>
+                            <button className="px-2 py-1 border-y border-gray-300 text-body1">Preferences</button>
                             <button className="px-2 py-1 border border-gray-300 text-body1 rounded-r-md ">Team members</button>
                         </div>
                     </div>
