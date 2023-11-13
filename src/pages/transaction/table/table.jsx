@@ -6,14 +6,14 @@ import columns from "../table/columns"
 import { useState } from "react"
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Search } from "lucide-react";
 
-const TransactionTable = ({ tableData, colums }) => {
-    const [data, setData] = useState(Data);
+const TransactionTable = ({ tableData, columns }) => {
+    // const [data, setData] = useState(Data);
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([])
     const [filtering, setFiltering] = useState('')
 
     const table = useReactTable({
-        data,
+        tableData,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
