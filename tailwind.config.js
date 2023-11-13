@@ -13,6 +13,9 @@ module.exports = {
             padding: "2rem",
         },
         extend: {
+            fontFamily: {
+                paypal: ["Paypal Sans", "sans-serif"],
+            },
             colors: {
                 primary: "#002E87",
                 secondary: "#04BD4B",
