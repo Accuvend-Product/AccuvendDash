@@ -21,8 +21,6 @@ const PartnerDashboard = () => {
         },
       });
 
-    //   console.log("response", response.data.data.transactions);
-
       const transformedData = response.data.data.transactions.map(
         (transaction) => ({
           image: transaction.powerUnit?.discoLogo ? transaction.powerUnit?.discoLogo : "https://res.cloudinary.com/richiepersonaldev/image/upload/v1699947957/dpijlhj08ard76zao2uk.jpg",
@@ -37,11 +35,9 @@ const PartnerDashboard = () => {
         })
       );
 
-      setTableData(transformedData); // Update state directly
-        // console.log("transformedData", transformedData);
+      setTableData(transformedData);
       return transformedData;
     },
-    // Other configurations...
   });
 
   const { isLoading: totalTransactionsLoading, } = useQuery({
@@ -61,7 +57,6 @@ const PartnerDashboard = () => {
 
       return totalTransactionCount;
     },
-    // Other configurations...
   });
 
   
