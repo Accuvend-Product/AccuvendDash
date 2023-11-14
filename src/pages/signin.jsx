@@ -24,11 +24,11 @@ const SignIn = () => {
 
         try {
             const response = await axios.post(BASE_URL + 'auth/login', formData);
-            console.log('Successful sign-in:', response.data);
+            console.log('Successful sign-in:', response.data.data);
 
             // Save the tokens and user credentials in local storage
-            localStorage.setItem('accessToken', response.data.accessToken);
-            localStorage.setItem('userEmail', formData.email);
+            localStorage.setItem('token', response.data.data.accessToken);
+            localStorage.setItem('userEmail', response.data.data.partner.email);
 
             toast.success('Login Successful');
 
@@ -49,6 +49,7 @@ const SignIn = () => {
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white justify-center">
                     <img className=" items-center text-center h-5 mr-2" src={logo} alt="logo" />
                 </a>
+                {error && <p className="text-white bg-red-500 rounded-xl px-4 py-5 text-xl text-center my-10">Login Failed</p>}
                 <form className="mt-[50px]" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-2xl font-medium mb-2 text-left">Email</label>
@@ -77,12 +78,11 @@ const SignIn = () => {
                     </div>
                     <button
                         type="submit"
-                        className="mt-[20px] bg-gray-200 hover:bg-blue-600 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-3xl text-lg px-5 py-3.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        className="mt-[20px] disabled:bg-gray-500 bg-primary hover:bg-blue-600 w-full text-white font-medium rounded-3xl text-lg px-5 py-3.5 text-center"
                         disabled={isLoading}
                     >
                         {isLoading ? 'Logging in...' : 'Log in'}
                     </button>
-                    {error && <p className="text-red-500 mt-[20px]">Error: {error.message}</p>}
                     <p className="text-lg font-medium text-gray-400 dark:text-gray-400 mt-[20px]">
                         Don't have an account yet? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500 pl-1">Create an account</Link>
                     </p>

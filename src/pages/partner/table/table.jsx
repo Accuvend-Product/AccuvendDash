@@ -9,7 +9,8 @@ import { useState } from "react"
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Search } from "lucide-react";
 
 const PartnerTransactionTable = ({ tableData }) => {
-    const [data, setData] = useState(Data);
+    console.log(tableData)
+    const [data, setData] = useState(tableData);
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([])
     const [filtering, setFiltering] = useState('')
