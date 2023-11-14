@@ -14,7 +14,7 @@ module.exports = {
         },
         extend: {
             fontFamily: {
-                paypal: ["Paypal Sans", "sans-serif"],
+                paypal: ["PayPal Sans Big Light Regular", "sans-serif"],
             },
             colors: {
                 primary: "#002E87",
