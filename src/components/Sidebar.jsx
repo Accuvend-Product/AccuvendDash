@@ -12,7 +12,7 @@ const links = [
         name: "PARTNERS",
         icon: <Users2 className="h-5 w-5 mr-2" />,
         active: false,
-        href: "/partners",
+        href: "/partner-dashboard",
     },
     {
         name: "CUSTOMER SUPPORT",

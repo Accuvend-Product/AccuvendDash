@@ -1,64 +1,41 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import TransactionTable from "./transaction/table/table";
-import { useEffect, useState } from "react";
-import columns from "./transaction/table/columns";
+import { useState } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Data from "./transaction/table/data";
-
-
 
 const Dashboard = () => {
   const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchTableData = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}transaction`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          // Add other configuration options as needed
-        });
+  const { isLoading } = useQuery({
+    queryKey: ["transactions"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}transaction`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
-        console.log(response.data.data);
-        const transactions = response.data.data.transactions;
+      const transformedData = response.data.data.transactions.map(
+        (transaction) => ({
+          partner: transaction.partner ?? "TEST",
+          "meter number": transaction.meter.meterNumber,
+          "customer name": transaction.user.name,
+          "transaction reference": transaction.bankRefId ?? "REF TEST",
+          "transaction date": transaction.transactionTimestamp,
+          amount: `${transaction.amount} N`,
+          status: transaction.status.toLowerCase(),
+        })
+      );
 
-        if (response.data && transactions) {
-          const transformedData = transactions.map(
-            (transaction) => ({
-              "partner": transaction.partner ?? "TEST",
-              "meter number": transaction.meter.meterNumber,
-              "customer name": transaction.user.name,
-              "transaction reference": transaction.id,
-              "transaction date": new Date(
-                transaction.transactionTimestamp
-              ).toLocaleDateString(),
-              "amount": `${transaction.amount} N`,
-              "status": transaction.status.toLowerCase(),
-            })
-          );
+      setTableData(transformedData); // Update state directly
 
-          console.log("transformedData === ", transformedData);
-
-          setTableData(Data)
-          
-        } else {
-          console.error("Invalid dashboard table data structure");
-        }
-      } catch (error) {
-        console.error("Error fetching dashboard table data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    console.log("loading === ", loading);
-
-    fetchTableData();
-  }, []);
+      return transformedData;
+    },
+    // Other configurations...
+  });
 
   return (
     <>
@@ -88,16 +65,13 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {loading ? (
+          {isLoading ? (
             <p>Loading...</p>
           ) : (
             tableData.length > 0 && (
               <>
                 {/* Render your cards here */}
-                <TransactionTable 
-                tableData={tableData} 
-                columns={columns}
-                />
+                <TransactionTable tableData={tableData} />
               </>
             )
           )}
