@@ -5,9 +5,14 @@ import PartnerDetailsCard from "./details-card";
 import PartnerOrderConfirmation from "./order-confirmation";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 
 const PartnerTransactionDetails = () => {
   const { id } = useParams();
+
+  console.log(id)
   const [transactionDetails, setTransactionDetails] = useState(null);
 
   useEffect(() => {
@@ -17,9 +22,15 @@ const PartnerTransactionDetails = () => {
     // Mock API call
     const fetchData = async () => {
       try {
-        const response = await fetch(`/transaction/info${id}`);
-        const data = await response.json();
-        setTransactionDetails(data);
+            const response = await axios.get(`${BASE_URL}transaction/info?bankRefId=${id}`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            });
+            
+            console.log(response.data.data.transaction)
+            
+        setTransactionDetails(response.data.data.transaction);
       } catch (error) {
         console.error("Error fetching transaction details:", error);
       }
@@ -43,12 +54,12 @@ const PartnerTransactionDetails = () => {
             <ArrowLeft className="mr-2 w-5 h-5" />
             <h1 className="font-bold text-2xl">Transaction Details</h1>
           </div>
-          <h1 className="text-body1 text-xl my-2">PHED (TXN-2023-001)</h1>
+          <h1 className="text-body1 text-xl my-2">{transactionDetails.id}</h1>
 
           {/* both cards */}
           <div className="flex gap-16">
-            <PartnerDetailsCard />
-            <PartnerOrderConfirmation />
+            <PartnerDetailsCard transaction={transactionDetails} />
+            <PartnerOrderConfirmation transaction={transactionDetails}/>
           </div>
 
           <div className="mt-10"></div>

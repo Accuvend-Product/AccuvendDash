@@ -1,16 +1,16 @@
 export const columns = [
-    {
-        accessorKey: "selection",
-        header: "",
-        cell: (props) => (
-            <input
-                type="checkbox"
-                checked={props.row.isSelected}
-                onChange={() => props.row.toggleRowSelected()}
-            />
-        ),
-        width: 30, // Set a width for the checkbox column
-    },
+    // {
+    //     accessorKey: "selection",
+    //     header: "",
+    //     cell: (props) => (
+    //         <input
+    //             type="checkbox"
+    //             checked={props.row.isSelected}
+    //             onChange={() => props.row.toggleRowSelected()}
+    //         />
+    //     ),
+    //     width: 30, // Set a width for the checkbox column
+    // },
     {
         accessorKey: "disco",
         header: "Disco",
@@ -79,11 +79,11 @@ export const columns = [
             let statusClass;
 
             switch (status) {
-                case "active":
+                case "complete":
                     statusClass =
                         "bg-green-100 text-green-800 font-bold py-2 px-3  text-xs";
                     break;
-                case "inactive":
+                case "failed":
                     statusClass = "bg-red-100 text-red-800 font-bold py-2 px-3  text-xs";
                     break;
                 case "pending":

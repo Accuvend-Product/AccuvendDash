@@ -113,7 +113,7 @@ const PartnerTransactionTable = ({ tableData }) => {
                                         }`}
                                 >
                                     <Link
-                                        to={`/partner/transaction/details/${cell.row.original.id}`}
+                                        to={`/partner/transaction/details/${tableData[cell.row.index]["transaction reference"]}`}
                                     >{flexRender(
                                         cell.column.columnDef.cell,
                                         cell.getContext()
