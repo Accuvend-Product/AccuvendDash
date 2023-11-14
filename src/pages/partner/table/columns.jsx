@@ -16,15 +16,15 @@ export const columns = [
         header: "Disco",
         cell: (props) => {
             const disco = props.getValue();
-            const imageUrl = props.row.original.image;
+            // const imageUrl = props.row.original.image;
             return (
                 <div className="flex items-center">
-                    <img
+                    {/* <img
                         src={imageUrl}
                         alt={`${disco} logo`}
                         className="mr-2"
                         style={{ width: "24px", height: "24px" }}
-                    />
+                    /> */}
                     <p>{disco}</p>
                 </div>
             );

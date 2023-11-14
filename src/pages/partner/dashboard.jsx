@@ -21,11 +21,11 @@ const PartnerDashboard = () => {
         },
       });
 
-      console.log("response", response);
+    //   console.log("response", response);
 
       const transformedData = response.data.data.transactions.map(
         (transaction) => ({
-          image: transaction.image,
+          image: transaction.powerUnit,
           disco: transaction.disco ?? "TEST",
           "meter number": transaction.meter.meterNumber,
           "customer name": transaction.user.name,
@@ -38,7 +38,7 @@ const PartnerDashboard = () => {
       );
 
       setTableData(transformedData); // Update state directly
-
+        console.log("transformedData", transformedData);
       return transformedData;
     },
     // Other configurations...
