@@ -83,7 +83,7 @@ const SignIn = () => {
                     >
                         {isLoading ? 'Logging in...' : 'Log in'}
                     </button>
-                    <p className="text-lg font-medium text-gray-400 dark:text-gray-400 mt-[20px]">
+                    <p className="text-lg font-medium text-gray-400 dark:text-gray-400 mt-[20px] text-center">
                         Don't have an account yet? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500 pl-1">Create an account</Link>
                     </p>
                 </form>

@@ -10,7 +10,7 @@ const Navbar = () => {
                     <img src={Logo} className="hidden sm:block aspect-auto"/>
                     <img src={Logo} className="sm:hidden w-32 h-10 aspect-auto"/>
                 </a>
-                <div className="flex items-center justify-between ml-auto space-x-10 sm:space-x-16 md:space-x-[72px] text-3xl">
+                <div className="flex items-center justify-between ml-auto space-x-10 sm:space-x-16 md:space-x-[72px] text-md">
                     <a href="#">HELP</a>
                     <a href="#">SECURITY CENTER</a>
                     <div className="flex items-center">
