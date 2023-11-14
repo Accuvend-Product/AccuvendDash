@@ -1,13 +1,14 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react';
 import logo from '../assets/brandmark-design.png'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const SignIn = () => {
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -19,13 +20,21 @@ const SignIn = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formData);
         setIsLoading(true);
 
         try {
             const response = await axios.post(BASE_URL + 'auth/login', formData);
             console.log('Successful sign-in:', response.data);
+
+            // Save the tokens and user credentials in local storage
+            localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('userEmail', formData.email);
+
             toast.success('Login Successful');
+
+            // Redirect to the dashboard
+            navigate('/partner-dashboard');
+
         } catch (error) {
             toast.error('Login Failed');
             console.error('Error signing in:', error);
