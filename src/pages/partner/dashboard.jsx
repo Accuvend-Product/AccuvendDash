@@ -50,19 +50,19 @@ const PartnerDashboard = () => {
                         {/* cards */}
                         <div className="flex space-x-12 items-center justify-end">
                             <div className="">
-                                <p className="text-2xl">Total no. Transacted 24hrs</p>
+                                <p className="text-3xl">Total no. Transacted 24hrs</p>
                                 <p className="text-[48px] text-primary font-semibold">
                                     1,234
                                 </p>
                             </div>
                             <div className="">
-                                <p className="text-2xl">Failed Transactions</p>
+                                <p className="text-3xl">Failed Transactions</p>
                                 <p className="text-[48px] text-primary font-semibold">
                                     123
                                 </p>
                             </div>
                             <div className="bg-primary text-white p-4">
-                                <p className="text-2xl">Total Amount Transacted 24hrs</p>
+                                <p className="text-3xl">Total Amount Transacted 24hrs</p>
                                 <p className="text-[48px] font-semibold">N1,234.34</p>
                             </div>
                         </div>
