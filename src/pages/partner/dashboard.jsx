@@ -50,7 +50,7 @@ const PartnerDashboard = () => {
                         {/* cards */}
                         <div className="flex space-x-12 items-center justify-end">
                             <div className="">
-                                <p className="text-2xl">Total Transacted 24hrs</p>
+                                <p className="text-2xl">Total no. Transacted 24hrs</p>
                                 <p className="text-[48px] text-primary font-semibold">
                                     1,234
                                 </p>
