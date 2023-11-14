@@ -46,7 +46,7 @@ const SignUp = () => {
         <section className="flex justify-center items-center h-screen">
             <div className="w-[600px] p-16 border border-gray-300 rounded-lg">
                 <img className=" items-center text-center h-5 mr-2" src={logo} alt="logo" />
-                {error && <p className="text-white bg-red-500 rounded-xl px-4 py-5 text-xl text-center my-10">Login Failed</p>}
+                {error && <p className="text-white bg-red-500 rounded-xl px-4 py-5 text-xl text-center my-10">Registered Failed</p>}
                 <form className="mt-[50px]" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-2xl font-medium mb-2 text-left">Email</label>
