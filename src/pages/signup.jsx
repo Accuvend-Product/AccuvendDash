@@ -46,6 +46,7 @@ const SignUp = () => {
         <section className="flex justify-center items-center h-screen">
             <div className="w-[600px] p-16 border border-gray-300 rounded-lg">
                 <img className=" items-center text-center h-5 mr-2" src={logo} alt="logo" />
+                {error && <p className="text-white bg-red-500 rounded-xl px-4 py-5 text-xl text-center my-10">Registered Failed</p>}
                 <form className="mt-[50px]" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-2xl font-medium mb-2 text-left">Email</label>
@@ -79,12 +80,11 @@ const SignUp = () => {
                     </div>
                     <button
                         type="submit"
-                        className="mt-[20px] bg-gray-200 hover:bg-blue-600 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-3xl text-lg px-5 py-3.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        className="mt-[20px] disabled:bg-gray-500 bg-primary hover:bg-blue-600 w-full text-white font-medium rounded-3xl text-lg px-5 py-3.5 text-center"
                         disabled={isLoading}
                     >
                         {isLoading ? 'Signing up...' : 'Sign Up'}
                     </button>
-                    {error && <p className="text-red-500 mt-[20px]">Error: {error.message}</p>}
                     <p className="text-lg font-medium text-gray-400 dark:text-gray-400 mt-[20px]">
                         Already have an account yet? <Link to="/" className="font-medium text-primary-600 hover:underline dark:text-primary-500 pl-1">Login</Link>
                     </p>

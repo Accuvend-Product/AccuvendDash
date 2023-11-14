@@ -17,7 +17,7 @@ const PartnerTransactionDetails = () => {
     // Mock API call
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/transactions/${id}`);
+        const response = await fetch(`/transaction/info${id}`);
         const data = await response.json();
         setTransactionDetails(data);
       } catch (error) {
