@@ -21,11 +21,11 @@ const PartnerDashboard = () => {
         },
       });
 
-    //   console.log("response", response);
+    //   console.log("response", response.data.data.transactions);
 
       const transformedData = response.data.data.transactions.map(
         (transaction) => ({
-          image: transaction.powerUnit,
+          image: transaction.powerUnit?.discoLogo ? transaction.powerUnit?.discoLogo : "https://res.cloudinary.com/richiepersonaldev/image/upload/v1699947957/dpijlhj08ard76zao2uk.jpg",
           disco: transaction.disco ?? "TEST",
           "meter number": transaction.meter.meterNumber,
           "customer name": transaction.user.name,
@@ -38,7 +38,7 @@ const PartnerDashboard = () => {
       );
 
       setTableData(transformedData); // Update state directly
-        console.log("transformedData", transformedData);
+        // console.log("transformedData", transformedData);
       return transformedData;
     },
     // Other configurations...
