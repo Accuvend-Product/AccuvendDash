@@ -7,81 +7,81 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const PartnerDashboard = () => {
-  const [tableData, setTableData] = useState([]);
+    const [tableData, setTableData] = useState([]);
 
-  const { isLoading } = useQuery({
-    queryKey: ["transactions"],
-    queryFn: async () => {
-      const response = await axios.get(`${BASE_URL}transaction`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+    const { isLoading } = useQuery({
+        queryKey: ["transactions"],
+        queryFn: async () => {
+            const response = await axios.get(`${BASE_URL}transaction`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+
+            const transformedData = response.data.data.transactions.map(
+                (transaction) => ({
+                    image: transaction.image,
+                    disco: transaction.disco ?? "TEST",
+                    "meter number": transaction.meter.meterNumber,
+                    "customer name": transaction.user.name,
+                    "transaction reference":
+                        transaction.bankRefId ?? "dd7935c0-5546-4ebf-8d4d-aa98e25708h2g",
+                    "transaction date": transaction.transactionTimestamp,
+                    amount: `${transaction.amount} N`,
+                    status: transaction.status.toLowerCase(),
+                    selection: transaction.partnerId ?? "TESTID",
+                })
+            );
+
+            setTableData(transformedData); // Update state directly
+
+            return transformedData;
         },
-      });
+        // Other configurations...
+    });
 
-      const transformedData = response.data.data.transactions.map(
-        (transaction) => ({
-          image: transaction.image,
-          disco: transaction.disco ?? "TEST",
-          "meter number": transaction.meter.meterNumber,
-          "customer name": transaction.user.name,
-          "transaction reference":
-            transaction.bankRefId ?? "dd7935c0-5546-4ebf-8d4d-aa98e25708h2g",
-          "transaction date": transaction.transactionTimestamp,
-          amount: `${transaction.amount} N`,
-          status: transaction.status.toLowerCase(),
-          selection: transaction.partnerId ?? "TESTID",
-        })
-      );
+    return (
+        <>
+            <Navbar />
+            <div className="flex">
+                <Sidebar />
+                <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
+                    <div className=" ml-auto py-10">
+                        {/* cards */}
+                        <div className="flex space-x-12 items-center justify-end">
+                            <div className="">
+                                <p>Last Transaction</p>
+                                <p className="text-[48px] text-primary font-semibold">
+                                    N1,234.34
+                                </p>
+                            </div>
+                            <div className="">
+                                <p>Total Withdrawal</p>
+                                <p className="text-[48px] text-primary font-semibold">
+                                    N1,234.34
+                                </p>
+                            </div>
+                            <div className="bg-primary text-white p-4">
+                                <p>Total Balance</p>
+                                <p className="text-[48px] font-semibold">N1,234.34</p>
+                            </div>
+                        </div>
+                    </div>
 
-      setTableData(transformedData); // Update state directly
-
-      return transformedData;
-    },
-    // Other configurations...
-  });
-
-  return (
-    <>
-      <Navbar />
-      <div className="flex">
-        <Sidebar />
-        <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
-          <div className=" ml-auto py-10">
-            {/* cards */}
-            <div className="flex space-x-12 items-center justify-end">
-              <div className="">
-                <p>Last Transaction</p>
-                <p className="text-[48px] text-primary font-semibold">
-                  N1,234.34
-                </p>
-              </div>
-              <div className="">
-                <p>Total Withdrawal</p>
-                <p className="text-[48px] text-primary font-semibold">
-                  N1,234.34
-                </p>
-              </div>
-              <div className="bg-primary text-white p-4">
-                <p>Total Balance</p>
-                <p className="text-[48px] font-semibold">N1,234.34</p>
-              </div>
+                    {isLoading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        tableData.length > 0 && (
+                            <>
+                                {/* Render your cards here */}
+                                <PartnerTransactionTable tableData={tableData} />
+                            </>
+                        )
+                    )}
+                </div>
             </div>
-          </div>
-
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            tableData.length > 0 && (
-              <>
-                {/* Render your cards here */}
-                <PartnerTransactionTable tableData={tableData} />
-              </>
-            )
-          )}
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default PartnerDashboard;
