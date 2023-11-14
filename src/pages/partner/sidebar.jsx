@@ -6,7 +6,7 @@ const Sidebar = () => {
   const [links, setLinks] = useState([
     {
       name: "DASHBOARD",
-      icon: <LayoutDashboard className="h-5 w-5 mr-2" />,
+      icon: <LayoutDashboard className="h-5 w-5 mr-2 text-2xl" />,
       href: "/partner-dashboard",
       active: false,
     },
