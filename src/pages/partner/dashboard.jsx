@@ -9,6 +9,7 @@ import axios from "axios";
 const PartnerDashboard = () => {
   const [tableData, setTableData] = useState([]);
   const [totalTransactions, setTotalTransactions] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
   const [failedTransactions, setFailedTransactions] = useState(0);
 
   const { isLoading } = useQuery({
@@ -53,29 +54,16 @@ const PartnerDashboard = () => {
       });
 
       const totalTransactionCount = response.data.data.transactions.length;
+            const allTotalTransactionCount = response.data.data.totalAmount;
+
       setTotalTransactions(totalTransactionCount);
+      setTotalAmount(allTotalTransactionCount);
 
       return totalTransactionCount;
     },
     // Other configurations...
   });
-  
-  const { isLoading: allTotalTransactionsLoading, } = useQuery({
-    queryKey: ["transactions", "total"],
-    queryFn: async () => {
-      const response = await axios.get(`${BASE_URL}transaction/yesterday`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
 
-      const totalTransactionCount = response.data.data.totalAmount;
-      setTotalTransactions(totalTransactionCount);
-
-      return totalTransactionCount;
-    },
-    // Other configurations...
-  });
   
   const { isLoading: failedTransactionsLoading } = useQuery({
     queryKey: ["transactions", "failed"],
@@ -123,7 +111,7 @@ const PartnerDashboard = () => {
                 <p className="text-2xl">Total Amount Transacted 24hrs</p>
                 <p className="text-[48px] font-semibold">
                   {" "}
-                  {totalTransactionsLoading ? "Loading..." : totalTransactions}
+                  {totalTransactionsLoading ? "Loading..." : totalAmount}
                 </p>
               </div>
             </div>
