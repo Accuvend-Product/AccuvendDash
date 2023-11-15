@@ -1,231 +1,216 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImagePlus } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "./sidebar";
 import ZenithImage from "../../images/zenith.png";
 import { Link } from "react-router-dom";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PartnerDashboardProfile = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [uploadedImageLink, setUploadedImageLink] = useState(null);
+    const [email, setEmail] = useState("");
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedImage(file);
-  };
+    useEffect(() => {
+        fetchUserData();
+    }, []);
 
-  const handleImageUpload = async () => {
-    try {
-      if (selectedImage) {
-        setIsLoading(true); // Set loading state
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL}auth/loggeduser`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
 
-        const formData = new FormData();
-        await formData.append("profile_picture", selectedImage);
-
-        // Log the values in the FormData
-        for (const [key, value] of formData.entries()) {
-          console.log(`${key}:`, value);
+            if (response.data.status === "success") {
+                const userData = response.data.data.partner;
+                setEmail(userData.email);
+                if (userData.profilePicture) {
+                    setUploadedImageLink(userData.profilePicture);
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
         }
-
-        const response = await axios.patch(`${BASE_URL}profile/profilepicture`, formData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        console.log(response.data.data.imageLink)
-
-        setIsLoading(false); // Reset loading state after successful upload
-        // Handle success, update UI or show a notification
-      }
-    } catch (error) {
-      setIsLoading(false); // Reset loading state on error
-      // Handle error, show an error message
-      console.error("Error uploading profile picture:", error);
-    }
-  };
-
-    const handleFormSubmit = (event) => {
-      event.preventDefault();
-      handleImageUpload();
     };
 
-  return (
-    <>
-      <Navbar />
-      <div className="flex">
-        <Sidebar />
-        <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
-          <div className="mt-10 space-y-2">
-            <h1 className="text-2xl font-bold">Profile</h1>
-            <p className="text-body1">
-              Take a look at your policies and the new policy to see what is
-              covered
-            </p>
-            <div className="flex ">
-              <Link
-                to="/partner-dashboard/profile"
-                className="px-2 py-1 border bg-gray-200 border-gray-300 font-semibold text-primary rounded-l-md"
-              >
-                Profile
-              </Link>
-              <Link
-                to="/partner-dashboard/preferences"
-                className="px-2 py-1 border-y border-gray-300 text-body1"
-              >
-                Preferences
-              </Link>
-              <Link
-                to="/partner-dashboard/team-settings"
-                className="px-2 py-1 border border-gray-300 text-body1 rounded-r-md "
-              >
-                Team members
-              </Link>
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        setSelectedImage(file);
+    };
+
+    const handleImageUpload = async () => {
+        try {
+            if (selectedImage) {
+                setIsLoading(true);
+
+                const formData = new FormData();
+                formData.append("profile_picture", selectedImage);
+
+                const response = await axios.patch(
+                    `${BASE_URL}profile/profilepicture`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
+
+                if (response.data.status === "success") {
+                    toast.success("Profile image updated successfully")
+                    setUploadedImageLink(response.data.data.imageLink);
+                    console.log(response.data.data.imageLink);
+                }
+
+                setIsLoading(false);
+            }
+        } catch (error) {
+            setIsLoading(false);
+            console.error("Error uploading profile picture:", error);
+            toast.error("Error uploading profile picture:", error);
+        }
+    };
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+        handleImageUpload();
+    };
+
+    return (
+        <>
+            <Navbar />
+            <div className="flex">
+                <Sidebar />
+                <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
+                    <div className="mt-10 space-y-2">
+                        <h1 className="text-2xl font-bold">Profile</h1>
+                        <p className="text-body1">
+                            Take a look at your policies and the new policy to see what is
+                            covered
+                        </p>
+                        <div className="flex ">
+                            <Link
+                                to="/partner-dashboard/profile"
+                                className="px-2 py-1 border bg-gray-200 border-gray-300 font-semibold text-primary rounded-l-md"
+                            >
+                                Profile
+                            </Link>
+                            <Link
+                                to="/partner-dashboard/preferences"
+                                className="px-2 py-1 border-y border-gray-300 text-body1"
+                            >
+                                Preferences
+                            </Link>
+                            <Link
+                                to="/partner-dashboard/team-settings"
+                                className="px-2 py-1 border border-gray-300 text-body1 rounded-r-md "
+                            >
+                                Team members
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="mt-10 flex flex-col px-8 border border-gray-200 rounded-md pb-40">
+                        {/* Container div */}
+                        <form onSubmit={handleFormSubmit}>
+                            <div className="flex flex-col space-y-8 pt-4 pb-14">
+                                <div className="grid grid-cols-2">
+                                    {/* left side */}
+                                    <div className="flex flex-col gap-2">
+                                        <h1 className="font-bold">Profile Photo</h1>
+                                        <p>This image will be displayed on your profile</p>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            id="profileImage"
+                                            name="profileImage"
+                                            onChange={handleImageChange}
+                                            className="hidden"
+                                        />
+                                        <label
+                                            htmlFor="profileImage"
+                                            className="flex items-center gap-2 text-primary border border-primary hover:border-transparent hover:text-white hover:bg-primary w-fit px-2 py-1 rounded-md font-semibold"
+                                        >
+                                            <ImagePlus className="h-4 w-4" />
+                                            Change Photo
+                                        </label>
+                                    </div>
+
+                                    {/* right side */}
+                                    {selectedImage ? (
+                                        <div className="flex items-center mt-2">
+                                            <img
+                                                src={URL.createObjectURL(selectedImage)}
+                                                alt="Selected Profile"
+                                                className="w-32 h-32 rounded-md"
+                                            />
+                                            <button
+                                                // onClick={handleImageUpload}
+                                                type="submit"
+                                                className="ml-2 text-white bg-gray-300 w-fit px-3 py-2 rounded-md text-3xl"
+                                            >
+                                                {isLoading ? "Uploading..." : "Upload"}
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="flex justify-start">
+                                            {uploadedImageLink ? (
+                                                <img
+                                                    src={uploadedImageLink}
+                                                    alt="Uploaded Profile"
+                                                    className="w-32 h-32 rounded-md"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={ZenithImage}
+                                                    alt="Zenith Bank"
+                                                    className="w-32 h-32 rounded-md"
+                                                />
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                <hr />
+                            </div>
+                        </form>
+
+                        <div className="flex flex-col space-y-8 pt-4 pb-14">
+                            <div className="grid grid-cols-2">
+                                {/* left side */}
+                                <div className="flex flex-col gap-2">
+                                    <h1 className="font-bold">Personal Information</h1>
+                                </div>
+
+                                {/* right side */}
+                                <div className="flex flex-col space-y-4">
+                                    <div className="flex flex-col">
+                                        <label htmlFor="email" className="font-bold">
+                                            Email Address
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={email}
+                                            className="border px-3 py-3 text-sm rounded-md"
+                                            disabled
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div className="mt-10 flex flex-col px-8 border border-gray-200 rounded-md pb-40">
-            {/* Container div */}
-            <form onSubmit={handleFormSubmit}>
-              <div className="flex flex-col space-y-8 pt-4 pb-14">
-                <div className="grid grid-cols-2">
-                  {/* left side */}
-                  <div className="flex flex-col gap-2">
-                    <h1 className="font-bold">Profile Photo</h1>
-                    <p>This image will be displayed on your profile</p>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="profileImage"
-                      name="profileImage"
-                      onChange={handleImageChange}
-                      className="hidden"
-                    />
-                    <label
-                      htmlFor="profileImage"
-                      className="flex items-center gap-2 text-primary border border-primary hover:border-transparent hover:text-white hover:bg-primary w-fit px-2 py-1 rounded-md font-semibold"
-                    >
-                      <ImagePlus className="h-4 w-4" />
-                      Change Photo
-                    </label>
-                  </div>
-
-                  {/* right side */}
-                  {selectedImage ? (
-                    <div className="flex items-center mt-2">
-                      <img
-                        src={URL.createObjectURL(selectedImage)}
-                        alt="Selected Profile"
-                        className="w-32 h-32 rounded-md"
-                      />
-                      <button
-                        // onClick={handleImageUpload}
-                        type="submit"
-                        className="ml-2 text-white bg-gray-300 w-fit px-3 py-2 rounded-md text-3xl"
-                      >
-                        {isLoading ? "Uploading..." : "Upload"}
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex justify-start">
-                      <img
-                        src={ZenithImage}
-                        alt="Zenith Bank"
-                        className="w-32 h-32 rounded-md"
-                      />
-                    </div>
-                  )}
-                </div>
-                <hr />
-              </div>
-            </form>
-
-            <div className="flex flex-col space-y-8 pt-4 pb-14">
-              <div className="grid grid-cols-2">
-                {/* left side */}
-                <div className="flex flex-col gap-2">
-                  <h1 className="font-bold">Personal Information</h1>
-                  <p>Update your personal details here.</p>
-                  <button className="text-white bg-gray-300 w-fit px-3 py-2 rounded-md">
-                    Save Changes
-                  </button>
-                </div>
-
-                {/* right side */}
-                <div className="flex flex-col space-y-4">
-                  <div className="flex flex-col">
-                    <label htmlFor="email" className="font-bold">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="zenithbankplc@gmail.com"
-                      className="bg-gray-200 border px-3 py-3 text-sm rounded-md"
-                    />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label htmlFor="username" className="font-bold">
-                      Username
-                    </label>
-                    <input
-                      type="text"
-                      id="username"
-                      name="username"
-                      placeholder="@Zenithbankplc"
-                      value="@Zenithbankplc"
-                      className="border px-3 py-3 text-sm rounded-md"
-                    />
-                    <div className="flex items-center mt-2 text-green-500 bg-green-100 rounded-full p-1 font-bold text-sm w-fit">
-                      <svg
-                        width={25}
-                        height={26}
-                        viewBox="0 0 25 26"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M12.4081 22.2623C17.4914 22.2623 21.6122 18.1415 21.6122 13.0583C21.6122 7.97504 17.4914 3.85425 12.4081 3.85425C7.32489 3.85425 3.2041 7.97504 3.2041 13.0583C3.2041 18.1415 7.32489 22.2623 12.4081 22.2623ZM16.1669 11.7671C16.5834 11.3856 16.6118 10.7388 16.2303 10.3222C15.8489 9.90572 15.202 9.87731 14.7854 10.2588L11.0097 13.7169L10.0308 12.8204C9.61433 12.4389 8.96743 12.4673 8.58596 12.8839C8.20449 13.3004 8.2329 13.9473 8.64942 14.3287L10.3189 15.8578C10.7098 16.2158 11.3095 16.2158 11.7004 15.8578L16.1669 11.7671Z"
-                          fill="#0F973D"
-                          style={{
-                            fill: "color(display-p3 0.0588 0.5922 0.2392)",
-                            fillOpacity: 1,
-                          }}
-                        />
-                      </svg>
-                      <span>Username is available</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label htmlFor="role" className="font-bold">
-                      Role
-                    </label>
-                    <input
-                      type="text"
-                      id="role"
-                      name="role"
-                      placeholder="Partner"
-                      className="bg-gray-200 border px-3 py-3 text-sm rounded-md"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default PartnerDashboardProfile;

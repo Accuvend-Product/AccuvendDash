@@ -1,16 +1,71 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Pencil, Trash } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "./sidebar";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PartnerDevCenter = () => {
+    const [apiKeyData, setApiKeyData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fetchApiKeys = async () => {
+        try {
+            setIsLoading(true);
+            const response = await axios.get(`${BASE_URL}key/active`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                }
+            );
+            if (response.data.status === 'success') {
+                setApiKeyData(response.data.data);
+            }
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+            console.error('Error fetching API keys:', error);
+            toast.error('Error fetching API keys:', error);
+        }
+    };
+
+    const createNewKey = async () => {
+        try {
+            setIsLoading(true);
+            const response = await axios.get(`${BASE_URL}key/new`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                }
+            );
+            if (response.data.status === 'success') {
+                fetchApiKeys();
+            }
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+            console.error('Error creating new API key:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchApiKeys(); // Fetch API keys on component mount
+    }, []);
     return (
         <>
             <Navbar />
             <div className="flex">
                 <Sidebar />
                 <div className="px-8 sm:px-10 md:px-12 flex-1 pb-10">
-                    <div className="mt-10 space-y-2">
+                    {isLoading ? ( // Display loading screen when isLoading is true
+                        <div className="h-screen flex items-center justify-center">
+                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+                        </div>
+                    ) : (<div className="mt-10 space-y-2">
                         <h1 className="text-2xl font-bold">API Keys</h1>
                         <p className="pb-4">Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.</p>
                         <p className="pb-8">Do not share your API key with others, or expose it in the browser or other client-side code. In order to protect the security of your account,
@@ -21,29 +76,25 @@ const PartnerDevCenter = () => {
                             <thead className="font-bold uppercase">
                                 <tr>
                                     <th className="py-2 px-4 text-left">Name</th>
-                                    <th className="py-2 px-4 text-left">Key</th>
+                                    <th className="py-2 px-4 text-left">API Key</th>
+                                    <th className="py-2 px-4 text-left">Secret Key</th>
                                     <th className="py-2 px-4 text-left">Created</th>
                                     <th className="py-2 px-4 text-left">Last Used</th>
-                                    <th className="py-2 px-4 text-left"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td className="py-2 px-4">Test</td>
-                                    <td className="py-2 px-4">sk***********842</td>
+                                    <td className="py-2 px-4">{apiKeyData?.apiKey?.slice(0, 4)}*****{apiKeyData?.apiKey?.slice(-4)}</td>
+                                    <td className="py-2 px-4">{apiKeyData?.secretKey?.slice(0, 4)}*****{apiKeyData?.secretKey?.slice(-4)}</td>
                                     <td className="py-2 px-4">8 Nov 2023</td>
                                     <td className="py-2 px-4">23 Nov 2023</td>
-                                    <td className="py-2 px-4 flex gap-2 items-center">
-                                        <Pencil className="cursor-pointer h-4 w-4" />
-                                        <Trash className="cursor-pointer h-4 w-4" />
-                                    </td>
                                 </tr>
-                                {/* Add more rows if needed */}
                             </tbody>
                         </table>
 
                         {/* Button to generate a new key */}
-                        <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md">
+                        <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md" onClick={createNewKey}>
                             + Create a new secret key
                         </button>
 
@@ -56,7 +107,8 @@ const PartnerDevCenter = () => {
                                 <option value="organization1">Zenith Bank</option>
                             </select>
                         </div>
-                    </div>
+                    </div>)
+                    }
                 </div>
             </div>
         </>
