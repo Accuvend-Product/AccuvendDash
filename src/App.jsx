@@ -28,7 +28,7 @@ function App() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/partner-dashboard" element={<PartnerDashboard />} />
-                <Route path="/partner-dashboard/settings" element={<PartnerDashboardSettings />} />
+                <Route path="/partner-dashboard/preferences" element={<PartnerDashboardSettings />} />
                 <Route path="/partner-dashboard/devcenter" element={<PartnerDevCenter />} />
                 <Route path="/partner-dashboard/profile" element={<PartnerDashboardProfile />} />
                 <Route path="/partner-dashboard/team-settings" element={<PartnerTeamSettings />} />

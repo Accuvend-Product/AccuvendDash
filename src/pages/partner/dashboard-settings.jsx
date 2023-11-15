@@ -19,8 +19,8 @@ const PartnerDashboardSettings = () => {
                         <h1 className="text-2xl font-bold">Preferences</h1>
                         <p className="text-body1">Take a look at your policies and the new policy to see what is covered</p>
                         <div className="flex ">
-                            <Link to="/partner-dashboard/profile"  className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md">Profile</Link>
-                            <Link to="/partner-dashboard/preferences"  className="px-2 py-1 border-y border-gray-300 text-primary font-semibold  ">Preferences</Link>
+                            <Link to="/partner-dashboard/profile" className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md">Profile</Link>
+                            <Link to="/partner-dashboard/preferences" className="px-2 py-1 border-y border-gray-300 bg-gray-200 text-primary font-semibold  ">Preferences</Link>
                             <Link to="/partner-dashboard/team-settings" className="px-2 py-1 border border-gray-300 text-body1 rounded-r-md ">Team members</Link>
                         </div>
                     </div>
@@ -81,7 +81,7 @@ const PartnerDashboardSettings = () => {
                                 </div>
                                 <ChevronDown className="h-4 w-4 ml-auto" />
                             </div>
-                            
+
                             {/* 2 step verification */}
                             <div className="flex items-center justify-between w-full">
                                 <div className="flex items-center gap-4">
