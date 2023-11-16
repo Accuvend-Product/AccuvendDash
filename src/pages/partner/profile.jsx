@@ -6,6 +6,7 @@ import ZenithImage from "../../images/zenith.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import LoadingSpinner from "../../components/ui/loading";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -14,6 +15,7 @@ const PartnerDashboardProfile = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [uploadedImageLink, setUploadedImageLink] = useState(null);
     const [email, setEmail] = useState("");
+    const [isUserDataLoading, setIsUserDataLoading] = useState(true); // New state for user data loading
 
     useEffect(() => {
         fetchUserData();
@@ -36,6 +38,9 @@ const PartnerDashboardProfile = () => {
             }
         } catch (error) {
             console.error("Error fetching user data:", error);
+        } finally {
+            // Set loading state to false once user data is fetched or in case of error
+            setIsUserDataLoading(false);
         }
     };
 
@@ -119,67 +124,75 @@ const PartnerDashboardProfile = () => {
 
                     <div className="mt-10 flex flex-col px-8 border border-gray-200 rounded-md pb-40">
                         {/* Container div */}
-                        <form onSubmit={handleFormSubmit}>
-                            <div className="flex flex-col space-y-8 pt-4 pb-14">
-                                <div className="grid grid-cols-2">
-                                    {/* left side */}
-                                    <div className="flex flex-col gap-2">
-                                        <h1 className="font-bold">Profile Photo</h1>
-                                        <p>This image will be displayed on your profile</p>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            id="profileImage"
-                                            name="profileImage"
-                                            onChange={handleImageChange}
-                                            className="hidden"
-                                        />
-                                        <label
-                                            htmlFor="profileImage"
-                                            className="flex items-center gap-2 text-primary border border-primary hover:border-transparent hover:text-white hover:bg-primary w-fit px-2 py-1 rounded-md font-semibold"
-                                        >
-                                            <ImagePlus className="h-4 w-4" />
-                                            Change Photo
-                                        </label>
-                                    </div>
-
-                                    {/* right side */}
-                                    {selectedImage ? (
-                                        <div className="flex items-center mt-2">
-                                            <img
-                                                src={URL.createObjectURL(selectedImage)}
-                                                alt="Selected Profile"
-                                                className="w-32 h-32 rounded-md"
-                                            />
-                                            <button
-                                                // onClick={handleImageUpload}
-                                                type="submit"
-                                                className="ml-2 text-white bg-gray-300 w-fit px-3 py-2 rounded-md text-3xl"
-                                            >
-                                                {isLoading ? "Uploading..." : "Upload"}
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div className="flex justify-start">
-                                            {uploadedImageLink ? (
-                                                <img
-                                                    src={uploadedImageLink}
-                                                    alt="Uploaded Profile"
-                                                    className="w-32 h-32 rounded-md"
-                                                />
-                                            ) : (
-                                                <img
-                                                    src={ZenithImage}
-                                                    alt="Zenith Bank"
-                                                    className="w-32 h-32 rounded-md"
-                                                />
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                                <hr />
+                        {/* Show loading screen when user data is loading */}
+                        {isUserDataLoading ? (
+                            <div className="flex justify-center items-center h-64">
+                                <LoadingSpinner />
                             </div>
-                        </form>
+                        ) : (
+                            <form onSubmit={handleFormSubmit}>
+                                <div className="flex flex-col space-y-8 pt-4 pb-14">
+                                    <div className="grid grid-cols-2">
+                                        {/* left side */}
+                                        <div className="flex flex-col gap-2">
+                                            <h1 className="font-bold">Profile Photo</h1>
+                                            <p>This image will be displayed on your profile</p>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                id="profileImage"
+                                                name="profileImage"
+                                                onChange={handleImageChange}
+                                                className="hidden"
+                                            />
+                                            <label
+                                                htmlFor="profileImage"
+                                                className="flex items-center gap-2 text-primary border border-primary hover:border-transparent hover:text-white hover:bg-primary w-fit px-2 py-1 rounded-md font-semibold"
+                                            >
+                                                <ImagePlus className="h-4 w-4" />
+                                                Change Photo
+                                            </label>
+                                        </div>
+
+                                        {/* right side */}
+                                        {selectedImage ? (
+                                            <div className="flex items-center mt-2">
+                                                <img
+                                                    src={URL.createObjectURL(selectedImage)}
+                                                    alt="Selected Profile"
+                                                    className="w-32 h-32 rounded-md"
+                                                />
+                                                <button
+                                                    // onClick={handleImageUpload}
+                                                    type="submit"
+                                                    className="ml-2 text-white bg-gray-300 w-fit px-3 py-2 rounded-md text-3xl"
+                                                >
+                                                    {isLoading ? "Uploading..." : "Upload"}
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="flex justify-start">
+                                                {uploadedImageLink ? (
+                                                    <img
+                                                        src={uploadedImageLink}
+                                                        alt="Uploaded Profile"
+                                                        className="w-32 h-32 rounded-md"
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={ZenithImage}
+                                                        alt="Zenith Bank"
+                                                        className="w-32 h-32 rounded-md"
+                                                    />
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <hr />
+                                </div>
+                            </form>
+
+                        )}
 
                         <div className="flex flex-col space-y-8 pt-4 pb-14">
                             <div className="grid grid-cols-2">
