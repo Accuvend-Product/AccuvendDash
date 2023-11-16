@@ -29,7 +29,7 @@ const PartnerDashboard = () => {
           "customer name": transaction.user.name,
           "transaction reference": transaction.bankRefId,
           "transaction date": transaction.transactionTimestamp,
-          amount: `${transaction.amount} N`,
+          amount: `N${transaction.amount}`,
           status: transaction.status.toLowerCase(),
           selection: transaction.partnerId ?? "TESTID",
         })

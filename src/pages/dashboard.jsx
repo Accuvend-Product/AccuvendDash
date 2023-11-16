@@ -25,7 +25,7 @@ const Dashboard = () => {
           "customer name": transaction.user.name,
           "transaction reference": transaction.bankRefId ?? "REF TEST",
           "transaction date": transaction.transactionTimestamp,
-          amount: `${transaction.amount} N`,
+          amount: `N${transaction.amount} `,
           status: transaction.status.toLowerCase(),
         })
       );
