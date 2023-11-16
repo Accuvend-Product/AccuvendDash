@@ -7,8 +7,24 @@ import LinkIcon from "../../components/icons/link";
 import LockIcon from "../../components/icons/lock";
 import PhoneIcon from "../../components/icons/phone";
 import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const PartnerDashboardSettings = () => {
+    const [showChangePassword, setShowChangePassword] = useState(false);
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+
+    const handlePasswordChange = () => {
+        // Add logic here to change the password
+        console.log('Old Password:', oldPassword);
+        console.log('New Password:', newPassword);
+
+        // Clear input fields after changing the password
+        setOldPassword('');
+        setNewPassword('');
+        toast.success('Password changed successfully');
+    };
     return (
         <>
             <Navbar />
@@ -70,7 +86,7 @@ const PartnerDashboardSettings = () => {
                                 <ChevronDown className="h-4 w-4 ml-auto" />
                             </div>
 
-                            {/* change password */}
+                            {/* change password
                             <div className="flex items-center justify-between w-full">
                                 <div className="flex items-center gap-4">
                                     <LockIcon />
@@ -80,6 +96,47 @@ const PartnerDashboardSettings = () => {
                                     </div>
                                 </div>
                                 <ChevronDown className="h-4 w-4 ml-auto" />
+                            </div> */}
+
+                            {/* Change Password dropdown */}
+                            <div className="w-full">
+                                <div
+                                    className="flex items-center justify-between w-full cursor-pointer"
+                                    onClick={() => setShowChangePassword(!showChangePassword)}
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <LockIcon />
+                                        <div className="flex flex-col">
+                                            <p className="font-bold">Change Password</p>
+                                            <p className="text-sm">***************</p>
+                                        </div>
+                                    </div>
+                                    <ChevronDown className="h-4 w-4 ml-auto" />
+                                </div>
+                                {showChangePassword && (
+                                    <div className="mt-4 flex items-center gap-2">
+                                        <input
+                                            type="password"
+                                            placeholder="Old Password"
+                                            value={oldPassword}
+                                            onChange={(e) => setOldPassword(e.target.value)}
+                                            className="border border-gray-300 rounded-md focus:outline-none px-3 py-2"
+                                        />
+                                        <input
+                                            type="password"
+                                            placeholder="New Password"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            className="border border-gray-300 rounded-md focus:outline-none px-3 py-2"
+                                        />
+                                        <button
+                                            onClick={handlePasswordChange}
+                                            className="bg-primary text-white rounded-md px-2 py-2"
+                                        >
+                                            Confirm
+                                        </button>
+                                    </div>
+                                )}
                             </div>
 
                             {/* 2 step verification */}
