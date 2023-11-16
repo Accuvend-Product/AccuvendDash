@@ -54,7 +54,7 @@ const PartnerTransactionDetails = () => {
             <ArrowLeft className="mr-2 w-5 h-5" />
             <h1 className="font-bold text-2xl">Transaction Details</h1>
           </div>
-          <h1 className="text-body1 text-xl my-2">{transactionDetails.id}</h1>
+          {/* <h1 className="text-body1 text-xl my-2">{transactionDetails.id}</h1> */}
 
           {/* both cards */}
           <div className="flex gap-16">
