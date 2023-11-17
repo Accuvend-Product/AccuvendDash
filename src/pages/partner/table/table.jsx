@@ -122,7 +122,7 @@ const PartnerTransactionTable = ({ tableData }) => {
                             {row.getVisibleCells().map((cell) => (
                                 <td
                                     key={cell.id}
-                                    className={`py-5 px-2 ${cell.column.id === "status"
+                                    className={`py-5 px-2 font-small ${cell.column.id === "status"
                                         ? "text-center"
                                         : "text-left"
                                         }`}

@@ -3,20 +3,109 @@ import Navbar from "../../components/Navbar";
 import Sidebar from "./sidebar";
 import ZenithImage from "../../images/zenith.png"
 import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+
+const initialFormData = {
+    name: '',
+    email: '',
+    role: 'Admin',
+};
+
 
 const PartnerTeamSettings = () => {
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState(initialFormData);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleInviteMember = () => {
+        // Logic to send invitation request to the backend using formData
+        console.log('Sending invitation:', formData);
+        toast.success('Invitation sent successfully');
+        // Here you can make an API request to invite the new member
+        // Reset the form data after sending the request
+        setFormData(initialFormData);
+        // Close the modal after sending the request
+        // setShowModal(false);
+    };
+
     return (
         <>
             <Navbar />
             <div className="flex">
                 <Sidebar />
                 <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
+                    {/* Modal for inviting new member */}
+                    {showModal && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="bg-white rounded-lg p-8 w-[35%]">
+                                    <h1 className="text-lg font-bold mb-4">Invite New Member</h1>
+                                    <div className="mb-4">
+                                        <label className="block mb-1">Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleInputChange}
+                                            className="border rounded-md w-full px-4 py-2 focus:outline-none"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block mb-1">Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className="border rounded-md w-full px-4 py-2 focus:outline-none"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block mb-1">Role</label>
+                                        <select
+                                            name="role"
+                                            value={formData.role}
+                                            onChange={handleInputChange}
+                                            className="border rounded-md w-full px-4 py-2 focus:outline-none"
+                                        >
+                                            <option value="Admin">Admin</option>
+                                            <option value="Developer">Developer</option>
+                                            <option value="Guest">Guest</option>
+                                        </select>
+                                    </div>
+                                    <div className="flex justify-end">
+                                        <button
+                                            onClick={handleInviteMember}
+                                            className="bg-secondary text-white px-4 py-2 rounded-md mr-2"
+                                        >
+                                            Invite
+                                        </button>
+                                        <button
+                                            onClick={() => setShowModal(false)}
+                                            className="border border-gray-300 px-4 py-2 rounded-md"
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     <div className="mt-10 space-y-2">
                         <h1 className="text-2xl font-bold">Profile</h1>
                         <p className="text-body1">Take a look at your policies and the new policy to see what is covered</p>
                         <div className="flex ">
-                            <Link to="/partner-dashboard/profile"  className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md">Profile</Link>
-                            <Link to="/partner-dashboard/preferences"  className="px-2 py-1 border-y border-gray-300 text-body1">Preferences</Link>
+                            <Link to="/partner-dashboard/profile" className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md">Profile</Link>
+                            <Link to="/partner-dashboard/preferences" className="px-2 py-1 border-y border-gray-300 text-body1">Preferences</Link>
                             <Link to="/partner-dashboard/team-settings" className="px-2 py-1 border rounded-r-md bg-gray-200 border-gray-300 text-primary font-semibold ">Team members</Link>
                         </div>
                     </div>
@@ -34,7 +123,7 @@ const PartnerTeamSettings = () => {
                                             <DownloadCloud className="h-4 w-4" />
                                             Export CSV
                                         </button>
-                                        <button className="flex items-center gap-2 bg-secondary border border-secondary text-white w-fit px-3 py-1 rounded-md font-semibold">
+                                        <button onClick={() => setShowModal(true)} className="flex items-center gap-2 bg-secondary border border-secondary text-white w-fit px-3 py-1 rounded-md font-semibold">
                                             Invite new member
                                         </button>
                                     </div>
