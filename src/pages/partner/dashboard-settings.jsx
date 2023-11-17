@@ -264,15 +264,16 @@ const PartnerDashboardSettings = () => {
                                         </div>
                                         <div className="flex flex-col space-y-4">
                                             {/* Your checkboxes and labels here */}
-                                            <label>
+                                            <label className="flex justify-between">
+                                                Notify Login
                                                 <input
                                                     type="checkbox"
                                                     checked={notificationOptions.notifyLogin}
                                                     onChange={() => handleNotificationCheckboxChange('notifyLogin')}
                                                 />
-                                                Notify Login
                                             </label>
-                                            <label>
+                                            <label className="flex justify-between">
+                                                Notify New Transactions
                                                 <input
                                                     type="checkbox"
                                                     checked={notificationOptions.notifyNewTransactions}
@@ -280,9 +281,9 @@ const PartnerDashboardSettings = () => {
                                                         handleNotificationCheckboxChange('notifyNewTransactions')
                                                     }
                                                 />
-                                                Notify New Transactions
                                             </label>
-                                            <label>
+                                            <label className="flex justify-between">
+                                                Notify Failed Transaction
                                                 <input
                                                     type="checkbox"
                                                     checked={notificationOptions.notifyFailedTransaction}
@@ -290,9 +291,9 @@ const PartnerDashboardSettings = () => {
                                                         handleNotificationCheckboxChange('notifyFailedTransaction')
                                                     }
                                                 />
-                                                Notify Failed Transaction
                                             </label>
-                                            <label>
+                                            <label className="flex justify-between">
+                                                Notify New Accounts
                                                 <input
                                                     type="checkbox"
                                                     checked={notificationOptions.notifyNewAccounts}
@@ -300,7 +301,6 @@ const PartnerDashboardSettings = () => {
                                                         handleNotificationCheckboxChange('notifyNewAccounts')
                                                     }
                                                 />
-                                                Notify New Accounts
                                             </label>
                                         </div>
                                     </div>
