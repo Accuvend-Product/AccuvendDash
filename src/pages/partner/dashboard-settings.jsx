@@ -1,4 +1,5 @@
-import { ChevronDown } from "lucide-react";
+/* eslint-disable no-unused-vars */
+import { ChevronDown, XIcon } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "./sidebar";
 import EmailIcon from "../../components/icons/email";
@@ -7,95 +8,155 @@ import LinkIcon from "../../components/icons/link";
 import LockIcon from "../../components/icons/lock";
 import PhoneIcon from "../../components/icons/phone";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PartnerDashboardSettings = () => {
-  const [showChangePassword, setShowChangePassword] = useState(false);
-  const [showChangeEmail, setShowChangeEmail] = useState(false);
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [newEmail, setNewEmail] = useState("");
+    const [showChangePassword, setShowChangePassword] = useState(false);
+    const [showChangeEmail, setShowChangeEmail] = useState(false);
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [newEmail, setNewEmail] = useState("");
 
-  const oldEmailValue = localStorage.getItem("userEmail");
+    const [showNotificationsModal, setShowNotificationsModal] = useState(false);
+    const [notificationOptions, setNotificationOptions] = useState({
+        notifyLogin: false,
+        notifyNewTransactions: false,
+        notifyFailedTransaction: false,
+        notifyNewAccounts: false,
+    });
 
-  const handlePasswordChange = async () => {
-    try {
-      // Send a POST request to the server's "auth/changepassword" endpoint
-      const response = await axios.post(
-        `${BASE_URL}auth/changepassword`,
-        {
-          oldPassword,
-          newPassword,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+    useEffect(() => {
+        // Fetch user's notification preferences from the server and update state
+        // Make an API call to get the user's notification preferences and update notificationOptions state
+        // Example:
+        // axios.get(`${BASE_URL}profile/notification-preferences`, {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //   },
+        // })
+        // .then((response) => {
+        //   setNotificationOptions(response.data);
+        // })
+        // .catch((error) => {
+        //   console.error("Error fetching notification preferences:", error);
+        // });
+    }, []);
+
+    const handleNotificationCheckboxChange = async (option) => {
+        try {
+            // Update the state optimistically
+            setNotificationOptions((prevOptions) => ({
+                ...prevOptions,
+                [option]: !prevOptions[option],
+            }));
+
+            // Send a PATCH request to update the notification preference on the server
+            await axios.patch(
+                `${BASE_URL}profile/notification-preferences`,
+                {
+                    [option]: !notificationOptions[option],
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+
+            // Optionally, show a success toast or perform any other actions upon successful update
+            toast.success(`Notification ${option} updated successfully`);
+        } catch (error) {
+            console.error(`Error updating ${option} notification:`, error);
+            // Rollback the state change on error
+            setNotificationOptions((prevOptions) => ({
+                ...prevOptions,
+                [option]: !prevOptions[option],
+            }));
+            toast.error(`Failed to update ${option} notification. Please try again.`);
         }
-      );
+    };
 
-      console.log("response", response);
 
-      // Check if the password change was successful
-      if (response.status === 200) {
-        console.log("Password changed successfully");
-        toast.success("Password changed successfully");
-      } else {
-        toast.error("Failed to change password. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error changing password:", error.message);
-      toast.error(
-        "An error occurred while changing the password. Please try again."
-      );
-    }
+    const oldEmailValue = localStorage.getItem("userEmail");
 
-    // Clear input fields after changing the password
-    setOldPassword("");
-    setNewPassword("");
-  };
+    const handlePasswordChange = async () => {
+        try {
+            // Send a POST request to the server's "auth/changepassword" endpoint
+            const response = await axios.post(
+                `${BASE_URL}auth/changepassword`,
+                {
+                    oldPassword,
+                    newPassword,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
 
-  const handleEmailChange = async () => {
-    try {
+            console.log("response", response);
 
-        console.log("newEmail", newEmail);
-      // Send a POST request to the server's "auth/changepassword" endpoint
-      const response = await axios.patch(
-        `${BASE_URL}profile/email`,
-        {
-          email: newEmail,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+            // Check if the password change was successful
+            if (response.status === 200) {
+                console.log("Password changed successfully");
+                toast.success("Password changed successfully");
+            } else {
+                toast.error("Failed to change password. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error changing password:", error.message);
+            toast.error(
+                "An error occurred while changing the password. Please try again."
+            );
         }
-      );
 
-      // Check if the password change was successful
-      if (response.status === 200) {
-        console.log("Email changed successfully");
-        toast.success("Email changed successfully");
+        // Clear input fields after changing the password
+        setOldPassword("");
+        setNewPassword("");
+    };
 
-        // Update the email in local storage
-        localStorage.setItem("email", newEmail);
-      } else {
-        toast.error("Failed to change email. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error changing email:", error);
-      toast.error(
-        "An error occurred while changing the email. Please try again."
-      );
-    }
+    const handleEmailChange = async () => {
+        try {
 
-    // Clear input fields after changing the password
-    setNewEmail("");
-  };
+            console.log("newEmail", newEmail);
+            // Send a POST request to the server's "auth/changepassword" endpoint
+            const response = await axios.patch(
+                `${BASE_URL}profile/email`,
+                {
+                    email: newEmail,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+
+            // Check if the password change was successful
+            if (response.status === 200) {
+                console.log("Email changed successfully");
+                toast.success("Email changed successfully");
+
+                // Update the email in local storage
+                localStorage.setItem("email", newEmail);
+            } else {
+                toast.error("Failed to change email. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error changing email:", error);
+            toast.error(
+                "An error occurred while changing the email. Please try again."
+            );
+        }
+
+        // Clear input fields after changing the password
+        setNewEmail("");
+    };
 
     return (
         <>
@@ -131,60 +192,120 @@ const PartnerDashboardSettings = () => {
                         </div>
                     </div>
 
-          <div className="mt-10 flex justify-center border border-gray-200 rounded-md">
-            {/* Container div */}
-            <div className="flex flex-col space-y-8 items-center pt-4 pb-14 w-1/2">
-              {/* Email Settings */}
-              <div className="w-full">
-                <div
-                  className="flex items-center justify-between w-full cursor-pointer"
-                  onClick={() => setShowChangeEmail(!showChangeEmail)}
-                >
-                  <div className="flex items-center gap-4">
-                    <EmailIcon />
-                    <div className="flex flex-col">
-                      <p className="font-bold">Email Settings</p>
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm">{oldEmailValue}</p>
-                        <span className="text-secondary bg-[#E7F6EC] px-2 py-0.5 rounded-full text-xs">
-                          Verified
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <ChevronDown className="h-4 w-4 ml-auto" />
-                </div>
+                    <div className="mt-10 flex justify-center border border-gray-200 rounded-md">
+                        {/* Container div */}
+                        <div className="flex flex-col space-y-8 items-center pt-4 pb-14 w-1/2">
+                            {/* Email Settings */}
+                            <div className="w-full">
+                                <div
+                                    className="flex items-center justify-between w-full cursor-pointer"
+                                    onClick={() => setShowChangeEmail(!showChangeEmail)}
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <EmailIcon />
+                                        <div className="flex flex-col">
+                                            <p className="font-bold">Email Settings</p>
+                                            <div className="flex items-center gap-2">
+                                                <p className="text-sm">{oldEmailValue}</p>
+                                                <span className="text-secondary bg-[#E7F6EC] px-2 py-0.5 rounded-full text-xs">
+                                                    Verified
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ChevronDown className="h-4 w-4 ml-auto" />
+                                </div>
 
-                {showChangeEmail && (
-                  <div className="mt-4 flex items-center gap-2">
-                    <input
-                      type="email"
-                      placeholder="New Email"
-                      value={newEmail}
-                      onChange={(e) => setNewEmail(e.target.value)}
-                      className="border border-gray-300 rounded-md focus:outline-none px-3 py-2"
-                    />
-                    <button
-                      onClick={handleEmailChange}
-                      className="bg-primary text-white rounded-md px-2 py-2"
-                    >
-                      Confirm
-                    </button>
-                  </div>
-                )}
-              </div>
+                                {showChangeEmail && (
+                                    <div className="mt-4 flex items-center gap-2">
+                                        <input
+                                            type="email"
+                                            placeholder="New Email"
+                                            value={newEmail}
+                                            onChange={(e) => setNewEmail(e.target.value)}
+                                            className="border border-gray-300 rounded-md focus:outline-none px-3 py-2"
+                                        />
+                                        <button
+                                            onClick={handleEmailChange}
+                                            className="bg-primary text-white rounded-md px-2 py-2"
+                                        >
+                                            Confirm
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
 
                             {/* Notifications */}
                             <div className="flex items-center justify-between w-full">
-                                <div className="flex items-center gap-4">
+                                <div
+                                    className="flex items-center gap-4 cursor-pointer"
+                                >
                                     <BellIcon />
                                     <div className="flex flex-col">
                                         <p className="font-bold">Notifications</p>
                                         <p className="text-sm">Choose what we get in touch about</p>
                                     </div>
                                 </div>
-                                <ChevronDown className="h-4 w-4 ml-auto" />
+                                <ChevronDown onClick={() => setShowNotificationsModal(true)} className="h-4 w-4 ml-auto" />
                             </div>
+                            {/* Modal for Notifications */}
+                            {showNotificationsModal && (
+                                <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
+                                    {/* Modal */}
+                                    <div className="bg-white p-6 rounded-lg shadow-lg z-50 w-3/4 max-w-md">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <h2 className="text-xl font-bold">Notifications</h2>
+                                            <button
+                                                onClick={() => setShowNotificationsModal(false)}
+                                                className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                                            >
+                                                <XIcon className="h-6 w-6" />
+                                            </button>
+                                        </div>
+                                        <div className="flex flex-col space-y-4">
+                                            {/* Your checkboxes and labels here */}
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={notificationOptions.notifyLogin}
+                                                    onChange={() => handleNotificationCheckboxChange('notifyLogin')}
+                                                />
+                                                Notify Login
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={notificationOptions.notifyNewTransactions}
+                                                    onChange={() =>
+                                                        handleNotificationCheckboxChange('notifyNewTransactions')
+                                                    }
+                                                />
+                                                Notify New Transactions
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={notificationOptions.notifyFailedTransaction}
+                                                    onChange={() =>
+                                                        handleNotificationCheckboxChange('notifyFailedTransaction')
+                                                    }
+                                                />
+                                                Notify Failed Transaction
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={notificationOptions.notifyNewAccounts}
+                                                    onChange={() =>
+                                                        handleNotificationCheckboxChange('notifyNewAccounts')
+                                                    }
+                                                />
+                                                Notify New Accounts
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Connected account */}
                             <div className="flex items-center justify-between w-full">
