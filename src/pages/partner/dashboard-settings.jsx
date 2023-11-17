@@ -15,8 +15,13 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PartnerDashboardSettings = () => {
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showChangeEmail, setShowChangeEmail] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+
+  const oldEmailValue = localStorage.getItem("userEmail");
+
   const handlePasswordChange = async () => {
     try {
       // Send a POST request to the server's "auth/changepassword" endpoint
@@ -33,6 +38,7 @@ const PartnerDashboardSettings = () => {
         }
       );
 
+      console.log("response", response);
 
       // Check if the password change was successful
       if (response.status === 200) {
@@ -51,6 +57,44 @@ const PartnerDashboardSettings = () => {
     // Clear input fields after changing the password
     setOldPassword("");
     setNewPassword("");
+  };
+
+  const handleEmailChange = async () => {
+    try {
+
+        console.log("newEmail", newEmail);
+      // Send a POST request to the server's "auth/changepassword" endpoint
+      const response = await axios.patch(
+        `${BASE_URL}profile/email`,
+        {
+          email: newEmail,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Check if the password change was successful
+      if (response.status === 200) {
+        console.log("Email changed successfully");
+        toast.success("Email changed successfully");
+
+        // Update the email in local storage
+        localStorage.setItem("email", newEmail);
+      } else {
+        toast.error("Failed to change email. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error changing email:", error);
+      toast.error(
+        "An error occurred while changing the email. Please try again."
+      );
+    }
+
+    // Clear input fields after changing the password
+    setNewEmail("");
   };
 
   return (
@@ -91,20 +135,43 @@ const PartnerDashboardSettings = () => {
             {/* Container div */}
             <div className="flex flex-col space-y-8 items-center pt-4 pb-14 w-1/2">
               {/* Email Settings */}
-              <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-4">
-                  <EmailIcon />
-                  <div className="flex flex-col">
-                    <p className="font-bold">Email Settings</p>
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm">zenithbankplc@gmail.com</p>
-                      <span className="text-secondary bg-[#E7F6EC] px-2 py-0.5 rounded-full text-xs">
-                        Verified
-                      </span>
+              <div className="w-full">
+                <div
+                  className="flex items-center justify-between w-full cursor-pointer"
+                  onClick={() => setShowChangeEmail(!showChangeEmail)}
+                >
+                  <div className="flex items-center gap-4">
+                    <EmailIcon />
+                    <div className="flex flex-col">
+                      <p className="font-bold">Email Settings</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm">{oldEmailValue}</p>
+                        <span className="text-secondary bg-[#E7F6EC] px-2 py-0.5 rounded-full text-xs">
+                          Verified
+                        </span>
+                      </div>
                     </div>
                   </div>
+                  <ChevronDown className="h-4 w-4 ml-auto" />
                 </div>
-                <ChevronDown className="h-4 w-4 ml-auto" />
+
+                {showChangeEmail && (
+                  <div className="mt-4 flex items-center gap-2">
+                    <input
+                      type="email"
+                      placeholder="New Email"
+                      value={newEmail}
+                      onChange={(e) => setNewEmail(e.target.value)}
+                      className="border border-gray-300 rounded-md focus:outline-none px-3 py-2"
+                    />
+                    <button
+                      onClick={handleEmailChange}
+                      className="bg-primary text-white rounded-md px-2 py-2"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Notifications */}
@@ -139,18 +206,6 @@ const PartnerDashboardSettings = () => {
                 </div>
                 <ChevronDown className="h-4 w-4 ml-auto" />
               </div>
-
-              {/* change password
-                            <div className="flex items-center justify-between w-full">
-                                <div className="flex items-center gap-4">
-                                    <LockIcon />
-                                    <div className="flex flex-col">
-                                        <p className="font-bold">Change Password</p>
-                                        <p className="text-sm">***************</p>
-                                    </div>
-                                </div>
-                                <ChevronDown className="h-4 w-4 ml-auto" />
-                            </div> */}
 
               {/* Change Password dropdown */}
               <div className="w-full">
