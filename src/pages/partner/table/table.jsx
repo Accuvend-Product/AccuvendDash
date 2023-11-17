@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 import { Link } from "react-router-dom";
-import Data from "../table/data";
 
 import columns from "../table/columns"
 import { useState } from "react"
@@ -14,6 +13,13 @@ const PartnerTransactionTable = ({ tableData }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([])
     const [filtering, setFiltering] = useState('')
+    const [activeFilter, setActiveFilter] = useState(null);
+
+    const handleFilterClick = (filter) => {
+        setActiveFilter(filter);
+        // Apply the filter logic here based on the selected filter
+        // For example, setFiltering(filter) or perform other filtering operations
+    };
 
     const table = useReactTable({
         data,
@@ -42,13 +48,22 @@ const PartnerTransactionTable = ({ tableData }) => {
             <div className="flex items-center justify-between mb-4">
                 <div className="flex space-x-4 items-center">
                     <p className="text-body1 font-semibold">Filter by</p>
-                    <button className="rounded-full px-4 py-1 border transition-all border-primary bg-primary text-white hover:bg-white hover:text-body2 font-semibold">
+                    <button
+                        onClick={() => handleFilterClick('DISCO')}
+                        className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'DISCO' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
+                    >
                         DISCO
                     </button>
-                    <button className="rounded-full px-4 py-1 border transition-all border-primary hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold">
+                    <button
+                        onClick={() => handleFilterClick('DATE')}
+                        className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'DATE' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
+                    >
                         DATE
                     </button>
-                    <button className="rounded-full px-4 py-1 border transition-all border-primary hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold">
+                    <button
+                        onClick={() => handleFilterClick('AMOUNT')}
+                        className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'AMOUNT' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
+                    >
                         AMOUNT
                     </button>
                 </div>
