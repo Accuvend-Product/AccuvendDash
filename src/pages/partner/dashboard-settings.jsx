@@ -55,10 +55,12 @@ const PartnerDashboardSettings = () => {
             }));
 
             // Send a PATCH request to update the notification preference on the server
+            const updatedValue = !notificationOptions[option]; // Updated value for the checkbox
+
             await axios.patch(
                 `${BASE_URL}profile/notification-preferences`,
                 {
-                    [option]: !notificationOptions[option],
+                    [option]: updatedValue,
                 },
                 {
                     headers: {
@@ -71,7 +73,7 @@ const PartnerDashboardSettings = () => {
             toast.success(`Notification ${option} updated successfully`);
         } catch (error) {
             console.error(`Error updating ${option} notification:`, error);
-            // Rollback the state change on error
+            // Rollback the state change on error by reverting to the previous value
             setNotificationOptions((prevOptions) => ({
                 ...prevOptions,
                 [option]: !prevOptions[option],
