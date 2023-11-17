@@ -28,7 +28,7 @@ const SignIn = () => {
 
             // Save the tokens and user credentials in local storage
             localStorage.setItem('token', response.data.data.accessToken);
-            localStorage.setItem('userEmail', response.data.data.partner.email);
+            localStorage.setItem('userEmail', response.data.data.entity.email);
 
             toast.success('Login Successful');
 
