@@ -28,7 +28,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 <GreenCheck />
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Meter Validated</h1>
+                <h1 className="font-bold text-2xl">Validate Meter</h1>
                 <p>Meter Number - {meter.meterNumber}</p>
                 <p>Name - {user.name}</p>
                 <p>Address - {user.address}</p>
@@ -39,7 +39,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 <GreenCheck />
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Disco up</h1>
+                <h1 className="font-bold text-2xl">Check if Disco is up</h1>
                 <p>{disco}</p>
               </div>
             </div>
@@ -48,7 +48,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 <GreenCheck />
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Payment confirmed</h1>
+                <h1 className="font-bold text-2xl">Confirm Payment</h1>
                 <p>Amount - N{amount}</p>
               </div>
             </div>
@@ -57,7 +57,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 <GreenCheck />
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Token Generated</h1>
+                <h1 className="font-bold text-2xl">Generate Token</h1>
                 <p>Token generated successfully</p>
               </div>
             </div>
@@ -66,7 +66,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 <GreenCheck />
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Token sent</h1>
+                <h1 className="font-bold text-2xl">Send Token</h1>
                 <p>{powerUnit.token}</p>
               </div>
             </div>

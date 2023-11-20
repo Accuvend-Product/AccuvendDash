@@ -92,7 +92,7 @@ const PartnerDashboard = () => {
 
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
-                                <p className="text-2xl">Total no. Transacted Yesterday</p>
+                                <p className="text-2xl">Total no. Transacted Today</p>
                                 <p className="text-[48px] font-semibold hover:text-white">
                                     {totalTransactionsLoading ? (<div className="flex items-center gap-2">
                                         <div role="">
@@ -108,7 +108,7 @@ const PartnerDashboard = () => {
 
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
-                                <p className="text-2xl">Failed Transactions</p>
+                                <p className="text-2xl">Failed Transactions Today</p>
                                 <p className="text-[48px] font-semibold hover:text-white">
                                     {failedTransactionsLoading
                                         ? (<div className="flex items-center gap-2">
@@ -126,7 +126,7 @@ const PartnerDashboard = () => {
 
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
-                                <p className="text-2xl">Total Amount Transacted 24hrs</p>
+                                <p className="text-2xl">Total Amount Transacted Today</p>
                                 <p className="text-[48px] font-semibold">
                                     {" "}
                                     {totalTransactionsLoading ? (<div className="inline-flex items-center">

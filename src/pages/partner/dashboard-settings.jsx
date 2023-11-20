@@ -19,6 +19,7 @@ const PartnerDashboardSettings = () => {
     const [showChangeEmail, setShowChangeEmail] = useState(false);
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const [newPassword2, setNewPassword2] = useState("");
     const [newEmail, setNewEmail] = useState("");
 
     const [showNotificationsModal, setShowNotificationsModal] = useState(false);
@@ -120,6 +121,7 @@ const PartnerDashboardSettings = () => {
         // Clear input fields after changing the password
         setOldPassword("");
         setNewPassword("");
+        setNewPassword2("");
     };
 
     const handleEmailChange = async () => {
@@ -231,7 +233,7 @@ const PartnerDashboardSettings = () => {
                                             onClick={handleEmailChange}
                                             className="bg-primary text-white rounded-md px-2 py-2"
                                         >
-                                            Confirm
+                                            Enter
                                         </button>
                                     </div>
                                 )}
@@ -272,16 +274,6 @@ const PartnerDashboardSettings = () => {
                                                     type="checkbox"
                                                     checked={notificationOptions.notifyLogin}
                                                     onChange={() => handleNotificationCheckboxChange('notifyLogin')}
-                                                />
-                                            </label>
-                                            <label className="flex justify-between">
-                                                Notify New Transactions
-                                                <input
-                                                    type="checkbox"
-                                                    checked={notificationOptions.notifyNewTransactions}
-                                                    onChange={() =>
-                                                        handleNotificationCheckboxChange('notifyNewTransactions')
-                                                    }
                                                 />
                                             </label>
                                             <label className="flex justify-between">
@@ -344,26 +336,33 @@ const PartnerDashboardSettings = () => {
                                     <ChevronDown className="h-4 w-4 ml-auto" />
                                 </div>
                                 {showChangePassword && (
-                                    <div className="mt-4 flex items-center gap-2">
+                                    <div className="mt-4 flex flex-col gap-2">
                                         <input
                                             type="password"
                                             placeholder="Old Password"
                                             value={oldPassword}
                                             onChange={(e) => setOldPassword(e.target.value)}
-                                            className="border border-gray-300 rounded-md focus:outline-none px-3 py-2"
+                                            className="border border-gray-300 rounded-md focus:outline-none px-3 py-2 w-full"
                                         />
                                         <input
                                             type="password"
                                             placeholder="New Password"
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
-                                            className="border border-gray-300 rounded-md focus:outline-none px-3 py-2"
+                                            className="border border-gray-300 rounded-md focus:outline-none px-3 py-2 w-full"
+                                        />
+                                        <input
+                                            type="password"
+                                            placeholder="Confirm New Password"
+                                            value={newPassword2}
+                                            onChange={(e) => setNewPassword2(e.target.value)}
+                                            className="border border-gray-300 rounded-md focus:outline-none px-3 py-2 w-full"
                                         />
                                         <button
                                             onClick={handlePasswordChange}
                                             className="bg-primary text-white rounded-md px-2 py-2"
                                         >
-                                            Confirm
+                                            Enter
                                         </button>
                                     </div>
                                 )}

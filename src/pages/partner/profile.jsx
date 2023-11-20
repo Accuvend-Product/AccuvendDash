@@ -194,31 +194,7 @@ const PartnerDashboardProfile = () => {
 
                         )}
 
-                        <div className="flex flex-col space-y-8 pt-4 pb-14">
-                            <div className="grid grid-cols-2">
-                                {/* left side */}
-                                <div className="flex flex-col gap-2">
-                                    <h1 className="font-bold">Personal Information</h1>
-                                </div>
-
-                                {/* right side */}
-                                <div className="flex flex-col space-y-4">
-                                    <div className="flex flex-col">
-                                        <label htmlFor="email" className="font-bold">
-                                            Email Address
-                                        </label>
-                                        <input
-                                            type="email"
-                                            id="email"
-                                            name="email"
-                                            value={email}
-                                            className="border px-3 py-3 text-sm rounded-md"
-                                            disabled
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

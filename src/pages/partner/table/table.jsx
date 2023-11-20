@@ -4,8 +4,11 @@ import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel
 import { Link } from "react-router-dom";
 
 import columns from "../table/columns"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Search } from "lucide-react";
+
+import { DateRangePicker } from 'react-date-range';
+import { addDays } from 'date-fns';
 
 const PartnerTransactionTable = ({ tableData }) => {
     console.log(tableData)
@@ -14,11 +17,37 @@ const PartnerTransactionTable = ({ tableData }) => {
     const [sorting, setSorting] = useState([])
     const [filtering, setFiltering] = useState('')
     const [activeFilter, setActiveFilter] = useState(null);
+    const dropdownRef = useRef(null);
+
+    const [dateRange, setDateRange] = useState([
+        {
+            startDate: new Date(),
+            endDate: addDays(new Date(), 7),
+            key: 'selection',
+        },
+    ]);
 
     const handleFilterClick = (filter) => {
         setActiveFilter(filter);
         // Apply the filter logic here based on the selected filter
         // For example, setFiltering(filter) or perform other filtering operations
+    };
+
+    const handleDateSelect = (ranges) => {
+        setDateRange([ranges.selection]);
+        setActiveFilter(null);
+        console.log('Selected date range:', ranges.selection);
+    };
+
+    const handleStatusSelect = (status) => {
+        setActiveFilter('STATUS');
+        console.log(`Selected status: ${status}`);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setActiveFilter(null);
+        }
     };
 
     const table = useReactTable({
@@ -43,6 +72,13 @@ const PartnerTransactionTable = ({ tableData }) => {
         table.setPageIndex(pageNumber - 1); // Subtract 1 since pageIndex is zero-based
         setCurrentPage(pageNumber);
     };
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
     return (
         <div className="overflow-x-auto">
             <div className="flex items-center justify-between mb-4">
@@ -54,18 +90,54 @@ const PartnerTransactionTable = ({ tableData }) => {
                     >
                         DISCO
                     </button>
-                    <button
-                        onClick={() => handleFilterClick('DATE')}
-                        className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'DATE' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
-                    >
-                        DATE
-                    </button>
-                    <button
-                        onClick={() => handleFilterClick('AMOUNT')}
-                        className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'AMOUNT' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
-                    >
-                        AMOUNT
-                    </button>
+                    <div className="relative">
+                        <div className="relative inline-block" ref={dropdownRef}>
+                            <button
+                                onClick={() => handleFilterClick('DATE')}
+                                className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'DATE' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
+                            >
+                                DATE
+                            </button>
+                            {activeFilter === 'DATE' && (
+                                <div className="absolute mt-10 bg-white border border-gray-200 rounded shadow-md z-10 p-4">
+                                    <DateRangePicker
+                                        ranges={dateRange}
+                                        onChange={handleDateSelect}
+                                        minDate={new Date()}
+                                        editableDateInputs={true}
+                                        showSelectionPreview={true}
+                                        moveRangeOnFirstSelection={false}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="relative">
+                        <div className="relative inline-block" ref={dropdownRef}>
+                            <button
+                                onClick={() => handleFilterClick('STATUS')}
+                                className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'STATUS' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
+                            >
+                                STATUS
+                            </button>
+                            {activeFilter === 'STATUS' && (
+                                <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
+                                    <button
+                                        onClick={() => handleStatusSelect('Pending')}
+                                        className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                    >
+                                        Pending
+                                    </button>
+                                    <button
+                                        onClick={() => handleStatusSelect('Failed')}
+                                        className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                    >
+                                        Failed
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {/* seach area */}
