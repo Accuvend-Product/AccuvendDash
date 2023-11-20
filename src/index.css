@@ -3,25 +3,10 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "PayPal Sans Big Light Regular";
-    src: url("https://db.onlinewebfonts.com/t/d8040e905cf0216b6e1b4e39b28d519a.eot");
-    src: url("https://db.onlinewebfonts.com/t/d8040e905cf0216b6e1b4e39b28d519a.eot?#iefix")
-            format("embedded-opentype"),
-        url("https://db.onlinewebfonts.com/t/d8040e905cf0216b6e1b4e39b28d519a.woff2")
-            format("woff2"),
-        url("https://db.onlinewebfonts.com/t/d8040e905cf0216b6e1b4e39b28d519a.woff")
-            format("woff"),
-        url("https://db.onlinewebfonts.com/t/d8040e905cf0216b6e1b4e39b28d519a.ttf")
-            format("truetype"),
-        url("https://db.onlinewebfonts.com/t/d8040e905cf0216b6e1b4e39b28d519a.svg#PayPal Sans Big Light Regular")
-            format("svg");
-}
-
-@font-face {
-    font-family: "PayPal Sans Small Regular";
-    src: url("./fonts/PayPalSansSmallRegular/PayPalSansSmallRegular.ttf");
+    font-family: "PayPal Sans Big Regular";
+    src: url("./fonts/PayPalSansBigRegular/PayPalSansBigRegular.ttf");
 }
 body {
-    font-family: "Paypal Sans Big Light Regular", sans-serif;
+    font-family: "Paypal Sans Big Regular", sans-serif;
     font-size: 19px;
 }

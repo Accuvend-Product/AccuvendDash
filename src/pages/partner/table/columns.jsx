@@ -23,7 +23,11 @@ export const columns = [
                         src={imageUrl}
                         alt={`${disco} logo`}
                         className="mr-2"
-                        style={{ width: "24px", height: "24px" }}
+                        style={{
+                            width: "50px",
+                            height: "50px",
+                            objectFit: "contain", // Preserve aspect ratio
+                        }}
                     />
                     <p className="">{disco}</p>
                 </div>
