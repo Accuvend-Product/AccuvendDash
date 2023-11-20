@@ -47,7 +47,7 @@ export const columns = [
     {
         accessorKey: "transaction reference",
         header: "Transaction Reference",
-        cell: (props) => <p>{props.getValue()}</p>,
+        cell: (props) => <p>{props.getValue() || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxx"}</p>,
     },
     {
         accessorKey: "transaction date",

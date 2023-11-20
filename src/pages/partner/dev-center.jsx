@@ -2,6 +2,7 @@
 import Navbar from "../../components/Navbar";
 import Sidebar from "./sidebar";
 import axios from "axios";
+import { ClipboardCopy } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -52,6 +53,16 @@ const PartnerDevCenter = () => {
         }
     };
 
+    const copyToClipboard = async (content) => {
+        try {
+            await navigator.clipboard.writeText(content);
+            toast.success('Copied to clipboard!');
+        } catch (error) {
+            console.error('Failed to copy:', error);
+            toast.error('Failed to copy to clipboard');
+        }
+    };
+
     useEffect(() => {
         fetchApiKeys(); // Fetch API keys on component mount
     }, []);
@@ -68,7 +79,7 @@ const PartnerDevCenter = () => {
                     ) : (<div className="mt-10 space-y-2">
                         <h1 className="text-2xl font-bold">API Keys</h1>
                         <p className="pb-4">Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.</p>
-                        <p className="pb-8">Do not share your API key with others, or expose it in the browser or other client-side code. In order to protect the security of your account,
+                        <p className="px-4 py-4 rounded-lg bg-red-100 text-red-500 ">Do not share your API key with others, or expose it in the browser or other client-side code. In order to protect the security of your account,
                             Accuvend may also automatically disable any API key that we've found has leaked publicly.</p>
 
                         {/* Table */}
@@ -85,8 +96,27 @@ const PartnerDevCenter = () => {
                             <tbody>
                                 <tr>
                                     <td className="py-2 px-4">Test</td>
-                                    <td className="py-2 px-4">{apiKeyData?.apiKey?.slice(0, 4)}*****{apiKeyData?.apiKey?.slice(-4)}</td>
-                                    <td className="py-2 px-4">{apiKeyData?.secretKey?.slice(0, 4)}*****{apiKeyData?.secretKey?.slice(-4)}</td>
+                                    
+                                    <td className="py-2 px-4">
+                                        <span>{apiKeyData?.apiKey?.slice(0, 4)}*****{apiKeyData?.apiKey?.slice(-4)}</span>
+                                        <button
+                                            onClick={() => copyToClipboard(apiKeyData?.apiKey)}
+                                            className="ml-2 focus:outline-none"
+                                        >
+                                            <ClipboardCopy className="w-4 h-4" />
+                                        </button>
+                                    </td>
+
+                                    <td className="py-2 px-4">
+                                        <span>{apiKeyData?.secretKey?.slice(0, 4)}*****{apiKeyData?.secretKey?.slice(-4)}</span>
+                                        <button
+                                            onClick={() => copyToClipboard(apiKeyData?.secretKey)}
+                                            className="ml-2 focus:outline-none"
+                                        >
+                                            <ClipboardCopy className="w-4 h-4" />
+                                        </button>
+                                    </td>
+
                                     <td className="py-2 px-4">8 Nov 2023</td>
                                     <td className="py-2 px-4">23 Nov 2023</td>
                                 </tr>
@@ -97,16 +127,6 @@ const PartnerDevCenter = () => {
                         <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md" onClick={createNewKey}>
                             + Create a new secret key
                         </button>
-
-                        <h1 className="text-2xl font-bold pt-4">Default Organization</h1>
-                        <p>If you belong to multiple organizations, this setting controls which organization is used by default when making requests with the API keys above.</p>
-                        <div className="mt-4">
-                            <select
-                                className="mt-1 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                            >
-                                <option value="organization1">Zenith Bank</option>
-                            </select>
-                        </div>
                     </div>)
                     }
                 </div>
