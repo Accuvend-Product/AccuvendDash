@@ -3,9 +3,10 @@ import ProfilePic from "../images/profile-pic.png";
 import Logo from "../images/logo.png";
 
 const Navbar = () => {
+    const userEmail = localStorage.getItem("userEmail");
     return (
-        <div className="text-body1 border-b border-body1/80">
-            <div className="h-[121px] px-8 md:px-10 flex items-center justify-between mx-auto">
+        <div className="text-body1 border-b border-body1/80 sticky top-0 z-50">
+            <div className="h-[121px] px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
                 <a href="/dashboard" className="">
                     <img src={Logo} className="hidden sm:block aspect-auto" />
                     <img src={Logo} className="sm:hidden w-32 h-10 aspect-auto" />
@@ -13,16 +14,14 @@ const Navbar = () => {
                 <div className="flex items-center justify-between ml-auto space-x-10 sm:space-x-16 md:space-x-[72px] text-xl">
 
                     <div className="flex items-center">
-                        <img src={ProfilePic} alt="profile picture" className="h-10 w-10" />
-                        <a href="#" className="ml-2 hidden sm:block">
-                            Admin 1
+                        <img src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtHW8v4L3UqNN-VNbEK_pMqC78BoAZgyTrK6z2UpY&s`} alt="profile picture" className="h-10 w-10" />
+                        <a href="#" className="ml-2 text-4xl hidden sm:block">
+                            {userEmail && userEmail.length > 0 ? userEmail[0].toUpperCase() : ''}
                         </a>
                         <ChevronDown className="h-4 w-4 ml-2 hidden sm:block" />
                     </div>
                 </div>
                 <div className="flex sm:hidden items-center space-x-4">
-                    {/* <a href="/help">HELP</a> */}
-                    {/* <a href="#">SECURITY CENTER</a> */}
                     <div className="flex items-center">
                         <img src={ProfilePic} alt="profile picture" className="h-8 w-8" />
                         <ChevronDown className="h-4 w-4 ml-2" />

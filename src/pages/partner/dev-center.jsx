@@ -60,7 +60,7 @@ const PartnerDevCenter = () => {
             <Navbar />
             <div className="flex">
                 <Sidebar />
-                <div className="px-8 sm:px-10 md:px-12 flex-1 pb-10">
+                <div className="ml-[372px] px-8 sm:px-10 md:px-12 flex-1 pb-10">
                     {isLoading ? ( // Display loading screen when isLoading is true
                         <div className="h-screen flex items-center justify-center">
                             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>

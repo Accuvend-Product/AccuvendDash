@@ -85,8 +85,8 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="min-h-screen flex">
-            <div className="w-full md:w-[372px] h-full overflow-hidden border-r border-body1 flex flex-col justify-between">
+        <div className="flex">
+            <div className="w-full md:w-[372px] max-h-screen overflow-hidden border-r border-body1 flex flex-col fixed top-[121px] left-0 bottom-0 pb-10">
                 <div className="flex flex-col pt-8 space-y-4 px-4 md:px-8 lg:px-10 xl:px-12">
                     {links.map((link) => (
                         <a
@@ -100,10 +100,10 @@ const Sidebar = () => {
                         </a>
                     ))}
                 </div>
-                <div className="px-4 md:px-8 lg:px-10 xl:px-12 pb-8">
+                <div className="px-4 md:px-8 lg:px-10 xl:px-12 mt-auto">
                     <button
                         onClick={handleLogout}
-                        className={`flex items-center text-black gap-2 px-3 py-2`}
+                        className={`flex items-center text-black gap-2`}
                     >
                         <LogOutIcon />
                         <p className="">LOGOUT</p>
@@ -112,6 +112,7 @@ const Sidebar = () => {
             </div>
         </div>
     );
+
 };
 
 

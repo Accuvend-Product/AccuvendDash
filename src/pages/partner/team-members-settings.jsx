@@ -105,7 +105,7 @@ const PartnerTeamSettings = () => {
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
+        <div className="ml-[372px] px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
           {/* Modal for inviting new member */}
           {showModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

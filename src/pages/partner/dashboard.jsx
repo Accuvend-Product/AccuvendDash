@@ -85,13 +85,15 @@ const PartnerDashboard = () => {
             <Navbar />
             <div className="flex">
                 <Sidebar />
-                <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
+                <div className="ml-[372px] px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
                     <div className=" ml-auto py-10">
                         {/* cards */}
                         <div className="flex space-x-12 items-center justify-end">
-                            <div className="bg-gray-300 hover:text-white hover:bg-primary px-4 py-2 rounded-lg hover:cursor-pointer">
+
+
+                            <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="text-2xl">Total no. Transacted Yesterday</p>
-                                <p className="text-[48px] text-primary font-semibold hover:text-white">
+                                <p className="text-[48px] font-semibold hover:text-white">
                                     {totalTransactionsLoading ? (<div className="flex items-center gap-2">
                                         <div role="">
                                             <svg aria-hidden="true" className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,13 +101,15 @@ const PartnerDashboard = () => {
                                                 <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                             </svg>
                                         </div>
-                                        <p className="text-primary hover:text-white">Loading...</p>
-                                    </div>) : totalTransactions || 0}
+                                        <p className="">Loading...</p>
+                                    </div>) : (<p className="text-center">{totalTransactions || 0}</p>)}
                                 </p>
                             </div>
-                            <div className="bg-gray-300 hover:text-white hover:bg-primary px-4 py-2 rounded-lg hover:cursor-pointer">
+
+
+                            <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="text-2xl">Failed Transactions</p>
-                                <p className="text-[48px] text-primary font-semibold hover:text-white">
+                                <p className="text-[48px] font-semibold hover:text-white">
                                     {failedTransactionsLoading
                                         ? (<div className="flex items-center gap-2">
                                             <div role="">
@@ -114,11 +118,13 @@ const PartnerDashboard = () => {
                                                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                                 </svg>
                                             </div>
-                                            <p className="text-primary hover:text-white">Loading...</p>
+                                            <p className="hover:text-white">Loading...</p>
                                         </div>)
-                                        : failedTransactions || 0}
+                                        : (<p className="text-center">{failedTransactions || 0}</p>)}
                                 </p>
                             </div>
+
+
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="text-2xl">Total Amount Transacted 24hrs</p>
                                 <p className="text-[48px] font-semibold">
@@ -133,7 +139,7 @@ const PartnerDashboard = () => {
                                             </div>
                                             <p className="text-primary hover:text-white">Loading...</p>
                                         </div>
-                                    </div>) : totalAmount || 0}
+                                    </div>) : (<p className="text-center">N{totalAmount.toLocaleString() || 0}</p>)}
                                 </p>
                             </div>
                         </div>

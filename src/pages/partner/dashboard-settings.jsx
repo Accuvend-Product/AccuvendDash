@@ -165,7 +165,7 @@ const PartnerDashboardSettings = () => {
             <Navbar />
             <div className="flex">
                 <Sidebar />
-                <div className=" px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
+                <div className="ml-[372px] px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
                     <div className="mt-10 space-y-2">
                         <h1 className="text-2xl font-bold">Preferences</h1>
                         <p className="text-body1">
