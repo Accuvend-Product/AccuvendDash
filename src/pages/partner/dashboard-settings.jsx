@@ -88,6 +88,10 @@ const PartnerDashboardSettings = () => {
 
     const handlePasswordChange = async () => {
         try {
+            if (newPassword !== newPassword2) {
+                toast.error("Passwords do not match. Please try again.");
+                return;
+            }
             // Send a POST request to the server's "auth/changepassword" endpoint
             const response = await axios.post(
                 `${BASE_URL}auth/changepassword`,
