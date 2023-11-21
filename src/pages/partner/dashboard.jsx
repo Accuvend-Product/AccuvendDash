@@ -91,7 +91,7 @@ const PartnerDashboard = () => {
                         <div className="flex space-x-12 items-center justify-end">
 
 
-                            <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
+                            <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="text-2xl">Total no. Transacted Today</p>
                                 <p className="text-[48px] font-semibold hover:text-white">
                                     {totalTransactionsLoading ? (<div className="flex items-center gap-2">
@@ -107,7 +107,7 @@ const PartnerDashboard = () => {
                             </div>
 
 
-                            <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
+                            <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="text-2xl">Failed Transactions Today</p>
                                 <p className="text-[48px] font-semibold hover:text-white">
                                     {failedTransactionsLoading
@@ -125,7 +125,7 @@ const PartnerDashboard = () => {
                             </div>
 
 
-                            <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-300 text-primary rounded-lg hover:cursor-pointer">
+                            <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="text-2xl">Total Amount Transacted Today</p>
                                 <p className="text-[48px] font-semibold">
                                     {" "}
@@ -139,7 +139,7 @@ const PartnerDashboard = () => {
                                             </div>
                                             <p className="text-primary hover:text-white">Loading...</p>
                                         </div>
-                                    </div>) : (<p className="text-center">N{totalAmount.toLocaleString() || 0}</p>)}
+                                    </div>) : (<p className="text-center">₦{totalAmount.toLocaleString() || 0}</p>)}
                                 </p>
                             </div>
                         </div>
