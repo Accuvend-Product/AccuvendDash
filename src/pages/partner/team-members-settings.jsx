@@ -228,13 +228,9 @@ const PartnerTeamSettings = () => {
                                         <table className="table-auto w-full">
                                             <thead>
                                                 <tr className="bg-gray-200">
-                                                    <th className="px-4 py-2 text-left">Name</th>
-                                                    <th className="px-4 py-2 text-left">Date Added</th>
-                                                    <th className="px-4 py-2 text-left">Role</th>
-                                                    <th
-                                                        className="px-4 py-2 text-left"
-                                                        style={{ width: "80px" }}
-                                                    ></th>
+                                                    <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Name</th>
+                                                    <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Date Added</th>
+                                                    <th className="px-4 py-2 text-left"  style={{ width: "20%" }}>Role</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -264,8 +260,9 @@ const PartnerTeamSettings = () => {
                                                         </td>
                                                         <td className="px-4 py-2">
                                                             <button className="text-primary bg-blue-100 rounded-full px-3 py-1.5 text-center font-semibold w-full hover:cursor-default">
-                                                                {member.entity.role.name}
+                                                                {member.entity.role.name.toLowerCase().charAt(0).toUpperCase() + member.entity.role.name.slice(1).toLowerCase()}
                                                             </button>
+
                                                         </td>
                                                         {/* Add actions like deleting team member */}
                                                     </tr>
@@ -303,10 +300,9 @@ const PartnerTeamSettings = () => {
                                         <table className="table-auto w-full">
                                             <thead>
                                                 <tr className="bg-gray-200">
-                                                    <th className="px-4 py-2 text-left">Name</th>
-                                                    <th className="px-4 py-2 text-left">Date Added</th>
-                                                    <th className="px-4 py-2 text-left">Role</th>
-                                                    <th className="px-4 py-2 text-left"></th>
+                                                    <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Name</th>
+                                                    <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Date Added</th>
+                                                    <th className="px-4 py-2 text-left"  style={{ width: "20%" }}>Role</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

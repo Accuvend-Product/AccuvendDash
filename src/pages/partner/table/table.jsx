@@ -79,6 +79,13 @@ const PartnerTransactionTable = ({ tableData }) => {
             document.removeEventListener('click', handleClickOutside);
         };
     }, []);
+
+    const hoverStyle = `
+        &:hover {
+            background-color: #E5E5E5; /* Change the background color on hover */
+            /* Add other styles for the hover effect */
+        }
+        `;
     return (
         <div className="overflow-x-auto">
             <div className="flex items-center justify-between mb-4">
@@ -189,26 +196,22 @@ const PartnerTransactionTable = ({ tableData }) => {
                     ))}
                 </thead>
                 <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr className="border-b border-[#F8F7F7]" key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                <td
-                                    key={cell.id}
-                                    className={`py-5 px-2 ${cell.column.id === "status"
-                                        ? "text-center"
-                                        : "text-left"
-                                        }`}
-                                >
-                                    <Link
-                                        to={`/partner/transaction/details/${tableData[cell.row.index]["transaction reference"]}`}
-                                    >{flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                    )}</Link>
-                                </td>
-                            ))}
-                        </tr>
+                {table.getRowModel().rows.map((row) => (
+                <tr className={`border-b border-[#F8F7F7] hover:bg-blue-50`} key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                    <td
+                        key={cell.id}
+                        className={`py-5 px-2 ${cell.column.id === "status" ? "text-center" : "text-left"}`}
+                    >
+                        <Link
+                        to={`/partner/transaction/details/${tableData[cell.row.index]["transaction reference"]}`}
+                        >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </Link>
+                    </td>
                     ))}
+                </tr>
+                ))}
                 </tbody>
             </table>
             {/* Pagination */}

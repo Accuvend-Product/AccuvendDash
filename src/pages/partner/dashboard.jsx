@@ -5,9 +5,18 @@ import { useState } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { usePartnerData } from "../../contexts/partner-context";
 
 const PartnerDashboard = () => {
-    const [tableData, setTableData] = useState([]);
+
+    const {
+        tableData: partnerTableData,
+        setTableData: setPartnerTableData,
+        totalTransactions: partnerTotalTransactions,
+        setTotalTransactions: setPartnerTotalTransactions,
+      } = usePartnerData();
+
+    const [tableData, setTableData] = useState(partnerTableData);
     const [totalTransactions, setTotalTransactions] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
     const [failedTransactions, setFailedTransactions] = useState(0);
@@ -36,6 +45,7 @@ const PartnerDashboard = () => {
             );
 
             setTableData(transformedData);
+            setPartnerTableData(transformedData);
             return transformedData;
         },
     });

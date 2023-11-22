@@ -73,8 +73,11 @@ export const columns = [
     {
         accessorKey: "amount",
         header: "Amount",
-        cell: (props) => <p>{props.getValue()}</p>,
+        cell: (props) => (
+            <p>₦{Number(props.getValue().slice(1,)).toLocaleString()}</p>
+        ),
     },
+
     {
         accessorKey: "status",
         header: "Status",

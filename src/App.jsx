@@ -16,6 +16,7 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query'
+import { PartnerDataProvider } from "./contexts/partner-context";
 
 const queryClient = new QueryClient()
 
@@ -23,21 +24,23 @@ function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <Routes>
-                <Route path="/" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/partner-dashboard" element={<PartnerDashboard />} />
-                <Route path="/partner-dashboard/preferences" element={<PartnerDashboardSettings />} />
-                <Route path="/partner-dashboard/devcenter" element={<PartnerDevCenter />} />
-                <Route path="/partner-dashboard/profile" element={<PartnerDashboardProfile />} />
-                <Route path="/partner-dashboard/team-settings" element={<PartnerTeamSettings />} />
+            <PartnerDataProvider>
+                <Routes>
+                    <Route path="/" element={<SignIn />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/partner-dashboard" element={<PartnerDashboard />} />
+                    <Route path="/partner-dashboard/preferences" element={<PartnerDashboardSettings />} />
+                    <Route path="/partner-dashboard/devcenter" element={<PartnerDevCenter />} />
+                    <Route path="/partner-dashboard/profile" element={<PartnerDashboardProfile />} />
+                    <Route path="/partner-dashboard/team-settings" element={<PartnerTeamSettings />} />
 
-                <Route path="/transaction/details/:id" element={<TransactionDetails />} />
-                <Route path="/partner/transaction/details/:id" element={<PartnerTransactionDetails />} />
-            </Routes>
-            <Toaster />
-            <ReactQueryDevtools initialIsOpen={false} />
+                    <Route path="/transaction/details/:id" element={<TransactionDetails />} />
+                    <Route path="/partner/transaction/details/:id" element={<PartnerTransactionDetails />} />
+                </Routes>
+                <Toaster />
+                <ReactQueryDevtools initialIsOpen={false} />
+            </PartnerDataProvider>
         </QueryClientProvider>
     );
 }
