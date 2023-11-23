@@ -1,8 +1,12 @@
 import { BellIcon, ChevronDown } from "lucide-react";
 import ProfilePic from "../images/profile-pic.png";
 import Logo from "../images/logo.png";
+import useUserData from "../hooks/useUserData";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Navbar = () => {
+    const { uploadedImageLink } = useUserData(BASE_URL);
     const userEmail = localStorage.getItem("userEmail");
     return (
         <div className="text-body1 border-b border-body1/80 sticky top-0 z-50">
@@ -18,14 +22,22 @@ const Navbar = () => {
                     </div>
                     <div className="flex items-center">
                         <a href="#" className="ml-2 text-4xl hidden sm:block">
-                            {userEmail && userEmail.length > 0 ? userEmail[0].toUpperCase() : ''}
+                            {uploadedImageLink ? (
+                                <img src={uploadedImageLink} alt="profile picture" className="h-8 w-8" />
+                            ) : (
+                                userEmail && userEmail.length > 0 ? userEmail[0].toUpperCase() : ''
+                            )}
                         </a>
                         <ChevronDown className="h-4 w-4 ml-2 hidden sm:block" />
                     </div>
                 </div>
                 <div className="flex sm:hidden items-center space-x-4">
                     <div className="flex items-center">
-                        <img src={ProfilePic} alt="profile picture" className="h-8 w-8" />
+                        {uploadedImageLink ? (
+                            <img src={uploadedImageLink} alt="profile picture" className="h-8 w-8" />
+                        ) : (
+                            <img src={ProfilePic} alt="profile picture" className="h-8 w-8" />
+                        )}
                         <ChevronDown className="h-4 w-4 ml-2" />
                     </div>
                 </div>

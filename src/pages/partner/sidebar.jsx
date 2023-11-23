@@ -96,7 +96,7 @@ const Sidebar = () => {
                             key={link.name}
                         >
                             {link.icon}
-                            <p className="text-lg md:text-2xl">{link.name}</p>
+                            <p className="">{link.name}</p>
                         </a>
                     ))}
                 </div>
