@@ -6,6 +6,7 @@ import PartnerOrderConfirmation from "./order-confirmation";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import LoadingSpinner from "../../components/ui/loading";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
@@ -41,7 +42,7 @@ const PartnerTransactionDetails = () => {
     }, [id]);
 
     if (!transactionDetails) {
-        return <p>Loading...</p>;
+        return <LoadingSpinner />
     }
 
     // can get the data and columns from some constant file
