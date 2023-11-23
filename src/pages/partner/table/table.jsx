@@ -99,6 +99,7 @@ const PartnerTransactionTable = ({ tableData }) => {
                     >
                         DISCO
                     </button>
+                    
                     <div className="relative">
                         <div className="relative inline-block">
                             <button
