@@ -7,11 +7,12 @@ import columns from "../table/columns"
 import { useEffect, useRef, useState } from "react"
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Search } from "lucide-react";
 
-import { DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
+import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import { addDays } from "date-fns";
 
 const PartnerTransactionTable = ({ tableData }) => {
-    console.log(tableData)
     const [data, setData] = useState(tableData);
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([])
@@ -22,27 +23,39 @@ const PartnerTransactionTable = ({ tableData }) => {
     const [dateRange, setDateRange] = useState([
         {
             startDate: new Date(),
-            endDate: addDays(new Date(), 7),
-            key: 'selection',
-        },
+            endDate: null,
+            key: 'selection'
+        }
     ]);
 
     const handleFilterClick = (filter) => {
-        setActiveFilter(filter);
+        setActiveFilter(prevFilter => prevFilter === filter ? null : filter);
+        if (filter === 'DATE') {
+            // Show the date range picker when 'DATE' filter is selected
+            setDateRange([
+                {
+                    startDate: new Date(),
+                    endDate: null,
+                    key: 'selection'
+                }
+            ]);
+        }
         // Apply the filter logic here based on the selected filter
         // For example, setFiltering(filter) or perform other filtering operations
+
+        // Reset currentPage to 1 whenever filtering is applied
     };
 
-    const handleDateSelect = (ranges) => {
-        setDateRange([ranges.selection]);
-        setActiveFilter(null);
-        console.log('Selected date range:', ranges.selection);
-    };
 
     const handleStatusSelect = (status) => {
-        setActiveFilter('STATUS');
+        setActiveFilter(prevFilter => prevFilter === 'STATUS' ? null : 'STATUS');
         console.log(`Selected status: ${status}`);
     };
+
+    useEffect(() => {
+        console.log(`activeFilter: ${activeFilter}`);
+    }, [activeFilter]);
+
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -80,12 +93,6 @@ const PartnerTransactionTable = ({ tableData }) => {
         };
     }, []);
 
-    const hoverStyle = `
-        &:hover {
-            background-color: #E5E5E5; /* Change the background color on hover */
-            /* Add other styles for the hover effect */
-        }
-        `;
     return (
         <div className="overflow-x-auto">
             <div className="flex items-center justify-between mb-4">
@@ -100,6 +107,7 @@ const PartnerTransactionTable = ({ tableData }) => {
                     <div className="relative">
                         <div className="relative inline-block" ref={dropdownRef}>
                             <button
+                                type="button"
                                 onClick={() => handleFilterClick('DATE')}
                                 className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'DATE' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
                             >
@@ -107,13 +115,11 @@ const PartnerTransactionTable = ({ tableData }) => {
                             </button>
                             {activeFilter === 'DATE' && (
                                 <div className="absolute mt-10 bg-white border border-gray-200 rounded shadow-md z-10 p-4">
-                                    <DateRangePicker
-                                        ranges={dateRange}
-                                        onChange={handleDateSelect}
-                                        minDate={new Date()}
+                                    <DateRange
                                         editableDateInputs={true}
-                                        showSelectionPreview={true}
+                                        onChange={item => setDateRange([item.selection])}
                                         moveRangeOnFirstSelection={false}
+                                        ranges={dateRange}
                                     />
                                 </div>
                             )}
@@ -122,6 +128,7 @@ const PartnerTransactionTable = ({ tableData }) => {
                     <div className="relative">
                         <div className="relative inline-block" ref={dropdownRef}>
                             <button
+                                type="button"
                                 onClick={() => handleFilterClick('STATUS')}
                                 className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === 'STATUS' ? 'bg-primary text-white font-semibold' : 'hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold'}`}
                             >
@@ -130,16 +137,25 @@ const PartnerTransactionTable = ({ tableData }) => {
                             {activeFilter === 'STATUS' && (
                                 <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
                                     <button
+                                        type="button"
                                         onClick={() => handleStatusSelect('Pending')}
                                         className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                                     >
                                         Pending
                                     </button>
                                     <button
+                                        type="button"
                                         onClick={() => handleStatusSelect('Failed')}
                                         className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                                     >
                                         Failed
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleStatusSelect('Completed')}
+                                        className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                    >
+                                        Completed
                                     </button>
                                 </div>
                             )}
@@ -154,7 +170,12 @@ const PartnerTransactionTable = ({ tableData }) => {
                     </button>
                     <input
                         value={filtering}
-                        onChange={(e) => setFiltering(e.target.value)}
+                        onChange={
+                            (e) => {
+                                setFiltering(e.target.value)
+                                setCurrentPage(1);
+                            }
+                        }
                         type="text"
                         className="px-2 py-1.5 rounded-r-md bg-inherit text-body1 outline-none focus:outline-none"
                         placeholder="Search records"
@@ -196,22 +217,22 @@ const PartnerTransactionTable = ({ tableData }) => {
                     ))}
                 </thead>
                 <tbody>
-                {table.getRowModel().rows.map((row) => (
-                <tr className={`border-b border-[#F8F7F7] hover:bg-blue-50`} key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
-                    <td
-                        key={cell.id}
-                        className={`py-5 px-2 ${cell.column.id === "status" ? "text-center" : "text-left"}`}
-                    >
-                        <Link
-                        to={`/partner/transaction/details/${tableData[cell.row.index]["transaction reference"]}`}
-                        >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </Link>
-                    </td>
+                    {table.getRowModel().rows.map((row) => (
+                        <tr className={`border-b border-[#F8F7F7] hover:bg-blue-50`} key={row.id}>
+                            {row.getVisibleCells().map((cell) => (
+                                <td
+                                    key={cell.id}
+                                    className={`py-5 px-2 ${cell.column.id === "status" ? "text-center" : "text-left"}`}
+                                >
+                                    <Link
+                                        to={`/partner/transaction/details/${tableData[cell.row.index]["transaction reference"]}`}
+                                    >
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </Link>
+                                </td>
+                            ))}
+                        </tr>
                     ))}
-                </tr>
-                ))}
                 </tbody>
             </table>
             {/* Pagination */}

@@ -17,7 +17,6 @@ const Navbar = () => {
                         <div className="absolute top-2 right-3 transform translate-x-1/2 -translate-y-1/2 h-3 w-3 bg-red-500 rounded-full"></div>
                     </div>
                     <div className="flex items-center">
-                        <img src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtHW8v4L3UqNN-VNbEK_pMqC78BoAZgyTrK6z2UpY&s`} alt="profile picture" className="h-10 w-10" />
                         <a href="#" className="ml-2 text-4xl hidden sm:block">
                             {userEmail && userEmail.length > 0 ? userEmail[0].toUpperCase() : ''}
                         </a>
