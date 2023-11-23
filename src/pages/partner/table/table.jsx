@@ -29,7 +29,7 @@ const PartnerTransactionTable = ({ tableData }) => {
     ]);
 
     const handleFilterClick = (filter) => {
-        setActiveFilter(prevFilter => prevFilter === filter ? null : filter);
+        setActiveFilter(filter);
         if (filter === 'DATE') {
             // Show the date range picker when 'DATE' filter is selected
             setDateRange([
@@ -52,17 +52,12 @@ const PartnerTransactionTable = ({ tableData }) => {
         console.log(`Selected status: ${status}`);
     };
 
-    useEffect(() => {
-        console.log(`activeFilter: ${activeFilter}`);
-    }, [activeFilter]);
-
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setActiveFilter(null);
         }
     };
-
     const table = useReactTable({
         data,
         columns,
@@ -105,7 +100,7 @@ const PartnerTransactionTable = ({ tableData }) => {
                         DISCO
                     </button>
                     <div className="relative">
-                        <div className="relative inline-block" ref={dropdownRef}>
+                        <div className="relative inline-block">
                             <button
                                 type="button"
                                 onClick={() => handleFilterClick('DATE')}
