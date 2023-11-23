@@ -19,6 +19,8 @@ import {
   ArrowUp,
   Search,
 } from "lucide-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
@@ -33,17 +35,9 @@ const PartnerTransactionTable = ({ tableData }) => {
   const [activeFilter, setActiveFilter] = useState("DISCO");
   const [activeStatusFilter, setActiveStatusFilter] = useState(null);
   const [isDateRangeVisible, setIsDateRangeVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const [activeDiscoFilter, setActiveDiscoFilter] = useState(null);
   const dropdownRef = useRef(null);
-
-  const [dateRange, setDateRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: null,
-      key: "selection",
-    },
-  ]);
 
   //   table initial state
 
@@ -60,7 +54,6 @@ const PartnerTransactionTable = ({ tableData }) => {
     state: {
       sorting: sorting,
       globalFilter: filtering,
-    //   add filter for sorting the table by date range for transaction date
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
@@ -93,10 +86,6 @@ const PartnerTransactionTable = ({ tableData }) => {
     // Apply the filter logic here based on the selected filter
     let newFilters = [];
 
-    // if (filter === "DATE") {
-    // //   setIsDateRangeVisible(!isDateRangeVisible);
-    // }
-
     table.setColumnFilters(newFilters);
 
     // Reset currentPage to 1 whenever filtering is applied
@@ -124,37 +113,23 @@ const PartnerTransactionTable = ({ tableData }) => {
   };
 
   // handle date select
-  const handleDateSelect = (startDate, endDate) => {
-    const formattedStartDate = formattedDate(startDate.toISOString());
-    const formattedEndDate = formattedDate(
-      endDate ? endDate.toISOString() : addDays(new Date(), 1)
-    );
+  const handleDateSelect = (selectedDate) => {
+    const formattedSelectedDate = formattedDate(selectedDate.toISOString());
+    console.log("Selected Date:", selectedDate);
+
+    console.log(formattedSelectedDate);
 
     setIsDateRangeVisible(false);
 
     const newFilters = [
       {
-        id: "transaction date", // Make sure this matches the column's accessor key
-        value: formattedStartDate,
-        operator: ">=",
-      },
-      {
-        id: "transaction date", // Make sure this matches the column's accessor key
-        value: formattedEndDate,
-        operator: "<=",
+        id: "transaction date",
+        value: formattedSelectedDate,
+        operator:"before"
       },
     ];
 
     table.setColumnFilters(newFilters);
-
-    // reset the date range
-    setDateRange([
-        { 
-            startDate: new Date(),
-            endDate: null,
-            key: 'selection'
-        }
-    ])
 
     // Reset currentPage to 1 whenever filtering is applied
     setCurrentPage(1);
@@ -218,20 +193,15 @@ const PartnerTransactionTable = ({ tableData }) => {
               </button>
               {isDateRangeVisible && (
                 <div className="absolute mt-10 bg-white border border-gray-200 rounded shadow-md z-10 p-4">
-                  <DateRange
-                    editableDateInputs={true}
-                    onChange={(item) => setDateRange([item.selection])}
-                    moveRangeOnFirstSelection={false}
-                    ranges={dateRange}
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => setSelectedDate(date)}
                   />
                   <button
-                    className="mt-2 px-4 py-1 border border-primary rounded-full bg-primary text-white font-semibold"
+                    className="mt-6 px-4 py-1 border border-primary rounded-full bg-primary text-white font-semibold"
                     onClick={() => {
                       setIsDateRangeVisible(false);
-                      handleDateSelect(
-                        dateRange[0].startDate,
-                        dateRange[0].endDate
-                      ); // Call handleDateSelect on Apply button click
+                      handleDateSelect(selectedDate);
                     }}
                   >
                     Apply
