@@ -23,7 +23,7 @@ import {
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { addDays } from "date-fns";
+import { add, addDays } from "date-fns";
 
 const PartnerTransactionTable = ({ tableData }) => {
   const [data, setData] = useState(tableData);
@@ -32,6 +32,8 @@ const PartnerTransactionTable = ({ tableData }) => {
   const [filtering, setFiltering] = useState("");
   const [activeFilter, setActiveFilter] = useState("DISCO");
   const [activeStatusFilter, setActiveStatusFilter] = useState(null);
+  const [isDateRangeVisible, setIsDateRangeVisible] = useState(false);
+
   const [activeDiscoFilter, setActiveDiscoFilter] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -42,6 +44,8 @@ const PartnerTransactionTable = ({ tableData }) => {
       key: "selection",
     },
   ]);
+
+  //   table initial state
 
   const table = useReactTable({
     data,
@@ -56,10 +60,13 @@ const PartnerTransactionTable = ({ tableData }) => {
     state: {
       sorting: sorting,
       globalFilter: filtering,
+    //   add filter for sorting the table by date range for transaction date
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
   });
+
+  //   format date
   const formattedDate = (inputDate) => {
     // Format the date
     const dateObject = new Date(inputDate);
@@ -70,7 +77,14 @@ const PartnerTransactionTable = ({ tableData }) => {
     return formattedDate;
   };
 
+  // handle filter click
   const handleFilterClick = (filter) => {
+    if (filter === "DATE") {
+      setIsDateRangeVisible(!isDateRangeVisible);
+    } else {
+      // Close the date range calendar if clicking on a different filter
+      setIsDateRangeVisible(false);
+    }
     setActiveFilter(filter);
 
     console.log(activeFilter);
@@ -79,31 +93,9 @@ const PartnerTransactionTable = ({ tableData }) => {
     // Apply the filter logic here based on the selected filter
     let newFilters = [];
 
-    if (filter === "DATE") {
-      console.log("startDate", formattedDate(dateRange[0].startDate.toISOString()));
-      console.log("endDate", dateRange[0].endDate);
-      newFilters = [
-        {
-          id: "transaction date",
-          value: formattedDate(dateRange[0].startDate.toISOString()),
-          operator: ">=",
-        },
-        {
-          id: "transaction date",
-          value: formattedDate(
-            dateRange[0].endDate.toISOString() || addDays(new Date(), 1)
-          ),
-          operator: "<=",
-        },
-      ];
-    } else if (filter === "DISCO") {
-      newFilters = [
-        {
-          id: "disco",
-          value: activeDiscoFilter,
-        },
-      ];
-    }
+    // if (filter === "DATE") {
+    // //   setIsDateRangeVisible(!isDateRangeVisible);
+    // }
 
     table.setColumnFilters(newFilters);
 
@@ -131,12 +123,53 @@ const PartnerTransactionTable = ({ tableData }) => {
     setActiveFilter(null);
   };
 
-  const handleDateSelect = (date) => {  
-    console.log("date", date);
-    setDateRange([date.selection]);
-    };
+  // handle date select
+  const handleDateSelect = (startDate, endDate) => {
+    const formattedStartDate = formattedDate(startDate.toISOString());
+    const formattedEndDate = formattedDate(
+      endDate ? endDate.toISOString() : addDays(new Date(), 1)
+    );
 
+    setIsDateRangeVisible(false);
+
+    const newFilters = [
+      {
+        id: "transaction date", // Make sure this matches the column's accessor key
+        value: formattedStartDate,
+        operator: ">=",
+      },
+      {
+        id: "transaction date", // Make sure this matches the column's accessor key
+        value: formattedEndDate,
+        operator: "<=",
+      },
+    ];
+
+    table.setColumnFilters(newFilters);
+
+    // reset the date range
+    setDateRange([
+        { 
+            startDate: new Date(),
+            endDate: null,
+            key: 'selection'
+        }
+    ])
+
+    // Reset currentPage to 1 whenever filtering is applied
+    setCurrentPage(1);
+  };
+
+  //  handle click outside
   const handleClickOutside = (event) => {
+    if (
+      isDateRangeVisible &&
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      !event.target.classList.contains("rdrDateRangeWrapper")
+    ) {
+      setIsDateRangeVisible(false);
+    }
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setActiveFilter(null);
     }
@@ -146,6 +179,7 @@ const PartnerTransactionTable = ({ tableData }) => {
     table.setPageIndex(pageNumber - 1); // Subtract 1 since pageIndex is zero-based
     setCurrentPage(pageNumber);
   };
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -182,7 +216,7 @@ const PartnerTransactionTable = ({ tableData }) => {
               >
                 DATE
               </button>
-              {activeFilter === "DATE" && (
+              {isDateRangeVisible && (
                 <div className="absolute mt-10 bg-white border border-gray-200 rounded shadow-md z-10 p-4">
                   <DateRange
                     editableDateInputs={true}
@@ -190,6 +224,18 @@ const PartnerTransactionTable = ({ tableData }) => {
                     moveRangeOnFirstSelection={false}
                     ranges={dateRange}
                   />
+                  <button
+                    className="mt-2 px-4 py-1 border border-primary rounded-full bg-primary text-white font-semibold"
+                    onClick={() => {
+                      setIsDateRangeVisible(false);
+                      handleDateSelect(
+                        dateRange[0].startDate,
+                        dateRange[0].endDate
+                      ); // Call handleDateSelect on Apply button click
+                    }}
+                  >
+                    Apply
+                  </button>
                 </div>
               )}
             </div>
