@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { ImagePlus } from "lucide-react";
 import Navbar from "../../components/Navbar";
