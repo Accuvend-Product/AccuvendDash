@@ -16,6 +16,7 @@ const initialFormData = {
 
 const PartnerTeamSettings = () => {
     const [showModal, setShowModal] = useState(false);
+    const [showGuestModal, setShowGuestModal] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
     const [roles, setRoles] = useState([]);
     const [teamMembers, setTeamMembers] = useState([]);
@@ -75,6 +76,11 @@ const PartnerTeamSettings = () => {
         fetchRoles();
         setShowModal(true);
     };
+    
+    const handleInviteGuestButtonClick = () => {
+        fetchRoles();
+        setShowGuestModal(true);
+    };
 
     const fetchTeamMembers = async () => {
         try {
@@ -105,7 +111,7 @@ const PartnerTeamSettings = () => {
             <Navbar />
             <div className="flex">
                 <Sidebar />
-                <div className="ml-[372px] px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
+                <div className="ml-[372px] px-8 sm:px-10 md:px-12 flex-1 pb-10">
                     {/* Modal for inviting new member */}
                     {showModal && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -159,6 +165,67 @@ const PartnerTeamSettings = () => {
                                         </button>
                                         <button
                                             onClick={() => setShowModal(false)}
+                                            className="border border-gray-300 px-4 py-2 rounded-md"
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {showGuestModal && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="bg-white rounded-lg p-8 w-[35%]">
+                                    <h1 className="text-lg font-bold mb-4">Invite New Member</h1>
+                                    <div className="mb-4">
+                                        <label className="block mb-1">Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleInputChange}
+                                            className="border rounded-md w-full px-4 py-2 focus:outline-none"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block mb-1">Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className="border rounded-md w-full px-4 py-2 focus:outline-none"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block mb-1">Role</label>
+                                        <select
+                                            name="roleId"
+                                            value={formData.roleId}
+                                            onChange={handleInputChange}
+                                            className="border rounded-md w-full px-4 py-2 focus:outline-none"
+                                        >
+                                            <option value="" disabled>
+                                                Select a role
+                                            </option>
+                                            {roles.map((role) => (
+                                                <option key={role.id} value={role.id}>
+                                                    {role.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="flex justify-end">
+                                        <button
+                                            onClick={handleInviteMember}
+                                            className="bg-secondary text-white px-4 py-2 rounded-md mr-2"
+                                        >
+                                            Invite
+                                        </button>
+                                        <button
+                                            onClick={() => setShowGuestModal(false)}
                                             className="border border-gray-300 px-4 py-2 rounded-md"
                                         >
                                             Close
@@ -230,7 +297,7 @@ const PartnerTeamSettings = () => {
                                                 <tr className="bg-gray-200">
                                                     <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Name</th>
                                                     <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Date Added</th>
-                                                    <th className="px-4 py-2 text-left"  style={{ width: "20%" }}>Role</th>
+                                                    <th className="px-4 py-2 text-center"  style={{ width: "20%" }}>Role</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -288,7 +355,7 @@ const PartnerTeamSettings = () => {
                                             <DownloadCloud className="h-4 w-4" />
                                             Export CSV
                                         </button>
-                                        <button className="flex items-center gap-2 bg-secondary border border-secondary text-white w-fit px-3 py-1 rounded-md font-semibold">
+                                        <button onClick={() => handleInviteGuestButtonClick()} className="flex items-center gap-2 bg-secondary border border-secondary text-white w-fit px-3 py-1 rounded-md font-semibold">
                                             Invite new guest
                                         </button>
                                     </div>
@@ -302,7 +369,7 @@ const PartnerTeamSettings = () => {
                                                 <tr className="bg-gray-200">
                                                     <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Name</th>
                                                     <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Date Added</th>
-                                                    <th className="px-4 py-2 text-left"  style={{ width: "20%" }}>Role</th>
+                                                    <th className="px-4 py-2 text-center"  style={{ width: "20%" }}>Role</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

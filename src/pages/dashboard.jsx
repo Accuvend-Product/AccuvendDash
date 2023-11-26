@@ -42,7 +42,7 @@ const Dashboard = () => {
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <div className="ml-[372px] px-8 sm:px-10 md:px-12 border-b border-body1 flex-1 pb-10">
+        <div className="ml-[372px] px-8 sm:px-10 md:px-12 flex-1 pb-10">
           <div className=" ml-auto py-10">
             {/* cards */}
             <div className="flex space-x-12 items-center justify-end">
