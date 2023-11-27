@@ -10,10 +10,10 @@ const Navbar = () => {
     const userEmail = localStorage.getItem("userEmail");
     return (
         <div className="text-body1 border-b border-body1/80 sticky top-0 z-50">
-            <div className="h-[121px] px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
+            <div className="h-[80px] px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
                 <a href="/dashboard" className="">
                     <img src={Logo} className="hidden sm:block aspect-auto" />
-                    <img src={Logo} className="sm:hidden w-32 h-10 aspect-auto" />
+                    <img src={Logo} className="sm:hidden h-10 aspect-auto" />
                 </a>
                 <div className="flex items-center ml-auto space-x-10 sm:space-x-16 md:space-x-[50px] text-xl">
                     <div className="hover:cursor-pointer relative">

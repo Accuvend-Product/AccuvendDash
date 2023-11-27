@@ -86,7 +86,7 @@ const Sidebar = () => {
 
     return (
         <div className="flex">
-            <div className="w-full md:w-[372px] max-h-screen overflow-hidden border-r border-body1 flex flex-col fixed top-[121px] left-0 bottom-0 pb-10">
+            <div className="w-full md:w-[372px] max-h-screen overflow-hidden border-r border-body1 flex flex-col fixed top-[80px] left-0 bottom-0 pb-10">
                 <div className="flex flex-col pt-8 space-y-4 px-4 md:px-8 lg:px-10 xl:px-12">
                     {links.map((link) => (
                         <a
