@@ -83,9 +83,9 @@ const SignIn = () => {
                     >
                         {isLoading ? 'Logging in...' : 'Log in'}
                     </button>
-                    <p className="text-lg font-medium text-primary mt-[20px] text-center">
+                    {/* <p className="text-lg font-medium text-primary mt-[20px] text-center">
                         Don't have an account yet? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500 pl-1">Create an account</Link>
-                    </p>
+                    </p> */}
                 </form>
             </div>
         </section>

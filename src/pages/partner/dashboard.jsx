@@ -38,7 +38,7 @@ const PartnerDashboard = () => {
                     "customer name": transaction.user.name,
                     "transaction reference": transaction.bankRefId,
                     "transaction date": transaction.transactionTimestamp,
-                    amount: `N${transaction.amount}`,
+                    amount: `₦${transaction.amount}`,
                     status: transaction.status.toLowerCase(),
                     selection: transaction.partnerId ?? "TESTID",
                 })
@@ -102,7 +102,7 @@ const PartnerDashboard = () => {
 
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
-                                <p className="text-2xl">Total no. Transacted Today</p>
+                                <p className="text-[16px]">Total no. Transacted Today</p>
                                 <p className="text-[48px] font-semibold hover:text-white">
                                     {totalTransactionsLoading ? (<div className="flex items-center gap-2">
                                         <div role="">
@@ -118,7 +118,7 @@ const PartnerDashboard = () => {
 
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
-                                <p className="text-2xl">Failed Transactions Today</p>
+                                <p className="text-[16px]">Failed Transactions Today</p>
                                 <p className="text-[48px] font-semibold hover:text-white">
                                     {failedTransactionsLoading
                                         ? (<div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ const PartnerDashboard = () => {
 
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
-                                <p className="text-2xl">Total Amount Transacted Today</p>
+                                <p className="text-[16px]">Total Amount Vended Today</p>
                                 <p className="text-[48px] font-semibold">
                                     {" "}
                                     {totalTransactionsLoading ? (<div className="inline-flex items-center">
