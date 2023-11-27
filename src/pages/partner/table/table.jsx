@@ -170,7 +170,7 @@ const PartnerTransactionTable = ({ tableData }) => {
     }, []);
 
     return (
-        <div className="overflow-x-auto">
+        <div className="">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex space-x-4 items-center">
                     <p className="text-body1 font-semibold">Filter by</p>

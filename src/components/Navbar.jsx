@@ -12,13 +12,14 @@ const Navbar = () => {
         <div className="text-body1 border-b border-body1/80 sticky top-0 z-50">
             <div className="h-[80px] px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
                 <a href="/dashboard" className="">
-                    <img src={Logo} className="hidden sm:block aspect-auto" />
-                    <img src={Logo} className="sm:hidden h-10 aspect-auto" />
+                    <img src={Logo} className="block h-9 aspect-auto" />
+                    {/* <img src={Logo} className="hidden sm:block h-10 aspect-auto" />
+                    <img src={Logo} className="sm:hidden h-10 aspect-auto" /> */}
                 </a>
                 <div className="flex items-center ml-auto space-x-10 sm:space-x-16 md:space-x-[50px] text-xl">
                     <div className="hover:cursor-pointer relative">
-                        <BellIcon className="h-10 w-10" />
-                        <div className="absolute top-2 right-3 transform translate-x-1/2 -translate-y-1/2 h-3 w-3 bg-red-500 rounded-full"></div>
+                        <BellIcon className="h-7 w-7" />
+                        <div className="absolute top-1 right-1.5 transform translate-x-1/2 -translate-y-1/2 h-2.5 w-2.5 bg-red-500 rounded-full"></div>
                     </div>
                     <div className="flex items-center">
                         <a href="#" className="ml-2 text-4xl hidden sm:block">

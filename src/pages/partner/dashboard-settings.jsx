@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import MainContent from "../../components/MainContent";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -170,8 +171,7 @@ const PartnerDashboardSettings = () => {
         <>
             <Navbar />
             <div className="flex">
-                <Sidebar />
-                <div className="ml-[372px] px-8 sm:px-10 md:px-12 flex-1 pb-10">
+            <MainContent>
                     <div className="mt-10 space-y-2">
                         <h1 className="text-2xl font-bold">Preferences</h1>
                         <p className="text-body1">
@@ -406,7 +406,7 @@ const PartnerDashboardSettings = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+            </MainContent>
             </div>
         </>
     );
