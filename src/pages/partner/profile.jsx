@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import LoadingSpinner from "../../components/ui/loading";
+import MainContent from "../../components/MainContent";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -93,8 +94,7 @@ const PartnerDashboardProfile = () => {
         <>
             <Navbar />
             <div className="flex">
-                <Sidebar />
-                <div className="ml-[372px] px-8 sm:px-10 md:px-12 flex-1 pb-10">
+            <MainContent>
                     <div className="mt-10 space-y-2">
                         <h1 className="text-2xl font-bold">Profile</h1>
                         <p className="text-body1">
@@ -197,7 +197,7 @@ const PartnerDashboardProfile = () => {
 
                        
                     </div>
-                </div>
+                    </MainContent>
             </div>
         </>
     );

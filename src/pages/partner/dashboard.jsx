@@ -7,6 +7,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { usePartnerData } from "../../contexts/partner-context";
+import MainContent from "../../components/MainContent";
 
 const PartnerDashboard = () => {
 
@@ -39,7 +40,7 @@ const PartnerDashboard = () => {
                     "customer name": transaction.user.name,
                     "transaction reference": {id: transaction.id, bankRefId: transaction.bankRefId},
                     "transaction date": transaction.transactionTimestamp,
-                    amount: `N${transaction.amount}`,
+                    amount: `₦${transaction.amount}`,
                     status: transaction.status.toLowerCase(),
                     selection: transaction.partnerId ?? "TESTID",
                 })
@@ -95,8 +96,7 @@ const PartnerDashboard = () => {
         <>
             <Navbar />
             <div className="flex">
-                <Sidebar />
-                <div className="ml-[372px] px-8 sm:px-10 md:px-12 flex-1 pb-10">
+            <MainContent>
                     <div className=" ml-auto py-10">
                         {/* cards */}
                         <div className="flex space-x-12 items-center justify-end">
@@ -173,7 +173,7 @@ const PartnerDashboard = () => {
                             </>
                         )
                     )}
-                </div>
+                </MainContent>
             </div>
         </>
     );

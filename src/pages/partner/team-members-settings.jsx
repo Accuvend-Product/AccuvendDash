@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+import MainContent from "../../components/MainContent";
 
 const initialFormData = {
     name: "",
@@ -110,8 +111,7 @@ const PartnerTeamSettings = () => {
         <>
             <Navbar />
             <div className="flex">
-                <Sidebar />
-                <div className="ml-[372px] px-8 sm:px-10 md:px-12 flex-1 pb-10">
+            <MainContent>
                     {/* Modal for inviting new member */}
                     {showModal && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -429,7 +429,7 @@ const PartnerTeamSettings = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                    </MainContent>
             </div>
         </>
     );

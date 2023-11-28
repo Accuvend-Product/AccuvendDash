@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import LoadingSpinner from "../../components/ui/loading";
+import MainContent from "../../components/MainContent";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
@@ -50,8 +51,7 @@ const PartnerTransactionDetails = () => {
         <>
             <Navbar />
             <div className="flex">
-                <Sidebar />
-                <div className="ml-[372px] pt-4 px-8 sm:px-10 md:px-12 w-[100%]">
+            <MainContent>
                     <div className="flex items-center">
                     <ArrowLeft className="mr-2 mt-1 w-7 h-7 hover:cursor-pointer text-blue-800" onClick={() => navigate(-1)}/>
                         <h1 className="font-bold text-2xl">Transaction Details</h1>
@@ -65,7 +65,7 @@ const PartnerTransactionDetails = () => {
                     </div>
 
                     <div className="mt-10"></div>
-                </div>
+                    </MainContent>
             </div>
         </>
     );

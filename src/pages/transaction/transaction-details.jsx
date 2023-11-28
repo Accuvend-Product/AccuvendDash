@@ -4,15 +4,14 @@ import Sidebar from "../../components/Sidebar";
 import DetailsCard from "./details-card";
 import OrderConfirmation from "./order-confirmation";
 import { useNavigate } from "react-router-dom";
-
+import MainContent from "../../components/MainContent";
 const TransactionDetails = () => {
     const navigate = useNavigate()
     return (
         <>
             <Navbar />
             <div className="flex">
-                <Sidebar />
-                <div className="ml-[372px] pt-4 px-8 sm:px-10 md:px-12 w-[100%]">
+            <MainContent>
                     <div className="flex items-center">
                         <ArrowLeft className="mr-2 w-5 h-5 hover:cursor-pointer" onClick={() => navigate(-1)}/>
                         <h1 className="font-bold text-2xl">Transaction Details</h1>
@@ -30,7 +29,7 @@ const TransactionDetails = () => {
                     <div className="mt-10">
 
                     </div>
-                </div>
+                    </MainContent>
             </div>
         </>
     );
