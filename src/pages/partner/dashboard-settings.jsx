@@ -34,44 +34,57 @@ const PartnerDashboardSettings = () => {
         // Fetch user's notification preferences from the server and update state
         // Make an API call to get the user's notification preferences and update notificationOptions state
         // Example:
-        // axios.get(`${BASE_URL}profile/notification-preferences`, {
-        //   headers: {
-        //     Authorization: `Bearer ${localStorage.getItem("token")}`,
-        //   },
-        // })
-        // .then((response) => {
-        //   setNotificationOptions(response.data);
-        // })
-        // .catch((error) => {
-        //   console.error("Error fetching notification preferences:", error);
-        // });
+        axios.get(`${BASE_URL}notification/preference`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+            console.log("Notification preferences:", response.data);
+            const preference = response.data.data.preference;
+            const preferenceData = {
+                notifyLogin: preference.login,
+                notifyNewTransactions: response.data.notifyNewTransactions,
+                notifyFailedTransaction: preference.failedTransactions,
+                notifyNewAccounts: response.data.notifyNewAccounts,
+            }
+          setNotificationOptions(preferenceData);
+        })
+        .catch((error) => {
+          console.error("Error fetching notification preferences:", error);
+        });
     }, []);
 
     const handleNotificationCheckboxChange = async (option) => {
         try {
-            // Update the state optimistically
-            setNotificationOptions((prevOptions) => ({
-                ...prevOptions,
-                [option]: !prevOptions[option],
-            }));
+          // Update the state optimistically
+          setNotificationOptions((prevOptions) => ({
+            ...prevOptions,
+            [option]: !prevOptions[option],
+          }));
 
-            // Send a PATCH request to update the notification preference on the server
-            const updatedValue = !notificationOptions[option]; // Updated value for the checkbox
+          // Prepare the updated preferences object
+          const updatedPreferences = {
+            login: notificationOptions.notifyLogin,
+            logout: notificationOptions.notifyLogout,
+            failedTransactions: notificationOptions.notifyFailedTransaction,
+          };
 
-            await axios.patch(
-                `${BASE_URL}profile/notification-preferences`,
-                {
-                    [option]: updatedValue,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            );
+          // Send a PATCH request to update the notification preferences on the server
+          await axios.patch(
+            `${BASE_URL}notification/preference`,
+            {
+              preference: updatedPreferences,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
 
-            // Optionally, show a success toast or perform any other actions upon successful update
-            toast.success(`Notification ${option} updated successfully`);
+          // Optionally, show a success toast or perform any other actions upon successful update
+          toast.success(`Notification ${option} updated successfully`);
         } catch (error) {
             console.error(`Error updating ${option} notification:`, error);
             // Rollback the state change on error by reverting to the previous value
