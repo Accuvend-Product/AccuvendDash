@@ -24,7 +24,7 @@ const PartnerTransactionDetails = () => {
         // Mock API call
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BASE_URL}transaction/info?bankRefId=${id}`, {
+                const response = await axios.get(`${BASE_URL}transaction/info?transactionId=${id}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
