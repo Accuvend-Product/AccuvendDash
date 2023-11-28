@@ -1,13 +1,12 @@
 import GreenCheck from "../../components/icons/green-check"
+import RedCheck from "../../components/icons/red-check"
+import PropTypes from "prop-types";
 
 
 const PartnerOrderConfirmation = ({transaction}) => {
         const {
-          transactionTimestamp,
           amount,
-          partner,
           meter,
-          status,
           disco,
           powerUnit,
           user
@@ -45,7 +44,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
               <div className="mt-2">
-                <GreenCheck />
+                {amount !== '0' ? <GreenCheck /> : <RedCheck />}
               </div>
               <div>
                 <h1 className="font-bold text-2xl">Confirm Payment</h1>
@@ -54,20 +53,23 @@ const PartnerOrderConfirmation = ({transaction}) => {
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
               <div className="mt-2">
-                <GreenCheck />
+                {powerUnit !== null ? <GreenCheck /> : <RedCheck />}
               </div>
               <div>
                 <h1 className="font-bold text-2xl">Generate Token</h1>
+                {powerUnit?.token ? 
                 <p>Token generated successfully</p>
+                : <p>Token not generated</p>}
               </div>
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
               <div className="mt-2">
-                <GreenCheck />
+                {powerUnit !== null ? <GreenCheck /> : <RedCheck />}
               </div>
               <div>
                 <h1 className="font-bold text-2xl">Send Token</h1>
-                <p>{powerUnit.token}</p>
+                <p>{powerUnit !== null ? powerUnit.token : "Token not generated"
+                }</p>
               </div>
             </div>
           </div>
@@ -75,5 +77,23 @@ const PartnerOrderConfirmation = ({transaction}) => {
       </div>
     );
 }
+
+PartnerOrderConfirmation.propTypes = {
+  transaction: PropTypes.shape({
+    amount: PropTypes.string,
+    meter: PropTypes.shape({
+      meterNumber: PropTypes.string,
+    }),
+    status: PropTypes.string,
+    disco: PropTypes.string,
+    powerUnit: PropTypes.shape({
+      token: PropTypes.string,
+    }),
+    user: PropTypes.shape({
+      name: PropTypes.string,
+      address: PropTypes.string,
+    }),
+  }),
+};
 
 export default PartnerOrderConfirmation

@@ -5,6 +5,7 @@ const useUserData = (BASE_URL) => {
     const [email, setEmail] = useState('');
     const [uploadedImageLink, setUploadedImageLink] = useState('');
     const [isUserDataLoading, setIsUserDataLoading] = useState(true);
+    const [unreadNotifications, setUnreadNotifications] = useState(0);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -21,8 +22,13 @@ const useUserData = (BASE_URL) => {
                 });
 
                 if (response.data.status === 'success') {
-                    const userData = response.data.data.partner;
+                    const userData = {
+                        ...response.data.data.partner,
+                        unreadNotifications: response.data.unreadNotificationsCount
+                    };
+
                     setEmail(userData.email);
+                    setUnreadNotifications(response.data.unreadNotificationsCount);
                     if (userData.profilePicture) {
                         setUploadedImageLink(userData.profilePicture);
                     }
@@ -37,7 +43,7 @@ const useUserData = (BASE_URL) => {
         fetchUserData();
     }, [BASE_URL]);
 
-    return { email, uploadedImageLink, isUserDataLoading };
+    return { email, uploadedImageLink, isUserDataLoading , unreadNotifications};
 };
 
 export default useUserData;
