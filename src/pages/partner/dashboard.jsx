@@ -37,7 +37,7 @@ const PartnerDashboard = () => {
                     disco: transaction.disco ?? "TEST",
                     "meter number": transaction.meter.meterNumber,
                     "customer name": transaction.user.name,
-                    "transaction reference": transaction.bankRefId,
+                    "transaction reference": {id: transaction.id, bankRefId: transaction.bankRefId},
                     "transaction date": transaction.transactionTimestamp,
                     amount: `N${transaction.amount}`,
                     status: transaction.status.toLowerCase(),
@@ -104,7 +104,7 @@ const PartnerDashboard = () => {
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="font-bold">Total no. Transacted Today</p>
-                                <p className="text-[48px] font-semibold hover:text-white">
+                                <div className="text-[48px] font-semibold hover:text-white">
                                     {totalTransactionsLoading ? (<div className="flex items-center gap-2">
                                         <div role="">
                                             <svg aria-hidden="true" className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -114,13 +114,13 @@ const PartnerDashboard = () => {
                                         </div>
                                         <p className="">Loading...</p>
                                     </div>) : (<p className="text-center">{totalTransactions || 0}</p>)}
-                                </p>
+                                </div>
                             </div>
 
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="font-bold">Failed Transactions Today</p>
-                                <p className="text-[48px] font-semibold hover:text-white">
+                                <div className="text-[48px] font-semibold hover:text-white">
                                     {failedTransactionsLoading
                                         ? (<div className="flex items-center gap-2">
                                             <div role="">
@@ -132,13 +132,13 @@ const PartnerDashboard = () => {
                                             <p className="hover:text-white">Loading...</p>
                                         </div>)
                                         : (<p className="text-center">{failedTransactions || 0}</p>)}
-                                </p>
+                                </div>
                             </div>
 
 
                             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                                 <p className="font-bold">Total Amount Transacted Today</p>
-                                <p className="text-[48px] font-semibold">
+                                <div className="text-[48px] font-semibold">
                                     {" "}
                                     {totalTransactionsLoading ? (<div className="inline-flex items-center">
                                         <div className="flex items-center gap-2">
@@ -151,7 +151,7 @@ const PartnerDashboard = () => {
                                             <p className="text-primary hover:text-white">Loading...</p>
                                         </div>
                                     </div>) : (<p className="text-center">₦{totalAmount.toLocaleString() || 0}</p>)}
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
