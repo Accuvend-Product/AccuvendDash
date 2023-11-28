@@ -87,11 +87,11 @@ const Sidebar = () => {
     return (
         <div className="flex">
             <div className="w-full md:w-[300px] max-h-screen overflow-hidden border-r border-body1 flex flex-col fixed top-[80px] left-0 bottom-0 pb-10">
-                <div className="flex flex-col pt-8 space-y-4 px-4 md:px-6 lg:px-6 xl:px-8">
+                <div className="flex flex-col pt-8 space-y-4 px-4 md:px-4 lg:px-4 xl:px-6">
                     {links.map((link) => (
                         <a
                             href={link.href}
-                            className={`py-1.5 flex items-center hover:text-primary ${link.active ? "text-primary" : "text-black"
+                            className={`hover:bg-gray-200 rounded-md pl-2 hover:pl-3 py-2 flex items-center hover:text-primary ${link.active ? "text-primary" : "text-black"
                                 }`}
                             key={link.name}
                         >

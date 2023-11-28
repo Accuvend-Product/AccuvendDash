@@ -18,8 +18,8 @@ const Navbar = () => {
         </a>
         <div className="flex items-center ml-auto space-x-10 sm:space-x-16 md:space-x-[50px] text-xl">
           <div className="hover:cursor-pointer relative">
-            <BellIcon className="h-10 w-10" />
-            {unreadNotifications > 0 && (
+            <BellIcon className="h-7 w-7" />
+            {!(unreadNotifications > 0) && (
              <div className="absolute top-1 right-1.5 transform translate-x-1/2 -translate-y-1/2 h-2.5 w-2.5 bg-red-500 rounded-full"></div>
             )}
           </div>
