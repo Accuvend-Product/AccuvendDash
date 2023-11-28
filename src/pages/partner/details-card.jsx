@@ -1,11 +1,11 @@
 import PHEDImage from '../../images/phed.png';
+import PropTypes from 'prop-types';
 
 const PartnerDetailsCard = ({transaction}) => {
 
         const {
           transactionTimestamp,
           amount,
-          partner,
           meter,
           status,
           disco,
@@ -65,7 +65,7 @@ const PartnerDetailsCard = ({transaction}) => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Token generated</p>
-                        <p className="text-gray-500">{powerUnit.token}</p>
+                        <p className="text-gray-500">{powerUnit?.token || 'XXXX'}</p>
                     </div>
                     <hr />
                     <div className="h-10" />
@@ -74,6 +74,27 @@ const PartnerDetailsCard = ({transaction}) => {
             </div>
         </div>
     );
+};
+
+PartnerDetailsCard.propTypes = {
+  transaction: PropTypes.shape({
+    transactionTimestamp: PropTypes.string,
+    amount: PropTypes.string,
+    partner: PropTypes.string,
+    meter: PropTypes.shape({
+      meterNumber: PropTypes.string,
+      vendType: PropTypes.string,
+    }),
+    status: PropTypes.string,
+    disco: PropTypes.string,
+    powerUnit: PropTypes.shape({
+      token: PropTypes.string,
+    }),
+    user: PropTypes.shape({
+      name: PropTypes.string,
+      address: PropTypes.string,
+    }),
+  }),
 };
 
 export default PartnerDetailsCard;
