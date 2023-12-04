@@ -1,6 +1,5 @@
 import { DownloadCloud } from "lucide-react";
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/sidebar";
+
 import ZenithImage from "../../images/zenith.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";

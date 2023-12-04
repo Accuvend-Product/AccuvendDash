@@ -1,6 +1,4 @@
 /* eslint-disable no-unused-vars */
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/sidebar";
 import { TransactionTable as PartnerTransactionTable } from "../../components/table/table";
 import { useState } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;

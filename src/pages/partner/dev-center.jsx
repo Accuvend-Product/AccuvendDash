@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/sidebar";
+
 import axios from "axios";
 import { ClipboardCopy } from "lucide-react";
 import { useEffect, useState } from "react";

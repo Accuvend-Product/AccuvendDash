@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { ChevronDown, XIcon } from "lucide-react";
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/sidebar";
+
 import EmailIcon from "../../components/icons/email";
 import BellIcon from "../../components/icons/bell";
 import LinkIcon from "../../components/icons/link";

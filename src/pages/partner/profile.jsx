@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { ImagePlus } from "lucide-react";
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/sidebar";
+
 import ZenithImage from "../../images/zenith.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
