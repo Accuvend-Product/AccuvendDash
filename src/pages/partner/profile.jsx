@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { ImagePlus } from "lucide-react";
 import Navbar from "../../components/Navbar";
-import Sidebar from "./sidebar";
+import Sidebar from "../../components/sidebar";
 import ZenithImage from "../../images/zenith.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import LoadingSpinner from "../../components/ui/loading";
 import MainContent from "../../components/MainContent";
-
+import { PARTNER_DASHBOARD_ROUTE , PREFERENCES_ROUTE } from "../../Routes";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PartnerDashboardProfile = () => {
@@ -92,8 +92,8 @@ const PartnerDashboardProfile = () => {
 
     return (
         <>
-            <Navbar />
-            <div className="flex">
+             
+            
             <MainContent>
                     <div className="mt-10 space-y-2">
                         <h1 className="text-2xl font-bold">Profile</h1>
@@ -109,7 +109,7 @@ const PartnerDashboardProfile = () => {
                                 Profile
                             </Link>
                             <Link
-                                to="/partner-dashboard/preferences"
+                                to={`${PARTNER_DASHBOARD_ROUTE }${PREFERENCES_ROUTE}`}
                                 className="px-2 py-1 border-y border-gray-300 text-body1"
                             >
                                 Preferences
@@ -197,8 +197,8 @@ const PartnerDashboardProfile = () => {
 
                        
                     </div>
-                    </MainContent>
-            </div>
+            </MainContent>
+            
         </>
     );
 };

@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
-import columns from "../table/columns";
+import columns from "./columns";
 import { useEffect, useRef, useState } from "react";
 import {
     ArrowDown,
@@ -27,7 +27,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { add, addDays } from "date-fns";
 
-const PartnerTransactionTable = ({ tableData }) => {
+export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
     const [data, setData] = useState(tableData);
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([]);
@@ -174,21 +174,21 @@ const PartnerTransactionTable = ({ tableData }) => {
             <div className="flex items-center justify-between mb-4">
                 <div className="flex space-x-4 items-center">
                     <p className="text-body1 font-semibold">Filter by</p>
-                    <button
+                    { !isPartnerAdminPage && <button
                         onClick={() => handleFilterClick("DISCO")}
-                        className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === "DISCO"
+                        className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${activeFilter === "DISCO"
                                 ? "bg-primary text-white font-semibold"
                                 : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
                             }`}
                     >
                         DISCO
-                    </button>
+                    </button>}
                     <div className="relative">
                         <div className="relative inline-block">
                             <button
                                 type="button"
                                 onClick={() => handleFilterClick("DATE")}
-                                className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === "DATE"
+                                className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${activeFilter === "DATE"
                                         ? "bg-primary text-white font-semibold"
                                         : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
                                     }`}
@@ -219,7 +219,7 @@ const PartnerTransactionTable = ({ tableData }) => {
                             <button
                                 type="button"
                                 onClick={() => handleFilterClick("STATUS")}
-                                className={`rounded-full px-4 py-1 border transition-all border-primary ${activeFilter === "STATUS"
+                                className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${activeFilter === "STATUS"
                                         ? "bg-primary text-white font-semibold"
                                         : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
                                     }`}
@@ -318,12 +318,11 @@ const PartnerTransactionTable = ({ tableData }) => {
                             {row.getVisibleCells().map((cell) => (
                                 <td
                                     key={cell.id}
-                                    className={`py-5 px-2 ${cell.column.id === "status" ? "text-center" : "text-left"
+                                    className={`py-3 px-4 text-sm ${cell.column.id === "status" ? "text-center" : "text-left"
                                         }`}
                                 >
                                     <Link
-                                        to={`/partner/transaction/details/${tableData[cell.row.index]["transaction reference"]["id"]
-                                            }`}
+                                        to={`/transaction/details/${tableData[cell.row.index]["transaction reference"]["id"]}`}
                                     >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </Link>
@@ -352,9 +351,9 @@ const PartnerTransactionTable = ({ tableData }) => {
     );
 };
 
-export default PartnerTransactionTable;
+// export default TransactionTable;
 
-const Pagination = ({ currentPage, totalPages, goToPage, table }) => {
+export const Pagination = ({ currentPage, totalPages, goToPage, table }) => {
     const handlePrevPage = () => {
         goToPage(currentPage - 1);
     };

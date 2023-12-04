@@ -1,7 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/Sidebar";
-import DetailsCard from "./details-card";
+import DetailsCard from "./details-card-old";
 import OrderConfirmation from "./order-confirmation";
 import { useNavigate } from "react-router-dom";
 import MainContent from "../../components/MainContent";
@@ -9,7 +7,7 @@ const TransactionDetails = () => {
     const navigate = useNavigate()
     return (
         <>
-            <Navbar />
+             
             <div className="flex">
             <MainContent>
                     <div className="flex items-center">

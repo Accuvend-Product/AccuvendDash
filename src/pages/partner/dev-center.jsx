@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import Navbar from "../../components/Navbar";
-import Sidebar from "./sidebar";
+import Sidebar from "../../components/sidebar";
 import axios from "axios";
 import { ClipboardCopy } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -69,17 +69,15 @@ const PartnerDevCenter = () => {
     }, []);
     return (
         <>
-            <Navbar />
-            <div className="flex">
             <MainContent>
                     {isLoading ? ( // Display loading screen when isLoading is true
                         <div className="h-screen flex items-center justify-center">
                             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
                         </div>
-                    ) : (<div className="mt-10 space-y-2">
+                    ) : (<div className="mt-10">
                         <h1 className="text-2xl font-bold">API Keys</h1>
                         <p className="pb-4">Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.</p>
-                        <p className="px-4 py-4 rounded-lg bg-red-100 text-red-500 ">Do not share your API key with others, or expose it in the browser or other client-side code. In order to protect the security of your account,
+                        <p className="px-4 py-4 mt-5 mb-10 rounded-lg bg-red-100 text-red-500 ">Do not share your API key with others, or expose it in the browser or other client-side code. In order to protect the security of your account,
                             Accuvend may also automatically disable any API key that we've found has leaked publicly.</p>
 
                         {/* Table */}
@@ -124,13 +122,13 @@ const PartnerDevCenter = () => {
                         </table>
 
                         {/* Button to generate a new key */}
-                        <button className="mt-4 bg-primary text-white py-2 px-4 rounded-md" onClick={createNewKey}>
+                        <button className="mt-7 bg-primary text-white py-2 px-4 rounded-md" onClick={createNewKey}>
                             + Create a new secret key
                         </button>
                     </div>)
                     }
-               </MainContent>
-            </div>
+            </MainContent>
+           
         </>
     );
 }

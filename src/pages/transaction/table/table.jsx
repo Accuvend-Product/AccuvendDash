@@ -8,8 +8,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Data from "../table/data";
-import columns from "../table/columns";
+import Data from "./data";
+import columns from "./columns";
 import { useState } from "react";
 import {
   ArrowDown,

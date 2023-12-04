@@ -4,11 +4,12 @@ import axios from 'axios';
 const useUserData = (BASE_URL) => {
     const [email, setEmail] = useState('');
     const [uploadedImageLink, setUploadedImageLink] = useState('');
-    const [isUserDataLoading, setIsUserDataLoading] = useState(true);
+    const [isUserDataLoading, setIsUserDataLoading] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState(0);
 
     useEffect(() => {
         const fetchUserData = async () => {
+            setIsUserDataLoading(true);
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {

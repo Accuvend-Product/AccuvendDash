@@ -11,8 +11,19 @@ import MainContent from "../../components/MainContent";
 
 const PartnerDashboard = () => {
 
+    const {
+        tableData: partnerTableData,
+        setTableData: setPartnerTableData,
+        totalTransactions: partnerTotalTransactions,
+        setTotalTransactions: setPartnerTotalTransactions,
+      } = useTransactionData();
 
-    const { isLoading , data : tableData } = useQuery({
+    const [tableData, setTableData] = useState(partnerTableData);
+    const [totalTransactions, setTotalTransactions] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [failedTransactions, setFailedTransactions] = useState(0);
+
+    const { isLoading } = useQuery({
         queryKey: ["transactions"],
         queryFn: async () => {
             const response = await axios.get(`${BASE_URL}transaction`, {
@@ -35,12 +46,13 @@ const PartnerDashboard = () => {
                 })
             );
 
-            
+            setTableData(transformedData);
+            setPartnerTableData(transformedData);
             return transformedData;
         },
     });
 
-    const { isLoading: totalTransactionsLoading, data: totalTransactionData  } = useQuery({
+    const { isLoading: totalTransactionsLoading, } = useQuery({
         queryKey: ["transactions", "total"],
         queryFn: async () => {
             const response = await axios.get(`${BASE_URL}transaction/yesterday`, {
@@ -49,14 +61,18 @@ const PartnerDashboard = () => {
                 },
             });
 
-            const totalTransactions = response.data.data.transactions.length ;
-            const totalAmount = response.data.data.totalAmount ;
-            return { totalTransactions , totalAmount };
+            const totalTransactionCount = response.data.data.transactions.length;
+            const allTotalTransactionCount = response.data.data.totalAmount;
+
+            setTotalTransactions(totalTransactionCount);
+            setTotalAmount(allTotalTransactionCount);
+
+            return totalTransactionCount;
         },
     });
 
 
-    const { isLoading: failedTransactionsLoading, data : failedTransactions } = useQuery({
+    const { isLoading: failedTransactionsLoading } = useQuery({
         queryKey: ["transactions", "failed"],
         queryFn: async () => {
             const response = await axios.get(
@@ -86,7 +102,7 @@ const PartnerDashboard = () => {
 
                     <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                         <p className="font-bold">Total no. Transacted Yesterday</p>
-                        <div className="text-[48px] font-semibold hover:text-white">
+                        <div className="text-[40px] font-semibold hover:text-white">
                             {totalTransactionsLoading ? (<div className="flex items-center gap-2">
                                 <div role="">
                                     <svg aria-hidden="true" className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,14 +111,14 @@ const PartnerDashboard = () => {
                                     </svg>
                                 </div>
                                 <p className="">Loading...</p>
-                            </div>) : (<p className="text-center">{totalTransactionData?.totalTransactions || 0}</p>)}
+                            </div>) : (<p className="text-center">{totalTransactions || 0}</p>)}
                         </div>
                     </div>
 
 
                     <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                         <p className="font-bold">Failed Transactions Yesterday</p>
-                        <div className="text-[48px] font-semibold hover:text-white">
+                        <div className="text-[40px] font-semibold hover:text-white">
                             {failedTransactionsLoading
                                 ? (<div className="flex items-center gap-2">
                                     <div role="">
@@ -120,7 +136,7 @@ const PartnerDashboard = () => {
 
                     <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
                         <p className="font-bold">Total Amount Transacted Yesterday</p>
-                        <div className="text-[48px] font-semibold">
+                        <div className="text-[40px] font-semibold">
                             {" "}
                             {totalTransactionsLoading ? (<div className="inline-flex items-center">
                                 <div className="flex items-center gap-2">
@@ -132,7 +148,7 @@ const PartnerDashboard = () => {
                                     </div>
                                     <p className="text-primary hover:text-white">Loading...</p>
                                 </div>
-                            </div>) : (<p className="text-center">₦{totalTransactionData?.totalAmount?.toLocaleString() || 0}</p>)}
+                            </div>) : (<p className="text-center">₦{totalAmount.toLocaleString() || 0}</p>)}
                         </div>
                     </div>
                 </div>
@@ -157,7 +173,6 @@ const PartnerDashboard = () => {
             )}
         </MainContent> 
         </>
-
     );
 };
 

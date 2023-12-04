@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+// import Sidebar from "../components/Sidebar-old";
 import TransactionTable from "./transaction/table/table";
 import { useState } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -39,7 +39,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar />
+       
       <div className="flex">
       <MainContent>
           <div className=" ml-auto py-10">

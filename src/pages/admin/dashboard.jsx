@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/sidebar";
-import { TransactionTable as PartnerTransactionTable } from "../../components/table/table";
+import { TransactionTable as AdminTransactionTable } from "../../components/table/table";
 import { useState } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +7,8 @@ import axios from "axios";
 import { useTransactionData } from "../../contexts/transaction-context";
 import MainContent from "../../components/MainContent";
 
-const PartnerDashboard = () => {
+const AdminDashboard = () => {
+
 
 
     const { isLoading , data : tableData } = useQuery({
@@ -151,14 +150,13 @@ const PartnerDashboard = () => {
                 tableData && (
                     <>
                         {/* Render your cards here */}
-                        <PartnerTransactionTable tableData={tableData} />
+                        <AdminTransactionTable tableData={tableData} />
                     </>
                 )
             )}
         </MainContent> 
         </>
-
     );
 };
 
-export default PartnerDashboard;
+export default AdminDashboard;

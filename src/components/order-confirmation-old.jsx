@@ -1,9 +1,9 @@
-import GreenCheck from "../../components/icons/green-check"
-import RedCheck from "../../components/icons/red-check"
+import GreenCheck from "./icons/green-check"
+import RedCheck from "./icons/red-check"
 import PropTypes from "prop-types";
 
 
-const PartnerOrderConfirmation = ({transaction}) => {
+const OrderConfirmation = ({transaction}) => {
         const {
           amount,
           meter,
@@ -13,7 +13,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
         } = transaction;
 
     return (
-      <div className="rounded-xl border border-gray-300 w-[40%] mt-8 h-fit">
+      <div className="rounded-xl border border-gray-300 w-[40%] mt-8">
         {/* head section */}
         <div className="flex flex-col">
           <div className="flex items-center justify-between bg-[#F7F7F7] py-4 px-8">
@@ -78,7 +78,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
     );
 }
 
-PartnerOrderConfirmation.propTypes = {
+OrderConfirmation.propTypes = {
   transaction: PropTypes.shape({
     amount: PropTypes.string,
     meter: PropTypes.shape({
@@ -96,4 +96,4 @@ PartnerOrderConfirmation.propTypes = {
   }),
 };
 
-export default PartnerOrderConfirmation
+export default OrderConfirmation
