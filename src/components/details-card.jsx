@@ -64,7 +64,7 @@ const DetailsCard = ({transaction}) => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Status</p>
-                        <p className={`${statusClass}`}>{status}</p>
+                        <p className={`px-2 py-2.5 text-sm  ${statusClass}`}>{status}</p>
                     </div>
                     <hr />
                     {/* <div className="flex justify-between  py-2 px-8">

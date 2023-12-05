@@ -8,44 +8,28 @@ import axios from "axios";
 import LoadingSpinner from "../components/ui/loading";
 import MainContent from "../components/MainContent";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+import { useQuery } from "@tanstack/react-query";
 
 
-const PartnerTransactionDetails = ({sidebarType=''}) => {
+const TransactionDetails = ({sidebarType=''}) => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    console.log(id)
-    const [transactionDetails, setTransactionDetails] = useState(null);
-    const [isLoading , setIsLoading] = useState(false)
+    
+    const {isLoading , data : transactionDetails , isError } =  useQuery({
+        queryKey: [`transaction-${id}`],
+        queryFn : async () =>  {
+            const res = await axios.get(`${BASE_URL}transaction/info?transactionId=${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            })
+            return res?.data?.data?.transaction
+        }
+    })
+    
 
-    useEffect(() => {
-        // Fetch transaction details using the 'id' parameter
-        // Example: You may use an API call here
-
-        // Mock API call
-        
-        const fetchData = async () => {
-            setIsLoading(true)
-            try {
-                const response = await axios.get(`${BASE_URL}transaction/info?transactionId=${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                });
-
-                console.log(response.data.data.transaction)
-
-                setTransactionDetails(response.data.data.transaction);
-            } catch (error) {
-                console.error("Error fetching transaction details:", error);
-            }
-            setIsLoading(false)
-        };
-
-        fetchData();
-    }, [id]);
-
-    if (!isLoading) {
+    if (isLoading) {
         return <LoadingSpinner />
     }
 
@@ -72,4 +56,4 @@ const PartnerTransactionDetails = ({sidebarType=''}) => {
     );
 };
 
-export default PartnerTransactionDetails
+export default TransactionDetails

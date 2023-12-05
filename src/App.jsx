@@ -25,6 +25,7 @@ import CustomerDashboard from "./pages/customercare/dashboard";
 const queryClient = new QueryClient()
 import { ADMIN, CUSTOMER, CUSTOMERCARE, PARTNER } from "./Constants";
 import PartnerTransctions from "./pages/admin/partner-transactions";
+import CustomerTransactionDetails from "./pages/customer/customer-transaction-details";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -64,8 +65,8 @@ const SelectRoutes = () => {
         ;
     }else if(PORTAL_TYPE === CUSTOMER){
         return <Routes>
-            <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<AdminDashboard/>} />
-            <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
+            <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<></>} />
+            <Route path="transaction/details/:id" element={<CustomerTransactionDetails />} /> 
         </Routes>
         ;
     }else{
