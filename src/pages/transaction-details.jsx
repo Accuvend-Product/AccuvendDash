@@ -16,13 +16,16 @@ const PartnerTransactionDetails = ({sidebarType=''}) => {
 
     console.log(id)
     const [transactionDetails, setTransactionDetails] = useState(null);
+    const [isLoading , setIsLoading] = useState(false)
 
     useEffect(() => {
         // Fetch transaction details using the 'id' parameter
         // Example: You may use an API call here
 
         // Mock API call
+        
         const fetchData = async () => {
+            setIsLoading(true)
             try {
                 const response = await axios.get(`${BASE_URL}transaction/info?transactionId=${id}`, {
                     headers: {
@@ -36,12 +39,13 @@ const PartnerTransactionDetails = ({sidebarType=''}) => {
             } catch (error) {
                 console.error("Error fetching transaction details:", error);
             }
+            setIsLoading(false)
         };
 
         fetchData();
     }, [id]);
 
-    if (!transactionDetails) {
+    if (!isLoading) {
         return <LoadingSpinner />
     }
 
