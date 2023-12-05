@@ -17,13 +17,13 @@ import {
 } from '@tanstack/react-query'
 import { TransactionDataProvider } from "./contexts/transaction-context";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, PARTNERS_ROUTE, PARTNER_DASHBOARD_ROUTE , PREFERENCES_ROUTE, REPLAY_ROUTE, TRANSACTION_ROUTE } from "./Routes";
-import CustomerCareEvents from "./pages/customer/CustomerCareEvents";
-import CustomerCareReplays from "./pages/customer/CustomerCareReplays";
+import CustomerCareEvents from "./pages/customercare/CustomerCareEvents";
+import CustomerCareReplays from "./pages/customercare/CustomerCareReplays";
 import PartnersOverView from "./pages/admin/PartnersOverView";
 import AdminDashboard from "./pages/admin/dashboard";
-import CustomerDashboard from "./pages/customer/dashboard";
+import CustomerDashboard from "./pages/customercare/dashboard";
 const queryClient = new QueryClient()
-import { ADMIN, CUSTOMERCARE, PARTNER } from "./Constants";
+import { ADMIN, CUSTOMER, CUSTOMERCARE, PARTNER } from "./Constants";
 import PartnerTransctions from "./pages/admin/partner-transactions";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
@@ -59,6 +59,12 @@ const SelectRoutes = () => {
             <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<AdminDashboard/>} />
             <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} element={<PartnersOverView/>} />
             <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/:id${TRANSACTION_ROUTE}`} element={<PartnerTransctions/>} />
+            <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
+        </Routes>
+        ;
+    }else if(PORTAL_TYPE === CUSTOMER){
+        return <Routes>
+            <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<AdminDashboard/>} />
             <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
         </Routes>
         ;
