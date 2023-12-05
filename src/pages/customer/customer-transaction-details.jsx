@@ -84,7 +84,7 @@ const CustomerTransactionDetails = ({ sidebarType = "" }) => {
             <div className="flex  justify-between py-3  gap-2">
               <p className="font-bold text-sm">Token</p>
               <p className="text-gray-500 hover:text-blue-600 active:text-blue-600 text-sm flex gap-x-3 items-center">
-                <span>{transactionDetails?.powerUnit?.token || "XXXX"}</span>
+                <span>{transactionDetails?.powerUnit?.token || "XXXX" }</span>
                 <button
                   onClick={async () => {
                     try {
