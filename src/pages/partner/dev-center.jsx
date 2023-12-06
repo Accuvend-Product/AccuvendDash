@@ -9,127 +9,165 @@ import MainContent from "../../components/MainContent";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PartnerDevCenter = () => {
-    const [apiKeyData, setApiKeyData] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
+  const [apiKeyData, setApiKeyData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-    const fetchApiKeys = async () => {
-        try {
-            setIsLoading(true);
-            const response = await axios.get(`${BASE_URL}key/active`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                }
-            );
-            if (response.data.status === 'success') {
-                setApiKeyData(response.data.data);
-            }
-            setIsLoading(false);
-        } catch (error) {
-            setIsLoading(false);
-            console.error('Error fetching API keys:', error);
-            toast.error('Error fetching API keys:', error);
-        }
-    };
+  const fetchApiKeys = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`${BASE_URL}key/active`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.data.status === "success") {
+        setApiKeyData(response.data.data);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error fetching API keys:", error);
+      toast.error("Error fetching API keys:", error);
+    }
+  };
 
-    const createNewKey = async () => {
-        try {
-            setIsLoading(true);
-            const response = await axios.get(`${BASE_URL}key/new`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                }
-            );
-            if (response.data.status === 'success') {
-                fetchApiKeys();
-            }
-            setIsLoading(false);
-        } catch (error) {
-            setIsLoading(false);
-            console.error('Error creating new API key:', error);
-        }
-    };
+  const createNewKey = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`${BASE_URL}key/new`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.data.status === "success") {
+        fetchApiKeys();
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error creating new API key:", error);
+    }
+  };
 
-    const copyToClipboard = async (content) => {
-        try {
-            await navigator.clipboard.writeText(content);
-            toast.success('Copied to clipboard!');
-        } catch (error) {
-            console.error('Failed to copy:', error);
-            toast.error('Failed to copy to clipboard');
-        }
-    };
+  const copyToClipboard = async (content) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      toast.success("Copied to clipboard!");
+    } catch (error) {
+      console.error("Failed to copy:", error);
+      toast.error("Failed to copy to clipboard");
+    }
+  };
 
-    useEffect(() => {
-        fetchApiKeys(); // Fetch API keys on component mount
-    }, []);
-    return (
-        <>
-            <MainContent>
-                    {isLoading ? ( // Display loading screen when isLoading is true
-                        <div className="h-screen flex items-center justify-center">
-                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-                        </div>
-                    ) : (<div className="mt-10">
-                        <h1 className="text-2xl font-bold">API Keys</h1>
-                        <p className="pb-4">Your secret API keys are listed below. Please note that we do not display your secret API keys again after you generate them.</p>
-                        <p className="px-4 py-4 mt-5 mb-10 rounded-lg bg-red-100 text-red-500 ">Do not share your API key with others, or expose it in the browser or other client-side code. In order to protect the security of your account,
-                            Accuvend may also automatically disable any API key that we've found has leaked publicly.</p>
+  useEffect(() => {
+    fetchApiKeys(); // Fetch API keys on component mount
+  }, []);
+  return (
+    <>
+      <MainContent>
+        {isLoading ? ( // Display loading screen when isLoading is true
+          <div className="h-screen flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+          </div>
+        ) : (
+          <div className="mt-10">
+            <h1 className="text-2xl font-bold">API Keys</h1>
+            <p className="pb-4">
+              Your secret API keys are listed below. Please note that we do not
+              display your secret API keys again after you generate them.
+            </p>
+            <p className="px-4 py-4 mt-5 mb-10 rounded-lg bg-red-100 text-red-500 ">
+              Do not share your API key with others, or expose it in the browser
+              or other client-side code. In order to protect the security of
+              your account, Accuvend may also automatically disable any API key
+              that we've found has leaked publicly.
+            </p>
 
-                        {/* Table */}
-                        <table className="min-w-full overflow-hidden">
-                            <thead className="font-bold uppercase">
-                                <tr>
-                                    <th className="py-2 px-4 text-left">Name</th>
-                                    <th className="py-2 px-4 text-left">API Key</th>
-                                    <th className="py-2 px-4 text-left">Secret Key</th>
-                                    <th className="py-2 px-4 text-left">Created</th>
-                                    <th className="py-2 px-4 text-left">Last Used</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="py-2 px-4">Test</td>
-                                    
-                                    <td className="py-2 px-4">
-                                        <span>{apiKeyData?.apiKey?.slice(0, 4)}*****{apiKeyData?.apiKey?.slice(-4)}</span>
-                                        <button
-                                            onClick={() => copyToClipboard(apiKeyData?.apiKey)}
-                                            className="ml-2 focus:outline-none"
-                                        >
-                                            <ClipboardCopy className="w-4 h-4" />
-                                        </button>
-                                    </td>
+            {/* Table */}
+            <table className="min-w-full overflow-hidden">
+              <thead className="font-bold uppercase">
+                <tr>
+                  <th className="py-2 px-4 text-left">Name</th>
+                  <th className="py-2 px-4 text-left">API Key</th>
+                  <th className="py-2 px-4 text-left">Secret Key</th>
+                  <th className="py-2 px-4 text-left">Created</th>
+                  <th className="py-2 px-4 text-left">Last Used</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="py-2 px-4">Test</td>
 
-                                    <td className="py-2 px-4">
-                                        <span>{apiKeyData?.secretKey?.slice(0, 4)}*****{apiKeyData?.secretKey?.slice(-4)}</span>
-                                        <button
-                                            onClick={() => copyToClipboard(apiKeyData?.secretKey)}
-                                            className="ml-2 focus:outline-none"
-                                        >
-                                            <ClipboardCopy className="w-4 h-4" />
-                                        </button>
-                                    </td>
+                  <td className="py-2 px-4">
+                    <span>
+                      {apiKeyData?.apiKey?.slice(0, 4)}*****
+                      {apiKeyData?.apiKey?.slice(-4)}
+                    </span>
+                    <button
+                      onClick={() => copyToClipboard(apiKeyData?.apiKey)}
+                      className="ml-2 focus:outline-none"
+                    >
+                      <ClipboardCopy className="w-4 h-4" />
+                    </button>
+                  </td>
 
-                                    <td className="py-2 px-4">8 Nov 2023</td>
-                                    <td className="py-2 px-4">23 Nov 2023</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                  <td className="py-2 px-4">
+                    <span>
+                      {apiKeyData?.secretKey?.slice(0, 4)}*****
+                      {apiKeyData?.secretKey?.slice(-4)}
+                    </span>
+                    <button
+                      onClick={() => copyToClipboard(apiKeyData?.secretKey)}
+                      className="ml-2 focus:outline-none"
+                    >
+                      <ClipboardCopy className="w-4 h-4" />
+                    </button>
+                  </td>
 
-                        {/* Button to generate a new key */}
-                        <button className="mt-7 bg-primary text-white py-2 px-4 rounded-md" onClick={createNewKey}>
-                            + Create a new secret key
-                        </button>
-                    </div>)
-                    }
-            </MainContent>
-           
-        </>
-    );
-}
+                  <td className="py-2 px-4">8 Nov 2023</td>
+                  <td className="py-2 px-4">23 Nov 2023</td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Button to generate a new key */}
+            <button
+              className="mt-7 bg-primary text-white py-2 px-4 rounded-md"
+              onClick={createNewKey}
+            >
+              + Create a new secret key
+            </button>
+
+            <div
+              id="alert-additional-content-3"
+              className="p-4 border border-gray-300 rounded-lg bg-gray-50  mt-8"
+              role="alert"
+            >
+              <div class="flex items-center">
+                <svg
+                  class="flex-shrink-0 w-4 h-4 me-2 dark:text-gray-300"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Info</span>
+                <h3 class="text-lg font-medium text-gray-800 dark:text-gray-300">
+                    Developer API Documentation
+                </h3>
+              </div>
+              <div class="mt-2 mb-4 text-sm text-gray-800 dark:text-gray-300">
+                Discover the nuts and bolts of our API functionality – from endpoints to usage guidelines. Dive into our detailed 
+                <a className="font-medium text-blue-600  hover:underline" target="_blank" href="https://documenter.getpostman.com/view/30913710/2s9YXk2L1n#de747b37-6a9d-4cc1-9695-ef615c0033c3"> API Documentation </a> to seamlessly integrate and make the most of our services.
+              </div>
+            </div>
+          </div>
+        )}
+      </MainContent>
+    </>
+  );
+};
 
 export default PartnerDevCenter;
