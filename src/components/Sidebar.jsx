@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 // import { Replay } from "lucide-react";
-import Replay from "./icons/Replay";
+import Replay from "./icons/Replay.jsx";
 import MessageQuestion from "./icons/messagequestion";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, PARTNERS_ROUTE, REPLAY_ROUTE, SUPPORT_ROUTE, TRANSACTION_ROUTE } from "../Routes";
 import { CUSTOMERCARE, PARTNER , ADMIN } from "../Constants";
