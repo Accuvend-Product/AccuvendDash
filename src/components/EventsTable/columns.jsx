@@ -1,6 +1,6 @@
 import TokenGenerated from "../icons/token-generated";
 import MeterValidated from "../icons/meter-validated";
-import Replay from "../icons/replay";
+import Replay from "../icons/Replay";
 import DiscoUp from "../icons/Disco-up";
 import PaymentConfirmed from '../icons/payment-confirmed'
 import { Check, PlayCircle } from "lucide-react";
