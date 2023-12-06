@@ -88,12 +88,11 @@ const AdminLinks = [
     href: `#`,
     active: false,
     subLinks: [
-      {
-        name: "OVERVIEW",
-        
-        href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}/overview`,
-        active: false,
-      },
+      // {
+      //   name: "OVERVIEW",
+      //   href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}/overview`,
+      //   active: false,
+      // },
       {
         name: "EVENTS",
         href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`,
