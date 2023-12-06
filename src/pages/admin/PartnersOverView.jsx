@@ -9,9 +9,15 @@ import MainContent from "../../components/MainContent";
 
 const PartnersOverView = () => {
   const isLoading = false
-  const tableData = [1,2,3,4,5,6].map(()=>{
+  const bankImages = [
+    'https://nigerianbanks.xyz/logo/zenith-bank.png',
+    "https://nigerianbanks.xyz/logo/access-bank.png",
+    "https://nigerianbanks.xyz/logo/first-city-monument-bank.png"
+
+  ]
+  const tableData = [1,2,3].map((_,index)=>{
     return {
-      partnerImage : 'https://nigerianbanks.xyz/logo/zenith-bank.png',
+      partnerImage : bankImages[index],
       partnerId: 'eydychhehhehdhhshhsh',
       failedTransaction: '0', 
       NumberOfTranscations: '0',
