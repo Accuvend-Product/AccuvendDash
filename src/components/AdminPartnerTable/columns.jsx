@@ -1,9 +1,5 @@
-import TokenGenerated from "../icons/token-generated";
-import MeterValidated from "../icons/meter-validated";
-import DiscoUp from "../icons/Disco-up";
-import PaymentConfirmed from "../icons/payment-confirmed";
 import { Check, CreditCard, Hash, PlayCircle } from "lucide-react";
-import Replay from "../icons/Replay";
+import Replay from "../icons/replay";
 export const columns = [
   {
     accessorKey: "partnerImage",

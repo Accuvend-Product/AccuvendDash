@@ -26,7 +26,7 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { add, addDays } from "date-fns";
-import Replay from "../icons/Replay";
+
 import { ADMIN_ROUTE, PARTNERS_ROUTE, TRANSACTION_ROUTE } from "../../Routes";
 
 export const AdminPartnerTable  = ({ tableData }) => {
