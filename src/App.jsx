@@ -16,7 +16,7 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query'
 import { TransactionDataProvider } from "./contexts/transaction-context";
-import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, PARTNERS_ROUTE, PARTNER_DASHBOARD_ROUTE , PREFERENCES_ROUTE, REPLAY_ROUTE, TRANSACTION_ROUTE } from "./Routes";
+import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, PARTNERS_ROUTE, PARTNER_DASHBOARD_ROUTE , PREFERENCES_ROUTE, REPLAY_ROUTE, SUPPORT_ROUTE, TRANSACTION_ROUTE } from "./Routes";
 import CustomerCareEvents from "./pages/customercare/CustomerCareEvents";
 import CustomerCareReplays from "./pages/customercare/CustomerCareReplays";
 import PartnersOverView from "./pages/admin/PartnersOverView";
@@ -60,6 +60,8 @@ const SelectRoutes = () => {
             <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<AdminDashboard/>} />
             <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} element={<PartnersOverView/>} />
             <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/:id${TRANSACTION_ROUTE}`} element={<PartnerTransctions/>} />
+            <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`} element={<CustomerCareEvents/>}/>
+            <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}\overview`} element={<></>}/>
             <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
         </Routes>
         ;
