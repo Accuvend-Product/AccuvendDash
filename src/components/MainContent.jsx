@@ -1,6 +1,6 @@
-import Sidebar from './sidebar'
+import Sidebar from './sidebar.jsx'
 import React from 'react'
-import Navbar from './Navbar'
+import Navbar from './Navbar.jsx'
 
 const MainContent = ({children , sideBartype}) => {
   return (

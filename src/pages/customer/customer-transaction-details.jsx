@@ -51,8 +51,9 @@ const CustomerTransactionDetails = ({ sidebarType = "" }) => {
       {/* <h1 className="text-body1 text-xl my-2">{transactionDetails.id}</h1> */}
 
       {/* both cards */}
-      <div className="flex mt-5 flex-col w-full items-center justify-center  gap-16 px-8">
-        <div className="flex items-center justify-center">
+      <div className="flex pt-5 h-screen overflow-scroll flex-col w-full items-center justify-center   px-4 bg-slate-100">
+       <div className="flex flex-col justify-center px-4 gap-10 pt-8 pb-3 bg-white rounded-lg">
+       <div className="flex items-center justify-center">
           <img src={Logo} className=" h-4 aspect-auto" />
         </div>
         <div className="flex flex-col">
@@ -183,6 +184,7 @@ const CustomerTransactionDetails = ({ sidebarType = "" }) => {
             </div>
           </div>
         </div>
+       </div>
       </div>
 
       <div className="mt-10"></div>

@@ -16,7 +16,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 // import { Replay } from "lucide-react";
 import Replay from "./icons/Replay";
 import MessageQuestion from "./icons/messagequestion";
-import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, PARTNERS_ROUTE, REPLAY_ROUTE, TRANSACTION_ROUTE } from "../Routes";
+import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, PARTNERS_ROUTE, REPLAY_ROUTE, SUPPORT_ROUTE, TRANSACTION_ROUTE } from "../Routes";
 import { CUSTOMERCARE, PARTNER , ADMIN } from "../Constants";
 import { useLogout } from "../hooks/utilityHooks";
 import Profile2Users from "./icons/profile2user";
@@ -85,8 +85,21 @@ const AdminLinks = [
   {
     name: "CUSTOMER SUPPORT",
     icon: <MessageQuestion className="h-5 w-5 mr-2 text-2xl" />,
-    href: `${ADMIN_ROUTE}`,
+    href: `#`,
     active: false,
+    subLinks: [
+      {
+        name: "OVERVIEW",
+        
+        href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}/overview`,
+        active: false,
+      },
+      {
+        name: "EVENTS",
+        href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`,
+        active: false,
+      }
+    ]
   },
   {
     name: "ERP",
@@ -129,18 +142,46 @@ const Sidebar = ({sideBartype}) => {
       <div className="w-full md:w-[260px] max-h-screen overflow-hidden border-r border-body1 flex flex-col fixed top-0 left-0 bottom-0 pb-10 pt-16">
         <div className="flex flex-col pt-8 space-y-4 px-4 md:px-4 lg:px-4 xl:px-6">
           {links.map((link) => (
-            <a
-              href={link.href}
-              className={`hover:bg-gray-100 rounded-md pl-2 text-sm hover:pl-3 py-2 flex items-center hover:text-primary ${
-                location?.pathname === link?.href
-                  ? "text-primary"
-                  : "text-black"
-              }`}
-              key={link.name}
-            >
-              {link.icon}
-              <p className="">{link.name}</p>
-            </a>
+            <span className="flex flex-col">
+              <a
+                href={link.href}
+                className={`hover:bg-gray-100 rounded-md pl-2 text-sm hover:pl-3 py-2 flex items-center hover:text-primary ${
+                  location?.pathname === link?.href
+                    ? "text-primary"
+                    : "text-black"
+                }`}
+                key={link.name}
+              >
+                
+                {link.icon}
+                <p className="">{link.name}</p>
+                {
+                  link?.subLinks ? <>
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                  </> : ""
+                }
+                
+                
+              </a>
+              {
+                link?.subLinks ? <>
+                  <ol className="mt-2 pl-8">
+                    {link?.subLinks?.map((item)=> <>
+                    <li className="mt-4 text-sm">
+                      <a href={item?.href} className={`${location?.pathname === item?.href
+                    ? "text-primary"
+                    : "text-black"}`}>
+                        {item.name}
+                      </a>
+                    </li>
+                    </>)}
+                  </ol>
+                </>: ""
+              }
+            </span>
+            
           ))}
         </div>
         <div className="px-4 md:px-6 lg:px-6 xl:px-8 mt-auto">
