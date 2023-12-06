@@ -1,4 +1,4 @@
-import Sidebar from './sidebar.jsx'
+import Sidebar from './Sidebar.jsx'
 import React from 'react'
 import Navbar from './Navbar.jsx'
 
