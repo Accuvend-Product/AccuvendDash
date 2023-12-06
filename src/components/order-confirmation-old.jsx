@@ -1,9 +1,9 @@
-import GreenCheck from "../../components/icons/green-check"
-import RedCheck from "../../components/icons/red-check"
+import GreenCheck from "./icons/green-check"
+import RedCheck from "./icons/red-check"
 import PropTypes from "prop-types";
 
 
-const PartnerOrderConfirmation = ({transaction}) => {
+const OrderConfirmation = ({transaction}) => {
         const {
           amount,
           meter,
@@ -13,7 +13,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
         } = transaction;
 
     return (
-      <div className="rounded-xl border border-gray-300 w-[40%] mt-8 h-fit">
+      <div className="rounded-xl border border-gray-300 w-[40%] mt-8">
         {/* head section */}
         <div className="flex flex-col">
           <div className="flex items-center justify-between bg-[#F7F7F7] py-4 px-8">
@@ -27,10 +27,10 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 <GreenCheck />
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Validate Meter</h1>
-                <p>Meter Number - {meter.meterNumber}</p>
-                <p>Name - {user.name}</p>
-                <p>Address - {user.address}</p>
+                <h1 className="font-bold text-lg">Validate Meter</h1>
+                <p className="text-sm">Meter Number - {meter.meterNumber}</p>
+                <p className="text-sm">Name - {user.name}</p>
+                <p className="text-sm">Address - {user.address}</p>
               </div>
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
@@ -38,8 +38,8 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 <GreenCheck />
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Check if Disco is up</h1>
-                <p>{disco}</p>
+                <h1 className="font-bold text-lg">Check if Disco is up</h1>
+                <p className="text-sm">{disco}</p>
               </div>
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
@@ -47,8 +47,8 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 {amount !== '0' ? <GreenCheck /> : <RedCheck />}
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Confirm Payment</h1>
-                <p>Amount - N{amount}</p>
+                <h1 className="font-bold text-lg">Confirm Payment</h1>
+                <p className="text-sm">Amount - N{amount}</p>
               </div>
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
@@ -56,10 +56,10 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 {powerUnit !== null ? <GreenCheck /> : <RedCheck />}
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Generate Token</h1>
+                <h1 className="font-bold text-lg">Generate Token</h1>
                 {powerUnit?.token ? 
-                <p>Token generated successfully</p>
-                : <p>Token not generated</p>}
+                <p className="text-sm">Token generated successfully</p>
+                : <p className="text-sm">Token not generated</p>}
               </div>
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
@@ -67,8 +67,8 @@ const PartnerOrderConfirmation = ({transaction}) => {
                 {powerUnit !== null ? <GreenCheck /> : <RedCheck />}
               </div>
               <div>
-                <h1 className="font-bold text-2xl">Send Token</h1>
-                <p>{powerUnit !== null ? powerUnit.token : "Token not generated"
+                <h1 className="font-bold text-lg">Send Token</h1>
+                <p className="text-sm">{powerUnit !== null ? powerUnit.token : "Token not generated"
                 }</p>
               </div>
             </div>
@@ -78,7 +78,7 @@ const PartnerOrderConfirmation = ({transaction}) => {
     );
 }
 
-PartnerOrderConfirmation.propTypes = {
+OrderConfirmation.propTypes = {
   transaction: PropTypes.shape({
     amount: PropTypes.string,
     meter: PropTypes.shape({
@@ -96,4 +96,4 @@ PartnerOrderConfirmation.propTypes = {
   }),
 };
 
-export default PartnerOrderConfirmation
+export default OrderConfirmation

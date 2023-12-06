@@ -1,16 +1,5 @@
 export const columns = [
-    // {
-    //     accessorKey: "selection",
-    //     header: "",
-    //     cell: (props) => (
-    //         <input
-    //             type="checkbox"
-    //             checked={props.row.isSelected}
-    //             onChange={() => props.row.toggleRowSelected()}
-    //         />
-    //     ),
-    //     width: 30, // Set a width for the checkbox column
-    // },
+    
     {
         accessorKey: "disco",
         header: "Disco",

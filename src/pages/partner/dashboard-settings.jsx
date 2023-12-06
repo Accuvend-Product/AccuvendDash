@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { ChevronDown, XIcon } from "lucide-react";
-import Navbar from "../../components/Navbar";
-import Sidebar from "./sidebar";
+
 import EmailIcon from "../../components/icons/email";
 import BellIcon from "../../components/icons/bell";
 import LinkIcon from "../../components/icons/link";
@@ -14,6 +13,8 @@ import { toast } from "react-hot-toast";
 import MainContent from "../../components/MainContent";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+import { PARTNER_DASHBOARD_ROUTE, PREFERENCES_ROUTE } from "../../Routes";
 
 const PartnerDashboardSettings = () => {
     const [showChangePassword, setShowChangePassword] = useState(false);
@@ -182,8 +183,56 @@ const PartnerDashboardSettings = () => {
 
     return (
         <>
-            <Navbar />
-            <div className="flex">
+             
+             {/* Modal for Notifications */}
+             {showNotificationsModal && (
+                <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
+                    {/* Modal */}
+                    <div className="bg-white p-6 rounded-lg shadow-lg z-50 w-3/4 max-w-md">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold">Notifications</h2>
+                            <button
+                                onClick={() => setShowNotificationsModal(false)}
+                                className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                            >
+                                <XIcon className="h-6 w-6" />
+                            </button>
+                        </div>
+                        <div className="flex flex-col space-y-4">
+                            {/* Your checkboxes and labels here */}
+                            <label className="flex justify-between">
+                                Notify Login
+                                <input
+                                    type="checkbox"
+                                    checked={notificationOptions.notifyLogin}
+                                    onChange={() => handleNotificationCheckboxChange('notifyLogin')}
+                                />
+                            </label>
+                            <label className="flex justify-between">
+                                Notify Failed Transaction
+                                <input
+                                    type="checkbox"
+                                    checked={notificationOptions.notifyFailedTransaction}
+                                    onChange={() =>
+                                        handleNotificationCheckboxChange('notifyFailedTransaction')
+                                    }
+                                />
+                            </label>
+                            <label className="flex justify-between">
+                                Notify New Accounts
+                                <input
+                                    type="checkbox"
+                                    checked={notificationOptions.notifyNewAccounts}
+                                    onChange={() =>
+                                        handleNotificationCheckboxChange('notifyNewAccounts')
+                                    }
+                                />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            )}
+           
             <MainContent>
                     <div className="mt-10 space-y-2">
                         <h1 className="text-2xl font-bold">Preferences</h1>
@@ -199,7 +248,7 @@ const PartnerDashboardSettings = () => {
                                 Profile
                             </Link>
                             <Link
-                                to="/partner-dashboard/preferences"
+                                to={`${PARTNER_DASHBOARD_ROUTE }${PREFERENCES_ROUTE}`}
                                 className="px-2 py-1 border-y border-gray-300 bg-gray-200 text-primary font-semibold  "
                             >
                                 Preferences
@@ -212,6 +261,8 @@ const PartnerDashboardSettings = () => {
                             </Link>
                         </div>
                     </div>
+
+
 
                     <div className="mt-10 flex justify-center border border-gray-200 rounded-md">
                         {/* Container div */}
@@ -257,9 +308,9 @@ const PartnerDashboardSettings = () => {
                             </div>
 
                             {/* Notifications */}
-                            <div className="flex items-center justify-between w-full">
+                            <div className="flex items-center justify-between w-full cursor-pointer" onClick={() => setShowNotificationsModal(true)}>
                                 <div
-                                    className="flex items-center gap-4 cursor-pointer"
+                                    className="flex items-center gap-4 "
                                 >
                                     <BellIcon />
                                     <div className="flex flex-col">
@@ -267,56 +318,9 @@ const PartnerDashboardSettings = () => {
                                         <p className="text-sm">Choose what we get in touch about</p>
                                     </div>
                                 </div>
-                                <ChevronDown onClick={() => setShowNotificationsModal(true)} className="h-4 w-4 ml-auto" />
+                                <ChevronDown  className="h-4 w-4 ml-auto" />
                             </div>
-                            {/* Modal for Notifications */}
-                            {showNotificationsModal && (
-                                <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
-                                    {/* Modal */}
-                                    <div className="bg-white p-6 rounded-lg shadow-lg z-50 w-3/4 max-w-md">
-                                        <div className="flex justify-between items-center mb-4">
-                                            <h2 className="text-xl font-bold">Notifications</h2>
-                                            <button
-                                                onClick={() => setShowNotificationsModal(false)}
-                                                className="text-gray-500 hover:text-gray-700 focus:outline-none"
-                                            >
-                                                <XIcon className="h-6 w-6" />
-                                            </button>
-                                        </div>
-                                        <div className="flex flex-col space-y-4">
-                                            {/* Your checkboxes and labels here */}
-                                            <label className="flex justify-between">
-                                                Notify Login
-                                                <input
-                                                    type="checkbox"
-                                                    checked={notificationOptions.notifyLogin}
-                                                    onChange={() => handleNotificationCheckboxChange('notifyLogin')}
-                                                />
-                                            </label>
-                                            <label className="flex justify-between">
-                                                Notify Failed Transaction
-                                                <input
-                                                    type="checkbox"
-                                                    checked={notificationOptions.notifyFailedTransaction}
-                                                    onChange={() =>
-                                                        handleNotificationCheckboxChange('notifyFailedTransaction')
-                                                    }
-                                                />
-                                            </label>
-                                            <label className="flex justify-between">
-                                                Notify New Accounts
-                                                <input
-                                                    type="checkbox"
-                                                    checked={notificationOptions.notifyNewAccounts}
-                                                    onChange={() =>
-                                                        handleNotificationCheckboxChange('notifyNewAccounts')
-                                                    }
-                                                />
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            
 
                             {/* Connected account */}
                             <div className="flex items-center justify-between w-full">
@@ -420,7 +424,7 @@ const PartnerDashboardSettings = () => {
                         </div>
                     </div>
             </MainContent>
-            </div>
+            
         </>
     );
 };

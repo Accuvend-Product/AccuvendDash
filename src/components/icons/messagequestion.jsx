@@ -1,0 +1,14 @@
+import React from 'react'
+
+const MessageQuestion = ({...props}) => {
+  return (
+    <svg {...props} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21.25 23.0372H16.25L10.6875 26.7371C9.86248 27.2871 8.75 26.6997 8.75 25.6997V23.0372C5 23.0372 2.5 20.5372 2.5 16.7872V9.28711C2.5 5.53711 5 3.03711 8.75 3.03711H21.25C25 3.03711 27.5 5.53711 27.5 9.28711V16.7872C27.5 20.5372 25 23.0372 21.25 23.0372Z" stroke="currentColor"  stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14.9998 14.1992V13.9368C14.9998 13.0868 15.5248 12.6367 16.0498 12.2742C16.5623 11.9242 17.0747 11.4743 17.0747 10.6493C17.0747 9.49926 16.1498 8.57422 14.9998 8.57422C13.8498 8.57422 12.9248 9.49926 12.9248 10.6493" stroke="currentColor"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14.9944 17.1875H15.0056" stroke="currentColor"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+  )
+}
+
+export default MessageQuestion

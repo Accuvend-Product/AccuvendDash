@@ -1,6 +1,5 @@
 import { DownloadCloud } from "lucide-react";
-import Navbar from "../../components/Navbar";
-import Sidebar from "./sidebar";
+
 import ZenithImage from "../../images/zenith.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -14,7 +13,7 @@ const initialFormData = {
     email: "",
     roleId: "",
 };
-
+import { PARTNER_DASHBOARD_ROUTE , PREFERENCES_ROUTE } from "../../Routes";
 const PartnerTeamSettings = () => {
     const [showModal, setShowModal] = useState(false);
     const [showGuestModal, setShowGuestModal] = useState(false);
@@ -109,8 +108,8 @@ const PartnerTeamSettings = () => {
 
     return (
         <>
-            <Navbar />
-            <div className="flex">
+             
+            
             <MainContent>
                     {/* Modal for inviting new member */}
                     {showModal && (
@@ -250,7 +249,7 @@ const PartnerTeamSettings = () => {
                                 Profile
                             </Link>
                             <Link
-                                to="/partner-dashboard/preferences"
+                                to={`${PARTNER_DASHBOARD_ROUTE }${PREFERENCES_ROUTE}`}
                                 className="px-2 py-1 border-y border-gray-300 text-body1"
                             >
                                 Preferences
@@ -429,8 +428,8 @@ const PartnerTeamSettings = () => {
                             </div>
                         </div>
                     </div>
-                    </MainContent>
-            </div>
+            </MainContent>
+            
         </>
     );
 };

@@ -1,12 +1,12 @@
 import { createContext, useContext, useState } from "react";
 
-const PartnerDataContext = createContext();
+const TransactionDataContext = createContext();
 
-export const usePartnerData = () => {
-    return useContext(PartnerDataContext);
+export const useTransactionData = () => {
+    return useContext(TransactionDataContext);
 };
 
-export const PartnerDataProvider = ({ children }) => {
+export const TransactionDataProvider = ({ children }) => {
     const [tableData, setTableData] = useState([]);
     const [totalTransactions, setTotalTransactions] = useState(0);
 
@@ -18,8 +18,8 @@ export const PartnerDataProvider = ({ children }) => {
     };
 
     return (
-        <PartnerDataContext.Provider value={value}>
+        <TransactionDataContext.Provider value={value}>
             {children}
-        </PartnerDataContext.Provider>
+        </TransactionDataContext.Provider>
     );
 };

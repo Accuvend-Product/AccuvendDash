@@ -1,6 +1,9 @@
 import PHEDImage from '../../images/phed.png';
 
-const DetailsCard = () => {
+const DetailsCard = ({transaction}) => {
+
+    
+
     return (
         <div className="rounded-xl border border-gray-300 w-[60%] mt-8 h-fit">
             {/* head section */}
@@ -37,7 +40,7 @@ const DetailsCard = () => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Status</p>
-                        <p className="px-2 py-2.5 text-sm bg-[#CFFFB9] text-secondary">success</p>
+                        <p className={`px-2 py-2.5 text-sm bg-[#CFFFB9] text-secondary ${statusClass}`}>success</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">

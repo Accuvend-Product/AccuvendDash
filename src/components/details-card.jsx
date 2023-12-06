@@ -1,7 +1,7 @@
-import PHEDImage from '../../images/phed.png';
+import PHEDImage from '../images/phed.png';
 import PropTypes from 'prop-types';
 
-const PartnerDetailsCard = ({transaction}) => {
+const DetailsCard = ({transaction}) => {
 
         const {
           transactionTimestamp,
@@ -11,15 +11,32 @@ const PartnerDetailsCard = ({transaction}) => {
           disco,
           powerUnit,
           user,
-        } = transaction;    return (
-        <div className="rounded-xl border border-gray-300 w-[60%] mt-8 h-fit">
+        } = transaction;   
+        let statusClass; 
+        switch (transaction?.status.toLowerCase()) {
+            case "complete":
+                statusClass =
+                    "bg-green-100 text-green-800 font-bold py-2 px-3  text-xs";
+                break;
+            case "failed":
+                statusClass = "bg-red-100 text-red-800 font-bold py-2 px-3  text-xs";
+                break;
+            case "pending":
+                statusClass =
+                    "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
+                break;
+            default:
+                statusClass = "bg-black text-white font-bold py-2 px-3  text-xs";
+        }
+        return (
+        <div className="rounded-xl border border-gray-300 w-[60%] mt-8">
             {/* head section */}
             <div className="flex flex-col">
                 <div className="flex items-center justify-between bg-[#F7F7F7] py-4 px-8">
                     <p className="font-bold">Details</p>
                 </div>
                 {/* Details rows */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 px-3">
                     <div className="flex justify-between mt-2 py-2 px-8">
                         <p className="font-bold">Transaction Date</p>
                         <p className="text-gray-500">{transactionTimestamp}</p>
@@ -47,7 +64,7 @@ const PartnerDetailsCard = ({transaction}) => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Status</p>
-                        <p className="px-2 py-2.5 text-sm bg-[#CFFFB9] text-secondary">{status}</p>
+                        <p className={`px-2 py-2.5 text-sm  ${statusClass}`}>{status}</p>
                     </div>
                     <hr />
                     {/* <div className="flex justify-between  py-2 px-8">
@@ -76,7 +93,7 @@ const PartnerDetailsCard = ({transaction}) => {
     );
 };
 
-PartnerDetailsCard.propTypes = {
+DetailsCard.propTypes = {
   transaction: PropTypes.shape({
     transactionTimestamp: PropTypes.string,
     amount: PropTypes.string,
@@ -97,4 +114,4 @@ PartnerDetailsCard.propTypes = {
   }),
 };
 
-export default PartnerDetailsCard;
+export default DetailsCard;

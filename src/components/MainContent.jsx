@@ -1,13 +1,18 @@
-import Sidebar from '../pages/partner/sidebar'
+import Sidebar from './sidebar'
 import React from 'react'
+import Navbar from './Navbar'
 
-const MainContent = ({children}) => {
+const MainContent = ({children , sideBartype}) => {
   return (
     <>
-     <Sidebar/>
-      <div className='ml-[300px] px-8 sm:px-10 md:px-12 flex-1 pb-10'>
-        {children}
+      <Navbar/>
+      <div className='flex'>
+      <Sidebar sideBartype={sideBartype} />
+            <div className='ml-[260px] px-8 sm:px-10 md:px-12 flex-1 pb-10'>
+              {children}
+            </div>
       </div>
+     
     </>
     
   )
