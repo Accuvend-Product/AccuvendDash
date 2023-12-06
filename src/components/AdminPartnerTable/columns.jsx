@@ -1,5 +1,5 @@
 import { Check, CreditCard, Hash, PlayCircle } from "lucide-react";
-import Replay from "../icons/Replay";
+import Replay from "../icons/replay";
 export const columns = [
   {
     accessorKey: "partnerImage",
