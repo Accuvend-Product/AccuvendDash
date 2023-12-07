@@ -1,47 +1,24 @@
 /* eslint-disable no-unused-vars */
 
 import { TransactionTable } from "../../components/table/table";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useTransactionData } from "../../contexts/transaction-context";
 import MainContent from "../../components/MainContent";
+import { useGetTransactions } from "../../api/Transaction";
 
 const CustomerDashboard = () => {
 
-    
-    
-
-    const { isLoading , data: tableData } = useQuery({
-        queryKey: ["transactions"],
-        queryFn: async () => {
-            const response = await axios.get(`${BASE_URL}transaction`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-
-            const transformedData = response.data.data.transactions.map(
-                (transaction) => ({
-                    image: transaction.powerUnit?.discoLogo ? transaction.powerUnit?.discoLogo : "https://res.cloudinary.com/richiepersonaldev/image/upload/v1699947957/dpijlhj08ard76zao2uk.jpg",
-                    disco: transaction.disco ?? "TEST",
-                    "meter number": transaction.meter.meterNumber,
-                    "customer name": transaction.user.name,
-                    "transaction reference": {id: transaction.id, bankRefId: transaction.bankRefId},
-                    "transaction date": transaction.transactionTimestamp,
-                    amount: `₦${transaction.amount}`,
-                    status: transaction.status.toLowerCase(),
-                    selection: transaction.partnerId ?? "TESTID",
-                })
-            );
-
-            // setTableData(transformedData);
-            // setPartnerTableData(transformedData);
-            return transformedData;
-        },
-    });
-
+    const {
+        pagination,
+        filters, 
+        setFilters, 
+        isLoading,
+        tableData, 
+        setPagination
+    } = useGetTransactions()
     return (
         <>
         <MainContent sideBartype='customer-support'>
@@ -63,7 +40,8 @@ const CustomerDashboard = () => {
                 tableData && (
                     <>
                         {/* Render your cards here */}
-                        <TransactionTable  tableData={tableData} />
+                        <TransactionTable filter={filters}
+                setFilter={setFilters} tableData={tableData} />
                     </>
                 )
             )}

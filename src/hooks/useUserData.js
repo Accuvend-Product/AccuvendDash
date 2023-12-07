@@ -9,6 +9,7 @@ const useUserData = (BASE_URL) => {
 
     useEffect(() => {
         const fetchUserData = async () => {
+            console.log("here")
             setIsUserDataLoading(true);
             try {
                 const token = localStorage.getItem('token');

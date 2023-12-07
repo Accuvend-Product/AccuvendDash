@@ -26,18 +26,25 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { add, addDays } from "date-fns";
+import { DateFilter , StatusFilter , DiscoFilter } from "./tableFilters";
 
-export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
+export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTable = false , setFilter = (item) => null , setPagination = () => null , pagination = {} , filter ={} }) => {
     const [data, setData] = useState(tableData);
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([]);
     const [filtering, setFiltering] = useState("");
-    const [activeFilter, setActiveFilter] = useState("DISCO");
-    const [activeStatusFilter, setActiveStatusFilter] = useState(null);
+    const [activeFilter, setActiveFilter] = useState(null);
+    
+
+    // const [activeStatusFilter, setActiveStatusFilter] = useState(null);
+    // const [activeDiscoFilter, setActiveDiscoFilter] = useState(null);
     const [isDateRangeVisible, setIsDateRangeVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    const dropdownRef = useRef(null);
+    const dropdownRefStatus = useRef(null);
+    const dropdownRefDisco = useRef(null);
+
+
 
     const pageSize = 8;
 
@@ -100,20 +107,52 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
 
     const handleStatusSelect = (status) => {
         setActiveFilter("STATUS");
-        setActiveStatusFilter(status);
+        setFilter({
+            ...filter,
+            status
+        })
+        //setActiveStatusFilter(status);
+
+        // Apply the filter logic here based on the selected filter
+        // let newFilters = [
+        //     {
+        //         id: "status",
+        //         value: status,
+        //     },
+        // ];
+
+        
+
+        //removed to enable api filtering
+        // table.setColumnFilters(newFilters);
+
+        // // Reset currentPage to 1 whenever filtering is applied
+        // setCurrentPage(1);
+        // Optionally, you can also close the dropdown after selecting a status
+        setActiveFilter(null);
+    };
+
+    const handleDiscoSelect = (disco) => {
+        setActiveFilter("DISCO");
+        setFilter({
+            ...filter,
+            disco
+        })
+        // setActiveDiscoFilter(disco)
 
         // Apply the filter logic here based on the selected filter
         let newFilters = [
             {
-                id: "status",
-                value: status,
+                id: "disco",
+                value: disco,
             },
         ];
 
-        table.setColumnFilters(newFilters);
+        //removed to enable api filtering
+        // table.setColumnFilters(newFilters);
 
-        // Reset currentPage to 1 whenever filtering is applied
-        setCurrentPage(1);
+        // // Reset currentPage to 1 whenever filtering is applied
+        // setCurrentPage(1);
         // Optionally, you can also close the dropdown after selecting a status
         setActiveFilter(null);
     };
@@ -122,6 +161,8 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
     const handleDateSelect = (selectedDate) => {
         const formattedSelectedDate = formattedDate(selectedDate.toISOString());
         console.log("Selected Date:", selectedDate);
+
+        // setSelectedDate(selectedDate)
 
         console.log(formattedSelectedDate);
 
@@ -135,54 +176,34 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
             },
         ];
 
-        table.setColumnFilters(newFilters);
+        //removed to enable api filtering
+        // table.setColumnFilters(newFilters);
 
-        // Reset currentPage to 1 whenever filtering is applied
-        setCurrentPage(1);
+        // // Reset currentPage to 1 whenever filtering is applied
+        // setCurrentPage(1);
     };
 
     //  handle click outside
-    const handleClickOutside = (event) => {
-        if (
-            isDateRangeVisible &&
-            dropdownRef.current &&
-            !dropdownRef.current.contains(event.target) &&
-            !event.target.classList.contains("rdrDateRangeWrapper")
-        ) {
-            setIsDateRangeVisible(false);
-        }
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setActiveFilter(null);
-        }
-    };
+    
+
+
+    
 
     const goToPage = (pageNumber) => {
         table.setPageIndex(pageNumber - 1); // Subtract 1 since pageIndex is zero-based
         setCurrentPage(pageNumber);
     };
 
-    useEffect(() => {
-        document.addEventListener("click", handleClickOutside);
+    
 
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-    }, []);
+   
 
     return (
         <div className="">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex space-x-4 items-center">
                     <p className="text-body1 font-semibold">Filter by</p>
-                    { !isPartnerAdminPage && <button
-                        onClick={() => handleFilterClick("DISCO")}
-                        className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${activeFilter === "DISCO"
-                                ? "bg-primary text-white font-semibold"
-                                : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
-                            }`}
-                    >
-                        DISCO
-                    </button>}
+                    <DiscoFilter handleDiscoSelect={handleDiscoSelect}/>
                     <div className="relative">
                         <div className="relative inline-block">
                             <button
@@ -214,49 +235,10 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
                             )}
                         </div>
                     </div>
-                    <div className="relative">
-                        <div className="relative inline-block" ref={dropdownRef}>
-                            <button
-                                type="button"
-                                onClick={() => handleFilterClick("STATUS")}
-                                className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${activeFilter === "STATUS"
-                                        ? "bg-primary text-white font-semibold"
-                                        : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
-                                    }`}
-                            >
-                                STATUS
-                            </button>
-                            {activeFilter === "STATUS" && (
-                                <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
-                                    <button
-                                        type="button"
-                                        onClick={() => handleStatusSelect("Pending")}
-                                        className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${activeStatusFilter === "Pending" ? "bg-gray-100" : ""
-                                            }`}
-                                    >
-                                        Pending
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleStatusSelect("Failed")}
-                                        className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${activeStatusFilter === "Failed" ? "bg-gray-100" : ""
-                                            }`}
-                                    >
-                                        Failed
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleStatusSelect("Complete")}
-                                        className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${activeStatusFilter === "Completed" ? "bg-gray-100" : ""
-                                            }`}
-                                    >
-                                        Completed
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    <StatusFilter handleStatusSelect={handleStatusSelect}/>
                 </div>
+                
+                
 
                 {/* seach area */}
                 <div className="flex items-center bg-[#F7F7F7] p-1 rounded-[8px]">
@@ -276,11 +258,59 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
                 </div>
             </div>
 
+            {/* Active Filters Tags */}
+            {(filter?.disco || selectedDate || filter?.status)&& <div className="flex mb-4 gap-3">
+                <span>Active Filters</span>
+                {filter?.disco && <span id="badge-dismiss-dark" class="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
+                    Disco - {filter?.disco}
+                    <button onClick={() =>{
+                        const _filter = {...filter} 
+                        delete _filter?.disco
+                        setFilter(_filter)
+                    }} type="button" class="inline-flex items-center p-1 ms-2 text-sm text-gray-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 " data-dismiss-target="#badge-dismiss-dark" aria-label="Remove">
+                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Remove badge</span>
+                    </button>
+                </span>}
+                { selectedDate && <span id="badge-dismiss-dark" class="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
+                    Date - {formattedDate(selectedDate.toISOString())}
+                    {/* <button onClick={() => setSelectedDate(null)} type="button" class="inline-flex items-center p-1 ms-2 text-sm text-gray-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 " data-dismiss-target="#badge-dismiss-dark" aria-label="Remove">
+                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Remove badge</span>
+                    </button> */}
+                </span>}
+                {filter?.status && <span id="badge-dismiss-dark" class="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
+                    Status - {filter?.status}
+                    <button onClick={() => {
+                        const _filter = {...filter} 
+                        delete _filter?.status
+                        setFilter(_filter)
+                    }} type="button" class="inline-flex items-center p-1 ms-2 text-sm text-gray-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 " data-dismiss-target="#badge-dismiss-dark" aria-label="Remove">
+                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Remove badge</span>
+                    </button>
+                </span>}
+            </div>}
+
             <table className="min-w-full border-b border-[#F8F7F7]">
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id} className="bg-[#F8F7F7] text-body2">
-                            {headerGroup.headers.map((header, index) => (
+                            {headerGroup.headers.map((header, index) => {
+                                if(!isPartnerTable && header.column.id === "bank reference"){
+                                    return 
+                                }
+                                if(isPartnerTable && header.column.id === "transaction reference"){
+                                    return 
+                                }
+
+                                return (
                                 <th
                                     onClick={header.column.getToggleSortingHandler()}
                                     key={header.id}
@@ -305,7 +335,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
                                         }[header.column.getIsSorted() ?? null]
                                     }
                                 </th>
-                            ))}
+                            )})}
                         </tr>
                     ))}
                 </thead>
@@ -315,19 +345,28 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage}) => {
                             className={`border-b border-[#F8F7F7] hover:bg-blue-50`}
                             key={row.id}
                         >
-                            {row.getVisibleCells().map((cell) => (
-                                <td
-                                    key={cell.id}
-                                    className={`py-3 px-4 text-sm ${cell.column.id === "status" ? "text-center" : "text-left"
-                                        }`}
-                                >
-                                    <Link
-                                        to={`/transaction/details/${tableData[cell.row.index]["transaction reference"]["id"]}`}
+                            {row.getVisibleCells().map((cell) => {
+                                if(!isPartnerTable && cell.column.id === "bank reference"){
+                                    return 
+                                }
+                                if(isPartnerTable && cell.column.id === "transaction reference"){
+                                    return 
+                                }
+
+                                return(
+                                    <td
+                                        key={cell.id}
+                                        className={`py-3 px-4 text-sm ${cell.column.id === "status" ? "text-center" : "text-left"
+                                            }`}
                                     >
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </Link>
-                                </td>
-                            ))}
+                                        <Link
+                                            to={`/transaction/details/${tableData[cell.row.index]["transaction reference"]["id"]}`}
+                                        >
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </Link>
+                                    </td>
+                                )
+                            })}
                         </tr>
                     ))}
                 </tbody>

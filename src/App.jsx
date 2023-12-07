@@ -22,10 +22,11 @@ import CustomerCareReplays from "./pages/customercare/CustomerCareReplays";
 import PartnersOverView from "./pages/admin/PartnersOverView";
 import AdminDashboard from "./pages/admin/dashboard";
 import CustomerDashboard from "./pages/customercare/dashboard";
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 import { ADMIN, CUSTOMER, CUSTOMERCARE, PARTNER } from "./Constants";
 import PartnerTransctions from "./pages/admin/partner-transactions";
 import CustomerTransactionDetails from "./pages/customer/customer-transaction-details";
+import ResolutionCenter from "./pages/partner/resolution-center";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -43,6 +44,8 @@ const SelectRoutes = () => {
             <Route path="/partner-dashboard/profile" element={<PartnerDashboardProfile />} />
             <Route path="/partner-dashboard/team-settings" element={<PartnerTeamSettings />} />
             <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
+            <Route path="/partner-dashboard/resolution-center" element={<ResolutionCenter/>} /> 
+
         </Routes> ;
     }else if(PORTAL_TYPE === CUSTOMERCARE){
         return <Routes>

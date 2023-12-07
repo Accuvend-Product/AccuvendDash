@@ -7,38 +7,20 @@ import axios from "axios";
 import { useTransactionData } from "../../contexts/transaction-context";
 import MainContent from "../../components/MainContent";
 import { ADMIN_ROUTE, PARTNERS_ROUTE } from "../../Routes";
+import { useGetTransactions } from "../../api/Transaction";
 
 const PartnerTransctions = () => {
 
 
 
-    const { isLoading , data : tableData } = useQuery({
-        queryKey: ["transactions"],
-        queryFn: async () => {
-            const response = await axios.get(`${BASE_URL}transaction`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-
-            const transformedData = response.data.data.transactions.map(
-                (transaction) => ({
-                    image: transaction.powerUnit?.discoLogo ? transaction.powerUnit?.discoLogo : "https://res.cloudinary.com/richiepersonaldev/image/upload/v1699947957/dpijlhj08ard76zao2uk.jpg",
-                    disco: transaction.disco ?? "TEST",
-                    "meter number": transaction.meter.meterNumber,
-                    "customer name": transaction.user.name,
-                    "transaction reference": {id: transaction.id, bankRefId: transaction.bankRefId},
-                    "transaction date": transaction.transactionTimestamp,
-                    amount: `₦${transaction.amount}`,
-                    status: transaction.status.toLowerCase(),
-                    selection: transaction.partnerId ?? "TESTID",
-                })
-            );
-
-            
-            return transformedData;
-        },
-    });
+    const {
+        pagination,
+        filters, 
+        setFilters, 
+        isLoading,
+        tableData, 
+        setPagination
+      } = useGetTransactions()
 
     const { isLoading: totalTransactionsLoading, data: totalTransactionData  } = useQuery({
         queryKey: ["transactions", "total"],
@@ -99,7 +81,10 @@ const PartnerTransctions = () => {
                 tableData && (
                     <>
                         {/* Render your cards here */}
-                        <AdminTransactionTable tableData={tableData} isPartnerAdminPage={true} />
+                        <AdminTransactionTable filter={filters}
+                            setFilter={setFilters}
+                            tableData={tableData}
+                            isPartnerAdminPage={true} />
                     </>
                 )
             )}

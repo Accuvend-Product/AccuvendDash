@@ -37,7 +37,7 @@ const ParnterLinks = [
   {
     name: "RESOLUTION CENTER",
     icon: <HelpCircle className="h-5 w-5 mr-2" />,
-    href: "/resolution-center",
+    href: "/partner-dashboard/resolution-center",
     active: false,
   },
   {
