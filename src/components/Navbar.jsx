@@ -79,14 +79,14 @@ const NotificationDropDown = ({ NotificationData }) => {
               </> : <></>}
               {!isError && !isLoading && notificationData && notificationData?.length > 0  ? <>
               {
-                [1,2,3,4,5,6,7,8,9]?.map(()=><div
+                notificationData?.map((item)=><div
                 href="#"
                 className="flex flex-col gap-y-1 rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                 role="menuitem"
               >
-                <p className="text-black text-sm">Heading</p>
-                <p className="text-xs truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur leo nibh, volutpat nec justo sed, malesuada ullamcorper massa. Quisque elementum.</p>
-                <p className="text-xs text-end">11/10/2023 5:00pm</p>
+                <p className="text-black text-sm">{item?.heading}</p>
+                <p className="text-xs truncate">{item?.message}</p>
+                <p className="text-xs text-end">{new Date(item?.createdAt)?.toLocaleString()}</p>
               </div>
                 )
               }

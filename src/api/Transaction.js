@@ -87,10 +87,12 @@ export const useGetTransactions = () => {
       const [filters, setFilters] = useState({});
       const [isLoading, setIsLoading] = useState(false);
       const [tableData, setTableData] = useState([]);
+      const [isError , setIsError] = useState(false)
     
       const getTransactions = async () => {
         
         setIsLoading(true)
+        setIsError(false)
         try {
             const response = await axios.get(
                 `${BASE_URL}transaction?${new URLSearchParams(
@@ -125,7 +127,8 @@ export const useGetTransactions = () => {
               );
               setTableData(transformedData);
         } catch (error) {
-            
+            setIsError(true)
+            console.log(error)
         }
         
         setIsLoading(false)
@@ -171,6 +174,7 @@ export const useGetTransactions = () => {
         setFilters, 
         isLoading,
         tableData, 
-        setPagination
+        setPagination,
+        isError,
       }
 }
