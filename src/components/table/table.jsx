@@ -297,80 +297,83 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                     </button>
                 </span>}
             </div>}
-
-            <table className="min-w-full border-b border-[#F8F7F7]">
-                <thead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id} className="bg-[#F8F7F7] text-body2">
-                            {headerGroup.headers.map((header, index) => {
-                                if(!isPartnerTable && header.column.id === "bank reference"){
-                                    return 
-                                }
-                                if(isPartnerTable && header.column.id === "transaction reference"){
-                                    return 
-                                }
-
-                                return (
-                                <th
-                                    onClick={header.column.getToggleSortingHandler()}
-                                    key={header.id}
-                                    className={`py-5 px-2 font-bold border-b border-[#F8F7F7] ${index === 0 ? "rounded-tl-lg" : ""
-                                        } ${index === headerGroup.headers.length - 1
-                                            ? "rounded-tr-lg"
-                                            : ""
-                                        } text-left`}
-                                >
-                                    {flexRender(
-                                        header.column.columnDef.header,
-                                        header.getContext()
-                                    )}
-                                    {
-                                        {
-                                            asc: (
-                                                <ArrowUp className="inline-flex w-4 h-4 ml-1 items-center" />
-                                            ),
-                                            desc: (
-                                                <ArrowDown className="inline-flex w-4 h-4 ml-1 items-center" />
-                                            ),
-                                        }[header.column.getIsSorted() ?? null]
+            
+            <div className="min-h-[40vh]">
+                <table className="min-w-full border-b border-[#F8F7F7]">
+                    <thead>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <tr key={headerGroup.id} className="bg-[#F8F7F7] text-body2">
+                                {headerGroup.headers.map((header, index) => {
+                                    if(!isPartnerTable && header.column.id === "bank reference"){
+                                        return 
                                     }
-                                </th>
-                            )})}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr
-                            className={`border-b border-[#F8F7F7] hover:bg-blue-50`}
-                            key={row.id}
-                        >
-                            {row.getVisibleCells().map((cell) => {
-                                if(!isPartnerTable && cell.column.id === "bank reference"){
-                                    return 
-                                }
-                                if(isPartnerTable && cell.column.id === "transaction reference"){
-                                    return 
-                                }
+                                    if(isPartnerTable && header.column.id === "transaction reference"){
+                                        return 
+                                    }
 
-                                return(
-                                    <td
-                                        key={cell.id}
-                                        className={`py-3 px-4 text-sm ${cell.column.id === "status" ? "text-center" : "text-left"
-                                            }`}
+                                    return (
+                                    <th
+                                        onClick={header.column.getToggleSortingHandler()}
+                                        key={header.id}
+                                        className={`py-3 px-2 font-bold border-b border-[#F8F7F7] ${index === 0 ? "rounded-tl-lg" : ""
+                                            } ${index === headerGroup.headers.length - 1
+                                                ? "rounded-tr-lg"
+                                                : ""
+                                            } text-left`}
                                     >
-                                        <Link
-                                            to={`/transaction/details/${tableData[cell.row.index]["transaction reference"]["id"]}`}
+                                        {flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
+                                        {
+                                            {
+                                                asc: (
+                                                    <ArrowUp className="inline-flex w-4 h-4 ml-1 items-center" />
+                                                ),
+                                                desc: (
+                                                    <ArrowDown className="inline-flex w-4 h-4 ml-1 items-center" />
+                                                ),
+                                            }[header.column.getIsSorted() ?? null]
+                                        }
+                                    </th>
+                                )})}
+                            </tr>
+                        ))}
+                    </thead>
+                    <tbody>
+                        {table.getRowModel().rows.map((row) => (
+                            <tr
+                                className={`border-b border-[#F8F7F7] hover:bg-blue-50`}
+                                key={row.id}
+                            >
+                                {row.getVisibleCells().map((cell) => {
+                                    if(!isPartnerTable && cell.column.id === "bank reference"){
+                                        return 
+                                    }
+                                    if(isPartnerTable && cell.column.id === "transaction reference"){
+                                        return 
+                                    }
+
+                                    return(
+                                        <td
+                                            key={cell.id}
+                                            className={`py-1 px-4 text-sm ${cell.column.id === "status" ? "text-center" : "text-left"
+                                                }`}
                                         >
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </Link>
-                                    </td>
-                                )
-                            })}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                                            <Link
+                                                to={`/transaction/details/${tableData[cell.row.index]["transaction reference"]}`}
+                                            >
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </Link>
+                                        </td>
+                                    )
+                                })}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            
 
             {/* Display "No data to show" message when table is empty */}
             {table.getRowModel().rows.length === 0 && (
