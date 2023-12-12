@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-export const StatusFilter = ({ handleStatusSelect }) => {
+export const StatusFilter = ({ handleStatusSelect ,  isActive = false }) => {
   const [show, setShow] = useState(false);
   const DropDownMenuRef = useRef(null);
   const handleClickOutside = (e) => {
@@ -21,7 +21,7 @@ export const StatusFilter = ({ handleStatusSelect }) => {
             type="button"
             onClick={() => setShow(true)}
             className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
-              show
+              show ||  isActive 
                 ? "bg-primary text-white font-semibold"
                 : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
             }`}
@@ -61,7 +61,7 @@ export const StatusFilter = ({ handleStatusSelect }) => {
   );
 };
 
-export const DateFilter = ({ handleDateSelect }) => {
+export const DateFilter = ({ handleDateSelect ,  isActive = false }) => {
   const [show, setShow] = useState(false);
   const DropDownMenuRef = useRef(null);
   const handleClickOutside = (e) => {
@@ -75,7 +75,7 @@ export const DateFilter = ({ handleDateSelect }) => {
   }, []);
 };
 
-export const DiscoFilter = ({ handleDiscoSelect, isPartnerAdminPage }) => {
+export const DiscoFilter = ({ handleDiscoSelect, isPartnerAdminPage ,  isActive = false }) => {
   const [show, setShow] = useState(false);
   const DropDownMenuRef = useRef(null);
   const handleClickOutside = (e) => {
@@ -97,7 +97,7 @@ export const DiscoFilter = ({ handleDiscoSelect, isPartnerAdminPage }) => {
               type="button"
               onClick={() => setShow(true)}
               className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
-                show
+                show || isActive
                   ? "bg-primary text-white font-semibold"
                   : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
               }`}

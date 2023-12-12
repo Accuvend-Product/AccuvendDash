@@ -103,18 +103,18 @@ export const columns = [
   },
   {
     accessorKey: "customer name",
-    header: "Customer Name",
+    header: "Customer",
     cell: (props) => <p>{props.getValue()}</p>,
   },
   {
     accessorKey: "meter number",
-    header: "Meter number",
+    header: "Meter",
     cell: (props) => <p>{props.getValue()}</p>,
   },
 
   {
     accessorKey: "transactionId",
-    header: "Transaction Id",
+    header: "Disco Reference",
     cell: (props) => <p> {props.getValue()}</p>,
   },
   {

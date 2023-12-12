@@ -203,7 +203,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
             <div className="flex items-center justify-between mb-4">
                 <div className="flex space-x-4 items-center">
                     <p className="text-body1 font-semibold">Filter by</p>
-                    <DiscoFilter handleDiscoSelect={handleDiscoSelect}/>
+                    <DiscoFilter isActive={filter?.disco} handleDiscoSelect={handleDiscoSelect}/>
                     <div className="relative">
                         <div className="relative inline-block">
                             <button
@@ -235,7 +235,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                             )}
                         </div>
                     </div>
-                    <StatusFilter handleStatusSelect={handleStatusSelect}/>
+                    <StatusFilter isActive={filter?.status} handleStatusSelect={handleStatusSelect}/>
                 </div>
                 
                 
