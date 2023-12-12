@@ -39,11 +39,13 @@ const NotificationDropDown = ({ NotificationData }) => {
           <button
             type="button"
             onClick={() => setShow((prevState) => !prevState)}
-            className="relative inline-flex items-center p-3 text-sm font-medium text-center"
+            className="relative inline-flex items-center p-2 text-sm font-medium text-center"
           >
             <BellIcon className="h-6 w-6" />
 
-            <div className="absolute inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-2 end-2 "></div>
+            <div className={`absolute inline-flex items-center justify-center w-5 h-5 ${notificationData && notificationData?.length > 10 ? 'text-[6.5px]' : 'text-[7.5px]'} font-bold text-white bg-red-500 border-2 border-white rounded-full top-0.5 end-0.5 `}>
+             {notificationData ? (notificationData?.length > 99 ? '99+' : notificationData?.length ) : '0'}
+            </div>
           </button>
         </div>
 
@@ -143,17 +145,17 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
           <button
             type="button"
             onClick={() => setShow((prevState) => !prevState)}
-            className="relative inline-flex items-center p-3 text-sm font-medium text-center"
+            className="relative inline-flex items-center p-2 text-sm font-medium text-center"
           >
             {uploadedImageLink ? (
               <img
                 src={uploadedImageLink}
                 alt="profile picture"
-                className="w-8 h-8 rounded-full ring-2 ring-gray-300 p-1"
+                className="w-6 h-6 rounded-full ring-2 ring-gray-300 p-1"
               />
             ) : userEmail && userEmail?.length > 0 ? (<>
           
-              <div className="relative ring-2 ring-gray-300 p-1 inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full ">
+              <div className="relative ring-2 ring-gray-300 p-1 text-xs inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-100 rounded-full ">
                 <span className="font-medium ">
                   {userEmail[0].toUpperCase()}
                 </span>
@@ -166,7 +168,7 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
             ) : (
               <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full ring-2 ring-gray-300 p-1">
                 <svg
-                  className="absolute w-12 h-12 text-gray-400 -left-1"
+                  className="absolute w-6 h-6 text-gray-400 -left-1"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -267,11 +269,14 @@ const Navbar = () => {
   const NotificationData = useNotificationData(BASE_URL);
   const userEmail = localStorage.getItem("userEmail");
   return (
-    <div className="text-body1 border-b border-body1/80 sticky top-0 z-40">
-      <div className="py-3 px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
-        <a href="/dashboard" className="flex items-center gap-1.5">
-          <img src={Logo} className="block h-4 aspect-auto" />
-          <div className="text-sm">
+    <div className="text-body1 border-b border-body1/80 sticky top-0 z-20">
+      <div className="py-2.5 px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
+        <a href="/dashboard" className="flex items-center">
+          <div className=" h-full py-1.5 pr-2 mr-2 w-full border-r-2 border-black">
+            <img src={Logo} className="block h-[0.825rem] xl-h-4 aspect-auto" />
+          </div>
+          
+          <div className="text text-black">
             {PORTAL_TYPE === PARTNER ? "Partner" : ""}
             {PORTAL_TYPE === CUSTOMERCARE ? "Customer Care" : ""}
             {PORTAL_TYPE === ADMIN ? "Admin" : ""}

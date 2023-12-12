@@ -1,52 +1,18 @@
 export const columns = [
     
+    
     {
-        accessorKey: "disco",
-        header: "Disco",
-        cell: (props) => {
-            const disco = props.getValue();
-            const imageUrl = props.row.original.image;
-            return (
-                <div className="flex items-center">
-                    <img
-                        src={imageUrl}
-                        alt={`${disco} logo`}
-                        className="mr-2"
-                        style={{
-                            width: "50px",
-                            height: "50px",
-                            objectFit: "contain", // Preserve aspect ratio
-                        }}
-                    />
-                    <p className="">{disco}</p>
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "meter number",
-        header: "Meter",
+        accessorKey: "title",
+        header: "Title",
         cell: (props) => <p>{props.getValue()}</p>,
     },
     {
-        accessorKey: "customer name",
-        header: "Customer",
+        accessorKey: "category",
+        header: "Category",
         cell: (props) => <p>{props.getValue()}</p>,
     },
     {
-        accessorKey: "bank reference",
-        header: "Bank Reference",
-        cell: (props) => <p>{
-            props.getValue() || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxx"}</p>,
-    },
-    {
-        accessorKey: "transaction reference",
-        header: "Disco Reference",
-        cell: (props) => <p>{
-            props.getValue() || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxx"}</p>,
-    },
-    {
-        accessorKey: "transaction date",
+        accessorKey: "created_date",
         header: "Date",
         cell: (props) => {
             const inputDate = props.getValue();
@@ -66,12 +32,13 @@ export const columns = [
             return <p>{formattedDate}</p>;
         },
     },
+   
+
     {
-        accessorKey: "amount",
-        header: "Amount",
-        cell: (props) => (
-            <p>₦{Number(props.getValue().slice(1,)).toLocaleString()}</p>
-        ),
+        accessorKey: "message",
+        header: "Message",
+        cell: (props) => <p>{
+            props.getValue() }</p>,
     },
 
     {
@@ -82,14 +49,14 @@ export const columns = [
             let statusClass;
 
             switch (status) {
-                case "complete":
+                case "OPEN":
                     statusClass =
                         "bg-green-100 text-green-800 font-bold py-2 px-3  text-xs";
                     break;
-                case "failed":
+                case "CLOSED":
                     statusClass = "bg-red-100 text-red-800 font-bold py-2 px-3  text-xs";
                     break;
-                case "pending":
+                case "PENDING":
                     statusClass =
                         "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
                     break;

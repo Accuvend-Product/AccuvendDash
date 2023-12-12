@@ -59,7 +59,7 @@ const DetailsCard = ({transaction}) => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Amount</p>
-                        <p className="text-gray-500">{amount}</p>
+                        <p className="text-gray-500">₦ {amount}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
@@ -82,7 +82,7 @@ const DetailsCard = ({transaction}) => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Token generated</p>
-                        <p className="text-gray-500">{powerUnit?.token || 'XXXX'}</p>
+                        <p className="text-gray-500 font-bold">{powerUnit?.token || 'XXXX'}</p>
                     </div>
                     <hr />
                     <div className="h-10" />

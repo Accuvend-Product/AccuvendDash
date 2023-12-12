@@ -6,6 +6,7 @@ const useUserData = (BASE_URL) => {
     const [uploadedImageLink, setUploadedImageLink] = useState('');
     const [isUserDataLoading, setIsUserDataLoading] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState(0);
+    const [entityId , setEntityId] = useState('')
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -34,6 +35,9 @@ const useUserData = (BASE_URL) => {
                     if (userData.profilePicture) {
                         setUploadedImageLink(userData.profilePicture);
                     }
+                    if(userData?.entityId){
+                        setEntityId(userData?.entityId)
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -45,7 +49,7 @@ const useUserData = (BASE_URL) => {
         fetchUserData();
     }, [BASE_URL]);
 
-    return { email, uploadedImageLink, isUserDataLoading , unreadNotifications};
+    return { entityId, email, uploadedImageLink, isUserDataLoading , unreadNotifications};
 };
 
 export default useUserData;

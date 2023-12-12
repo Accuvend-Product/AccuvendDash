@@ -10,6 +10,7 @@ import PartnerDashboardProfile from "./pages/partner/profile";
 import PartnerTeamSettings from "./pages/partner/team-members-settings";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from "react";
 
 import {
     QueryClient,
@@ -79,6 +80,20 @@ const SelectRoutes = () => {
     }
 }
 function App() {
+
+    useEffect(() => {
+        let title = ''
+        if(PORTAL_TYPE === CUSTOMERCARE){
+            title = 'Customer Care Portal'
+        }else if(PORTAL_TYPE === ADMIN){
+            title = 'Administrator Care Portal'
+        }else if(PORTAL_TYPE === PARTNER) {
+            title = 'Partner Portal'
+        }else{
+            title = 'Accuvend'
+        }
+        document.title = title;
+      }, []);
 
     return (
 

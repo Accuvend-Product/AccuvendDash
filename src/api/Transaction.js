@@ -113,10 +113,6 @@ export const useGetTransactions = () => {
                   disco: transaction.disco ?? "TEST",
                   "meter number": transaction.meter.meterNumber,
                   "customer name": transaction.user.name,
-                //   "transaction reference": {
-                //     id: transaction.id,
-                //     bankRefId: transaction.bankRefId,
-                //   },
                     "transaction reference" : transaction.id,
                     "bank reference": transaction.bankRefId,
                   "transaction date": transaction.transactionTimestamp,
