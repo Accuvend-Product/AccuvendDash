@@ -343,7 +343,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                     <tbody>
                         {table.getRowModel().rows.map((row) => (
                             <tr
-                                className={`border-b border-[#F8F7F7] hover:bg-blue-50`}
+                                className={`border-b border-[#F8F7F7] hover:bg-blue-50 hover:cursor-pointer hover:text-blue-800 hover:underline`}
                                 key={row.id}
                             >
                                 {row.getVisibleCells().map((cell) => {
