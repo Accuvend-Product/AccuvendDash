@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-export const StatusFilter = ({ handleStatusSelect }) => {
+export const StatusFilter = ({ handleStatusSelect , isActive }) => {
   const [show, setShow] = useState(false);
   const DropDownMenuRef = useRef(null);
   const handleClickOutside = (e) => {

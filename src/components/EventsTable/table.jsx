@@ -229,7 +229,7 @@ export const EventTable = ({ tableData }) => {
             {/* card container */}
             <div>
             {table.getRowModel().rows.map((row) => (
-                <div className="my-5 py-5 border-b-2" key={row.id}>
+                <div className="my-5 py-5 px-3 border-b-2 hover:bg-slate-50" key={row.id}>
                     {row.getVisibleCells().map((cell) => cell.column.id !== 'events' &&  (
 
                         <div  className={`flex gap-x-2 ${cell.column.id === "customer name" ? "": "text-sm"}`} key ={cell.id}>
