@@ -7,7 +7,7 @@ import { useModal } from "../../hooks/useModal";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { useGetComplaints } from "../../api/complaints";
+import { useGetComplaints } from "../../api/Complaints.js";
 import { SupportTicketTable } from "../../components/SupportTicketTable/table";
 const ResolutionCenter = () => {
   const { email, isUserDataLoading , entityId } = useUserData(BASE_URL);
