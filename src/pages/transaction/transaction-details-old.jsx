@@ -1,6 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import DetailsCard from "./details-card-old";
-import OrderConfirmation from "./order-confirmation";
+import OrderConfirmation from "./order-confirmation-old";
 import { useNavigate } from "react-router-dom";
 import MainContent from "../../components/MainContent";
 const TransactionDetails = () => {

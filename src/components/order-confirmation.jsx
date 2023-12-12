@@ -1,7 +1,7 @@
 import GreenCheck from "./icons/green-check"
 import RedCheck from "./icons/red-check"
 import PropTypes from "prop-types";
-
+import { CheckCircle2 , XCircle } from 'lucide-react';
 
 const OrderConfirmation = ({transaction}) => {
         const {
@@ -17,14 +17,14 @@ const OrderConfirmation = ({transaction}) => {
         {/* head section */}
         <div className="flex flex-col">
           <div className="flex items-center justify-between bg-[#F7F7F7] py-4 px-8">
-            <p className="font-bold">Order Confirmation</p>
+            <p className="font-bold">Status</p>
           </div>
 
           {/* Order Confirmation rows */}
           <div className="flex flex-col space-y-4 px-8 pt-8 pb-4">
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
               <div className="mt-2">
-                <GreenCheck />
+                <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600" />
               </div>
               <div>
                 <h1 className="font-bold text-lg">Validate Meter</h1>
@@ -35,7 +35,7 @@ const OrderConfirmation = ({transaction}) => {
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
               <div className="mt-2">
-                <GreenCheck />
+                <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600" />
               </div>
               <div>
                 <h1 className="font-bold text-lg">Check if Disco is up</h1>
@@ -44,16 +44,16 @@ const OrderConfirmation = ({transaction}) => {
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
               <div className="mt-2">
-                {amount !== '0' ? <GreenCheck /> : <RedCheck />}
+                {amount !== '0' ? <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600" /> : <XCircle strokeWidth={"2.5px"}  className="text-red-600" />}
               </div>
               <div>
                 <h1 className="font-bold text-lg">Confirm Payment</h1>
-                <p className="text-sm">Amount - N{amount}</p>
+                <p className="text-sm">Amount - ₦{amount}</p>
               </div>
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
               <div className="mt-2">
-                {powerUnit !== null ? <GreenCheck /> : <RedCheck />}
+                {powerUnit !== null ? <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600"  /> : <XCircle strokeWidth={"2.5px"}  className="text-red-600" />}
               </div>
               <div>
                 <h1 className="font-bold text-lg">Generate Token</h1>
@@ -64,11 +64,11 @@ const OrderConfirmation = ({transaction}) => {
             </div>
             <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
               <div className="mt-2">
-                {powerUnit !== null ? <GreenCheck /> : <RedCheck />}
+                {powerUnit !== null ? <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600" /> : <XCircle strokeWidth={"2.5px"}  className="text-red-600" />}
               </div>
               <div>
                 <h1 className="font-bold text-lg">Send Token</h1>
-                <p className="text-sm">{powerUnit !== null ? powerUnit.token : "Token not generated"
+                <p className={`text-sm ${powerUnit !== null ? "font-semibold" : ""}`}>{powerUnit !== null ? powerUnit.token : "Token not generated"
                 }</p>
               </div>
             </div>

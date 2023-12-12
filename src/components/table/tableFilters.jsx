@@ -21,7 +21,7 @@ export const StatusFilter = ({ handleStatusSelect }) => {
             type="button"
             onClick={() => setShow(true)}
             className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
-             show
+              show
                 ? "bg-primary text-white font-semibold"
                 : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
             }`}
@@ -108,16 +108,16 @@ export const DiscoFilter = ({ handleDiscoSelect, isPartnerAdminPage }) => {
               <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10 h-40 overflow-y-scroll">
                 {[
                   { option: "ABUJA", name: "Abuja" },
+                  { option: "BENIN", name: "Benin" },
                   { option: "EKO", name: "Eko" },
-                  { option: "IKEJA", name: "Ikeja" },
+                  { option: "ENUGU", name: "Enugu" },
                   { option: "IBADAN", name: "Ibadan" },
+                  { option: "IKEJA", name: "Ikeja" },
                   { option: "JOS", name: "Jos" },
                   { option: "KADUNA", name: "Kaduna" },
-                  { option: "YOLA", name: "Yola" },
-                  { option: "BENIN", name: "Benin" },
-                  { option: "ENUGU", name: "Enugu" },
                   { option: "KANO", name: "Kano" },
                   { option: "PORTHACOURT", name: "PortHarcourt" },
+                  { option: "YOLA", name: "Yola" },
                 ].map((item) => (
                   <button
                     type="button"
@@ -125,10 +125,10 @@ export const DiscoFilter = ({ handleDiscoSelect, isPartnerAdminPage }) => {
                       handleDiscoSelect(item.option);
                       setShow(false);
                     }}
-                    className={`block w-full text-left px-4 py-2 hover:bg-gray-100 
+                    className={`block w-full text-sm text-left px-4 py-2 hover:bg-gray-100 
                                             `}
                   >
-                    {item.name}
+                    {item.option}
                   </button>
                 ))}
               </div>

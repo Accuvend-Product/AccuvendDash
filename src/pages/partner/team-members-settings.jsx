@@ -275,10 +275,7 @@ const PartnerTeamSettings = () => {
                                         together.
                                     </p>
                                     <div className="flex items-center gap-4">
-                                        <button className="flex items-center gap-2 border text-gray-600 border-gray-400 hover:border-transparent hover:text-white hover:bg-gray-400 w-fit px-2 py-1 rounded-md font-semibold">
-                                            <DownloadCloud className="h-4 w-4" />
-                                            Export CSV
-                                        </button>
+                                        
                                         <button
                                             onClick={() => handleInviteButtonClick()}
                                             className="flex items-center gap-2 bg-secondary border border-secondary text-white w-fit px-3 py-1 rounded-md font-semibold"
@@ -294,9 +291,9 @@ const PartnerTeamSettings = () => {
                                         <table className="table-auto w-full">
                                             <thead>
                                                 <tr className="bg-gray-200">
-                                                    <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Name</th>
-                                                    <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Date Added</th>
-                                                    <th className="px-4 py-2 text-center"  style={{ width: "20%" }}>Role</th>
+                                                    <th className="px-4 py-2 text-left"  >Name</th>
+                                                    <th className="px-4 py-2 text-left"  >Date Added</th>
+                                                    <th className="px-4 py-2 text-left"  >Role</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -350,10 +347,7 @@ const PartnerTeamSettings = () => {
                                         account.
                                     </p>
                                     <div className="flex items-center gap-4">
-                                        <button className="flex items-center gap-2 border text-gray-600 border-gray-400 hover:border-transparent hover:text-white hover:bg-gray-400 w-fit px-2 py-1 rounded-md font-semibold">
-                                            <DownloadCloud className="h-4 w-4" />
-                                            Export CSV
-                                        </button>
+                                        
                                         <button onClick={() => handleInviteGuestButtonClick()} className="flex items-center gap-2 bg-secondary border border-secondary text-white w-fit px-3 py-1 rounded-md font-semibold">
                                             Invite new guest
                                         </button>
@@ -366,9 +360,9 @@ const PartnerTeamSettings = () => {
                                         <table className="table-auto w-full">
                                             <thead>
                                                 <tr className="bg-gray-200">
-                                                    <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Name</th>
-                                                    <th className="px-4 py-2 text-left"  style={{ width: "40%" }}>Date Added</th>
-                                                    <th className="px-4 py-2 text-center"  style={{ width: "20%" }}>Role</th>
+                                                    <th className="px-4 py-2 text-left" >Name</th>
+                                                    <th className="px-4 py-2 text-left" >Date Added</th>
+                                                    <th className="px-4 py-2 text-left" >Role</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
