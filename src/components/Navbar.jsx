@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import { useLogout } from "../hooks/utilityHooks";
 import { LogOutIcon } from "lucide-react";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, REPLAY_ROUTE, TRANSACTION_ROUTE } from "../Routes";
+import { Link } from "react-router-dom";
 
 
 
@@ -108,7 +109,7 @@ const NotificationDropDown = ({ NotificationData }) => {
               
             </div>
             <div className="p-2">
-              <button
+              <Link to="/notifications"
                
                 className={`flex w-full px-4 py-2 text-sm items-center text-blue-700 hover:bg-blue-50 gap-2`}
               >
@@ -116,7 +117,7 @@ const NotificationDropDown = ({ NotificationData }) => {
                 <p className="text-center w-full">
                   See more
                 </p>
-              </button>
+              </Link>
             </div>
           </div>
         )}

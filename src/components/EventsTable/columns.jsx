@@ -11,36 +11,64 @@ export const columns = [
     header: "Events",
     cell: (props) => {
       const events = props.getValue();
+      // const ListOfEvents_old = [
+      //   {title: "Meter Validated", id: 'Validate meter'},
+      //   {title: "Disco up", id: "Disco up"},
+      //   {title:"Payment Confirmed", id:"Payment Confirmed"},
+      //   {title:"Token Generated", id:"Token Generated"},
+      //   {title:"Token Sent", id:"Token Sent"},
+      // ];
       const ListOfEvents = [
-        "Meter Validate",
-        "Disco up",
-        "Payment Confirmed",
-        "Token Generated",
-        "Token Sent",
+        {title: "Meter Validated", eventType: 'VALIDATE_METER'},
+        {title: "Disco up", eventType: "DISCO_UP"},
+        {title:"Payment Confirmed", eventType:"REQUEST_TOKEN"},
+        {title:"Token Generated", eventType:"TOKEN_SENT_GEN" , eventType2 : "TOKEN_SENT" },
+        {title:"Token Sent", eventType:"TOKEN_SENT"},
       ];
 
       const GetIcon = ({eventItem , ...props}) => {
         let  icon = ''
-        switch (eventItem) {
-            case "Meter Validate":
-                icon = <MeterValidated {...props}/>
-                break;
-            case "Disco up":
-                icon = <DiscoUp {...props}/>
-                break;
-            case "Payment Confirmed":
-                icon =<PaymentConfirmed {...props}/>
-                break;
-            case "Token Generated":
-                icon = <TokenGenerated {...props}/>
-                break;
-            case "Token Sent":
-                icon = <Check {...props}/>
-                break;
+        // switch (eventItem?.title) {
+        //     case "Meter Validated":
+        //         icon = <MeterValidated {...props}/>
+        //         break;
+        //     case "Disco up":
+        //         icon = <DiscoUp {...props}/>
+        //         break;
+        //     case "Payment Confirmed":
+        //         icon =<PaymentConfirmed {...props}/>
+        //         break;
+        //     case "Token Generated":
+        //         icon = <TokenGenerated {...props}/>
+        //         break;
+        //     case "Token Sent":
+        //         icon = <Check {...props}/>
+        //         break;
         
-            default:
-                none
-                break;
+        //     default:
+        //         icon = ''
+        //         break;
+        // }
+        switch (eventItem?.eventType) {
+          case "VALIDATE_METER":
+              icon = <MeterValidated {...props}/>
+              break;
+          case "DISCO_UP":
+              icon = <DiscoUp {...props}/>
+              break;
+          case "REQUEST_TOKEN":
+              icon =<PaymentConfirmed {...props}/>
+              break;
+          case "TOKEN_SENT_GEN":
+              icon = <TokenGenerated {...props}/>
+              break;
+          case "TOKEN_SENT":
+              icon = <Check {...props}/>
+              break;
+      
+          default:
+              icon = ''
+              break;
         }
         return icon
       }
@@ -54,20 +82,22 @@ export const columns = [
 
                 const status_color = {
                     "PENDING" : "bg-gray-200",
-                    "COMPLETED" : "bg-green-500",
+                    "COMPLETE" : "bg-green-500",
                     "FAILED" : "bg-red-500",
                 }
+                let currentStatus = events.filter((item)=>item?.eventType == eventItem?.eventType || ( item?.eventType == eventItem?.eventType2))[0]?.status || "PENDING"
 
-                let currentStatus = events.filter((item)=> item?.eventText == eventItem)[0]?.status ? "" : "PENDING"
-                currentStatus =  currentStatus === "PENDING" ? currentStatus : currentStatus[0]?.status
-                let nextIndex = index + 1
-                let nextStatus = events.filter((item)=> item?.eventText == ListOfEvents[nextIndex])[0] ? "" : "PENDING"
-                nextStatus = nextStatus === "PENDING" ? nextStatus : nextStatus[0]?.status
+                // currentStatus =  currentStatus === "PENDING" ? currentStatus : currentStatus[0]?.status
+                // let nextIndex = index + 1
+                // let nextStatus = events.filter((item)=> item?.eventText == ListOfEvents[nextIndex])[0] ? "" : "PENDING"
+                // nextStatus = nextStatus === "PENDING" ? nextStatus : nextStatus[0]?.status
 
+                
+                
               return (
                 <li className="relative w-full">
                   <div className="flex items-center">
-                    { currentStatus === "FAILED" ? <>
+                    {/* {  currentStatus === "FAILED" ? <>
                     <div class="flex items-center">
                         <div class="z-10 flex items-center justify-center w-12 h-12 bg-red-200 rounded-full ring-0 ring-white  sm:ring-8  shrink-0">
                             <div class="flex items-center justify-center w-8 h-8 rounded-full bg-red-300 ">
@@ -77,13 +107,14 @@ export const columns = [
                             </div>
                         </div>
                     </div>
-                    </> : <div className={`z-10 flex items-center justify-center p-3 w-12 h-12 ${status_color[currentStatus]} rounded-full ring-0 ring-white `}>
+                    </> :  */
+                    <div className={`z-10 flex items-center justify-center p-3 w-12 h-12 ${status_color[currentStatus] || 'bg-gray-200'} rounded-full ring-0 ring-white `}>
                         <GetIcon eventItem={eventItem} className={`text-white `}/>
                     </div> }
-                    {(eventItem !== 'Token Sent')&& <div className="flex w-full bg-gray-200 h-0.5 border-dashed border-t-2 border-gray-400"></div>}
+                    {(eventItem?.eventType !== 'TOKEN_SENT')&& <div className="flex w-full bg-gray-200 h-0.5 border-dashed border-t-2 border-gray-400"></div>}
                   </div>
                   <div className="mt-3">
-                    <h3 className="font-medium text-gray-900 text-sm max-w-md">{eventItem}</h3>
+                    <h3 className="font-medium text-gray-900 text-sm max-w-md">{eventItem?.title}</h3>
                   </div>
                 </li>
               );
