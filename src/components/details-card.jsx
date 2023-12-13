@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 
 const DetailsCard = ({transaction}) => {
 
+    const formatTimeStamp = (_date) => {
+        try{
+            const date = new Date(_date);
+            return date.toLocaleDateString()
+        }catch(err){
+            const date = new Date();
+            return date.toLocaleDateString()
+        }
+        
+    }
+
         const {
           transactionTimestamp,
           amount,
@@ -39,7 +50,7 @@ const DetailsCard = ({transaction}) => {
                 <div className="flex flex-col space-y-2 px-3">
                     <div className="flex justify-between mt-2 py-2 px-8">
                         <p className="font-bold">Transaction Date</p>
-                        <p className="text-gray-500">{transactionTimestamp}</p>
+                        <p className="text-gray-500">{formatTimeStamp(transactionTimestamp)}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">

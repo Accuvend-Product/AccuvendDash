@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import columns from "./columns";
 import { useEffect, useRef, useState } from "react";
@@ -43,6 +43,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
 
     const dropdownRefStatus = useRef(null);
     const dropdownRefDisco = useRef(null);
+    const navigate = useNavigate()
 
 
 
@@ -345,6 +346,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                             <tr
                                 className={`border-b border-[#F8F7F7] hover:bg-blue-50 hover:cursor-pointer hover:text-blue-800 hover:underline`}
                                 key={row.id}
+                                onClick={()=> navigate(`/transaction/details/${tableData[row.index]["transaction reference"]}`)}
                             >
                                 {row.getVisibleCells().map((cell) => {
                                     if(!isPartnerTable && cell.column.id === "bank reference"){
