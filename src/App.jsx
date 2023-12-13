@@ -28,7 +28,7 @@ import { ADMIN, CUSTOMER, CUSTOMERCARE, PARTNER } from "./Constants";
 import PartnerTransctions from "./pages/admin/partner-transactions";
 import CustomerTransactionDetails from "./pages/customer/customer-transaction-details";
 import ResolutionCenter from "./pages/partner/resolution-center";
-import Notification from "./pages/notification";
+import Notification from "./pages/Notification";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
