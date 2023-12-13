@@ -28,6 +28,7 @@ import { ADMIN, CUSTOMER, CUSTOMERCARE, PARTNER } from "./Constants";
 import PartnerTransctions from "./pages/admin/partner-transactions";
 import CustomerTransactionDetails from "./pages/customer/customer-transaction-details";
 import ResolutionCenter from "./pages/partner/resolution-center";
+import Notification from "./pages/Notification";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -46,6 +47,7 @@ const SelectRoutes = () => {
             <Route path="/partner-dashboard/team-settings" element={<PartnerTeamSettings />} />
             <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
             <Route path="/partner-dashboard/resolution-center" element={<ResolutionCenter/>} /> 
+            <Route path="notifications" element={<Notification/>}/>
 
         </Routes> ;
     }else if(PORTAL_TYPE === CUSTOMERCARE){
@@ -56,6 +58,7 @@ const SelectRoutes = () => {
                 <Route path={`${CUSTOMER_CARE_ROUTE}${EVENT_ROUTE}`} element={<CustomerCareEvents/>} />
                 <Route path={`${CUSTOMER_CARE_ROUTE}${REPLAY_ROUTE}`} element={<CustomerCareReplays/>}/>
                 <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
+                <Route path="notifications" element={<Notification/>}/>
         </Routes> ;
     }else if(PORTAL_TYPE === ADMIN){
         return <Routes>
@@ -67,6 +70,7 @@ const SelectRoutes = () => {
             <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`} element={<CustomerCareEvents/>}/>
             <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}\overview`} element={<></>}/>
             <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
+            <Route path="notifications" element={<Notification/>}/>
         </Routes>
         ;
     }else if(PORTAL_TYPE === CUSTOMER){

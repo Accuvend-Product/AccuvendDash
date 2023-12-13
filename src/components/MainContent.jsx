@@ -8,7 +8,7 @@ const MainContent = ({children , sideBartype}) => {
       <Navbar/>
       <div className='flex'>
       <Sidebar sideBartype={sideBartype} />
-            <div className='ml-[260px] px-8 sm:px-10 md:px-12 flex-1 pb-10'>
+            <div className='ml-[260px] px-8 sm:px-10 md:px-12 flex-1 pb-10 overflow-scroll'>
               {children}
             </div>
       </div>
