@@ -22,7 +22,7 @@ const OrderConfirmation = ({transaction}) => {
 
           {/* Order Confirmation rows */}
           <div className="flex flex-col space-y-4 px-8 pt-8 pb-4">
-            <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
+            <div className={`bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start `}>
               <div className="mt-2">
                 <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600" />
               </div>
@@ -33,7 +33,7 @@ const OrderConfirmation = ({transaction}) => {
                 <p className="text-sm">Address - {user.address}</p>
               </div>
             </div>
-            <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
+            <div className={`bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start `}>
               <div className="mt-2">
                 <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600" />
               </div>
@@ -42,7 +42,7 @@ const OrderConfirmation = ({transaction}) => {
                 <p className="text-sm">{disco}</p>
               </div>
             </div>
-            <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
+            <div className={`${amount !== '0' ? "bg-[#F2FBF6]": "bg-[#fbf2f2]"} px-4 py-2 rounded-md flex gap-4 items-start `}>
               <div className="mt-2">
                 {amount !== '0' ? <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600" /> : <XCircle strokeWidth={"2.5px"}  className="text-red-600" />}
               </div>
@@ -51,7 +51,7 @@ const OrderConfirmation = ({transaction}) => {
                 <p className="text-sm">Amount - ₦{amount}</p>
               </div>
             </div>
-            <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
+            <div className={`${powerUnit !== null ? "bg-[#F2FBF6]": "bg-[#fbf2f2]"} px-4 py-2 rounded-md flex gap-4 items-start `}>
               <div className="mt-2">
                 {powerUnit !== null ? <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600"  /> : <XCircle strokeWidth={"2.5px"}  className="text-red-600" />}
               </div>
@@ -62,7 +62,7 @@ const OrderConfirmation = ({transaction}) => {
                 : <p className="text-sm">Token not generated</p>}
               </div>
             </div>
-            <div className="bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start ">
+            <div className={`${powerUnit !== null ? "bg-[#F2FBF6]": "bg-[#fbf2f2]"} px-4 py-2 rounded-md flex gap-4 items-start `}>
               <div className="mt-2">
                 {powerUnit !== null ? <CheckCircle2 strokeWidth={"2.5px"}  className="text-green-600" /> : <XCircle strokeWidth={"2.5px"}  className="text-red-600" />}
               </div>
