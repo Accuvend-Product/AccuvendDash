@@ -38,7 +38,7 @@ const PartnerDashboard = () => {
       },
     });
 
-  const { isLoading: failedTransactionsLoading, data: failedTransactions } =
+  const { isLoading: failedTransactionsLoading, data: failedTransactionCount } =
     useQuery({
       queryKey: ["transactions", "failed"],
       queryFn: async () => {
@@ -51,12 +51,12 @@ const PartnerDashboard = () => {
           }
         );
 
-        const failedTransactionCount = response.data.data.transactions.length;
-        setFailedTransactions(failedTransactionCount);
+        const failedTransactionCount = response.data.data.totalAmount;
+        
 
         return failedTransactionCount;
       },
-      staleTime: 1000 * 60 * 60,
+      // staleTime: 1000 * 60 * 60,
     });
 
   return (
@@ -127,7 +127,7 @@ const PartnerDashboard = () => {
                     <p className="hover:text-white">Loading...</p>
                   </div>
                 ) : (
-                  <p className="text-center">{failedTransactions || 0}</p>
+                  <p className="text-center">{failedTransactionCount || 0}</p>
                 )}
               </div>
             </div>

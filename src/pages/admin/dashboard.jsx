@@ -50,11 +50,11 @@ const AdminDashboard = () => {
             );
 
             const failedTransactionCount = response.data.data.transactions.length;
-            setFailedTransactions(failedTransactionCount);
+            // setFailedTransactions(failedTransactionCount);
 
             return failedTransactionCount;
         },
-        staleTime: 1000 * 60 * 60,
+        // staleTime: 1000 * 60 * 60,
     });
 
     return (

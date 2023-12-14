@@ -12,10 +12,11 @@ export const columns = [
         cell: (props) => <p>{props.getValue()}</p>,
     },
     {
-        accessorKey: "created_date",
+        accessorKey: "createdAt",
         header: "Date",
         cell: (props) => {
             const inputDate = props.getValue();
+            console.log(inputDate)
 
             // Check if inputDate is undefined or not a valid date string
             if (!inputDate || isNaN(new Date(inputDate).getTime())) {

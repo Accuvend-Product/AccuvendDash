@@ -19,7 +19,7 @@ export const columns = [
   },
   {
     accessorKey: "failedTransaction",
-    header: "Failed Transaction",
+    header: "Failed Transactions",
     cell: (props) => {
       
       return (
@@ -40,7 +40,7 @@ export const columns = [
   },
   {
     accessorKey: "NumberOfTranscations",
-    header: "Number Of Transcation",
+    header: "Number Of Transactions",
     cell: (props) => {
       
       return (
@@ -61,7 +61,7 @@ export const columns = [
   },
   {
     accessorKey: "VendedTransaction",
-    header: "Vended Transaction",
+    header: "Vended Transactions",
     cell: (props) => {
       
       return (
