@@ -83,7 +83,7 @@ const PartnerDashboard = () => {
             );
 
             const failedTransactionCount = response.data.data.transactions.length;
-            setFailedTransactions(failedTransactionCount);
+            // setFailedTransactions(failedTransactionCount);
 
             return failedTransactionCount;
         },
