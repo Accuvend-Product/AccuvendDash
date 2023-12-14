@@ -1,6 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-
-export const StatusFilter = ({ handleStatusSelect ,  isActive = false }) => {
+import DatePicker from "react-datepicker";
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs from 'dayjs';
+// import Datepicker from 'flowbite-datepicker/Datepicker';
+export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
   const [show, setShow] = useState(false);
   const DropDownMenuRef = useRef(null);
   const handleClickOutside = (e) => {
@@ -21,7 +26,7 @@ export const StatusFilter = ({ handleStatusSelect ,  isActive = false }) => {
             type="button"
             onClick={() => setShow(true)}
             className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
-              show ||  isActive 
+              show || isActive
                 ? "bg-primary text-white font-semibold"
                 : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
             }`}
@@ -61,7 +66,7 @@ export const StatusFilter = ({ handleStatusSelect ,  isActive = false }) => {
   );
 };
 
-export const DateFilter = ({ handleDateSelect ,  isActive = false }) => {
+export const DateFilter = ({ handleDateSelect, isActive = false }) => {
   const [show, setShow] = useState(false);
   const DropDownMenuRef = useRef(null);
   const handleClickOutside = (e) => {
@@ -69,13 +74,73 @@ export const DateFilter = ({ handleDateSelect ,  isActive = false }) => {
       setShow(false);
   };
 
+  const [selectedDate, setSelectedDate] = useState(new Date());
   useEffect(() => {
+    // if(!datePickerRef.current && datePickerEl.current){
+    //   datePickerRef.current = new Datepicker(datepickerEl.current, {
+    //     // options
+    // });
+    // }
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
+
+  return (
+    <>
+      <div className="relative">
+        <div className="relative inline-block" ref={DropDownMenuRef}>
+          <button
+            type="button"
+            onClick={() => setShow(true)}
+            className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
+              isActive
+                ? "bg-primary text-white font-semibold"
+                : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
+            }`}
+          >
+            DATE
+          </button>
+          {show && (
+            <div className="absolute mt-10 bg-white border border-gray-200 rounded shadow-md z-10 p-4">
+              
+              <div>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <StaticDatePicker onChange={(date) => {
+                    const _date = date.toDate()
+                    console.log(_date)
+                    setSelectedDate(_date)
+                  }} onAccept={() =>{
+                    setShow(false)
+                    handleDateSelect(selectedDate);
+                  }} defaultValue={dayjs()} orientation="portrait" />
+              </LocalizationProvider>
+              </div>
+              {/* <DatePicker
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+              />
+              <button
+                className="mt-6 px-4 py-1 border border-primary rounded-full bg-primary text-white font-semibold"
+                onClick={() => {
+                  setShow(false)
+                  handleDateSelect(selectedDate);
+                }}
+              >
+                Apply
+              </button> */}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
 };
 
-export const DiscoFilter = ({ handleDiscoSelect, isPartnerAdminPage ,  isActive = false }) => {
+export const DiscoFilter = ({
+  handleDiscoSelect,
+  isPartnerAdminPage,
+  isActive = false,
+}) => {
   const [show, setShow] = useState(false);
   const DropDownMenuRef = useRef(null);
   const handleClickOutside = (e) => {
