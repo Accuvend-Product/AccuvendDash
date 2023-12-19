@@ -10,7 +10,7 @@ const CustomerCareEvents = () => {
   const { isLoading , data: tableData } = useQuery({
     queryKey: ["transactions-event"],
     queryFn: async () => {
-        const response = await axios.get(`${BASE_URL}transaction`, {
+        const response = await axios.get(`${BASE_URL}transaction?status=PENDING`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

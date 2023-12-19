@@ -133,7 +133,7 @@ const Sidebar = ({sideBartype}) => {
 })();
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [showSupportSubLinks , setShowSupportSublinks] = useState()
   
 
   return (
@@ -150,12 +150,20 @@ const Sidebar = ({sideBartype}) => {
                     : "text-black"
                 }`}
                 key={link.name}
+                onClick={(event) => {
+                  if(link.subLinks){
+                    if(link.name === "CUSTOMER SUPPORT"){
+                      event.preventDefault(); 
+                      setShowSupportSublinks((prevState) => !prevState)
+                    }
+                  }
+                }}
               >
                 
                 {link.icon}
                 <p className="">{link.name}</p>
                 {
-                  link?.subLinks ? <>
+                  link?.subLinks  ? <>
                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                     </svg>
@@ -165,7 +173,7 @@ const Sidebar = ({sideBartype}) => {
                 
               </a>
               {
-                link?.subLinks ? <>
+                link?.subLinks && showSupportSubLinks ? <>
                   <ol className="mt-2 pl-8">
                     {link?.subLinks?.map((item)=> <>
                     <li className="mt-4 text-sm">

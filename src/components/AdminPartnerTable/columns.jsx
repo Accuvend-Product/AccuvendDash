@@ -6,15 +6,24 @@ export const columns = [
     header: "Partner",
     cell: (props) => {
       const imageUrl = props.getValue();
-      return (
-        <div className="flex items-center w-full h-full p-1">
-          <img
-            src={imageUrl}
-            // alt={`${disco} logo`}
-            className="w-full h-full object-contain"
-          />
-        </div>
-      );
+      if(typeof imageUrl === 'string' ){
+        return (
+          <div className="flex items-center w-full h-full p-1">
+            <img
+              src={imageUrl}
+              
+              className="w-full h-full object-contain"
+            />
+          </div>
+        );
+      }else{
+          return <div className="flex items-center w-full h-full p-1">
+          {imageUrl}
+          </div> 
+        
+      }
+
+      
     },
   },
   {
@@ -88,3 +97,5 @@ export const columns = [
 ];
 
 export default columns;
+
+
