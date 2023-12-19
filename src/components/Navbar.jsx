@@ -272,7 +272,7 @@ const Navbar = () => {
   return (
     <div className="text-body1 border-b border-body1/80 sticky top-0 z-20">
       <div className="py-2.5 px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
-        <a href="/dashboard" className="flex items-center w-auto">
+        <a href="#" className="flex items-center w-auto">
           <div className=" h-full py-1.5 pr-2 mr-2 border-r-2 border-[#002E87]">
             <img src={Logo} className="block h-[0.825rem] xl-h-4 aspect-auto" />
           </div>

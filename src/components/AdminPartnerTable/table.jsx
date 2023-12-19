@@ -29,7 +29,7 @@ import { add, addDays } from "date-fns";
 
 import { ADMIN_ROUTE, PARTNERS_ROUTE, TRANSACTION_ROUTE } from "../../Routes";
 
-export const AdminPartnerTable  = ({ tableData }) => {
+export const AdminPartnerTable  = ({ tableData, flexLeft = <></>}) => {
     const [data, setData] = useState(tableData);
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([]);
@@ -41,7 +41,7 @@ export const AdminPartnerTable  = ({ tableData }) => {
 
     const dropdownRef = useRef(null);
 
-    const pageSize = 8;
+    const pageSize = 9;
 
     //   table initial state
     const table = useReactTable({
@@ -105,8 +105,12 @@ export const AdminPartnerTable  = ({ tableData }) => {
 
     return (
         <div className="">
-            <div className="flex items-center justify-end mb-4">
+            <div className="flex items-center justify-between self-end mb-4">
                 
+
+                <div>
+                    {flexLeft}
+                </div>
 
                 {/* seach area */}
                 <div className="flex items-center bg-[#F7F7F7] p-1 rounded-[8px]">
@@ -128,7 +132,7 @@ export const AdminPartnerTable  = ({ tableData }) => {
             {/* card container */}
             <div className="grid grid-cols-3 gap-4">
             {table.getRowModel().rows.map((row) => (
-                <a href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/${'ssssss'}${TRANSACTION_ROUTE}`} className=" block px-3 py-5 bg-white border border-gray-200 rounded-lg shadow" key={row.id}> 
+                <a href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/${tableData[row.index]["partnerId"]}${TRANSACTION_ROUTE}`} className=" block px-3 py-5 bg-white border border-gray-200 rounded-lg shadow" key={row.id}> 
                 
                     {row.getVisibleCells().map((cell) => cell.column.id === 'partnerImage'   &&  (
 

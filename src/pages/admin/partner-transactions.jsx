@@ -8,9 +8,11 @@ import { useTransactionData } from "../../contexts/transaction-context";
 import MainContent from "../../components/MainContent";
 import { ADMIN_ROUTE, PARTNERS_ROUTE } from "../../Routes";
 import { useGetTransactions } from "../../api/Transaction";
+import { useSearchParams , useParams } from "react-router-dom";
 
 const PartnerTransctions = () => {
 
+    const {id} = useParams()
 
 
     const {
@@ -20,7 +22,7 @@ const PartnerTransctions = () => {
         isLoading,
         tableData, 
         setPagination
-      } = useGetTransactions()
+      } = useGetTransactions({partnerId : id})
 
     const { isLoading: totalTransactionsLoading, data: totalTransactionData  } = useQuery({
         queryKey: ["transactions", "total"],
@@ -65,7 +67,7 @@ const PartnerTransctions = () => {
                 {/* cards */}
                 <a href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} className="text-blue-900">Partner</a>
                 <span class="mx-2 text-gray-400">/</span>
-                <a>zenith</a>
+                {/* <a>zenith</a> */}
             </div>
 
             {isLoading ? (

@@ -69,6 +69,7 @@ const DetailsCard = ({transaction}) => {
                 statusClass =
                     "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
                 break;
+            
             default:
                 statusClass = "bg-black text-white font-bold py-2 px-3  text-xs";
         }

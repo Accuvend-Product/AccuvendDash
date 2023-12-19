@@ -77,3 +77,10 @@ export function convertToISOWithLastMinute(dateString) {
   return inputDate.toISOString();
 }
 
+
+
+
+//check if an object is empty 
+
+
+export const isObjectEmpty = (objectName) => (Object.keys(objectName).length === 0 && objectName.constructor === Object) 
