@@ -24,9 +24,9 @@ const PartnerDashboard = () => {
 
   const { isLoading: totalTransactionsLoading, data: totalTransactionData } =
     useQuery({
-      queryKey: ["transactions", "total"],
+      queryKey: ["transactions", "total", ...Object.keys(filters)],
       queryFn: async () => {
-        const response = await axios.get(`${BASE_URL}transaction/yesterday`, {
+        const response = await axios.get(`${BASE_URL}transaction/yesterday?${new URLSearchParams(filters).toString()}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -43,7 +43,7 @@ const PartnerDashboard = () => {
       queryKey: ["transactions", "failed"],
       queryFn: async () => {
         const response = await axios.get(
-          `${BASE_URL}transaction/yesterday?status=failed`,
+          `${BASE_URL}transaction/yesterday?${new URLSearchParams(filters).toString()}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

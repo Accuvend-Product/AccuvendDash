@@ -78,7 +78,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { isObjectEmpty } from "../lib/utils";
-export const useGetTransactions = (query = {}) => {
+export const useGetTransactions = (query = {} , url) => {
   const [pagination, setPagination] = useState({
     // page: 1,
     // limit: 8,
@@ -93,7 +93,7 @@ export const useGetTransactions = (query = {}) => {
     setIsError(false);
     try {
       const response = await axios.get(
-        `${BASE_URL}transaction?${new URLSearchParams(query).toString()}${
+        `${BASE_URL}${url ? url : 'transaction?'}${new URLSearchParams(query).toString()}${
           isObjectEmpty(query) ? "" : "&"
         }${new URLSearchParams(pagination).toString()}${
           isObjectEmpty(pagination) ? "" : "&"
@@ -119,6 +119,7 @@ export const useGetTransactions = (query = {}) => {
           amount: `₦${transaction.amount}`,
           status: transaction.status.toLowerCase(),
           selection: transaction.partnerId ?? "TESTID",
+          events : transaction.events,
         })
       );
       setTableData(transformedData);
@@ -171,5 +172,6 @@ export const useGetTransactions = (query = {}) => {
     tableData,
     setPagination,
     isError,
+    refetch : () => getTransactions()
   };
 };

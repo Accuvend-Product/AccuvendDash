@@ -64,11 +64,19 @@ const PartnerTeamSettings = () => {
 
   const handleInviteMember = async () => {
     console.log("Sending invitation:", formData);
+    const uploadFormData = {...formData}
+    if (!uploadFormData?.roleId || !uploadFormData?.roleId === "" ){
+       uploadFormData.roleId = roles?.filter(item => item?.name === "GUEST")[0]?.id  ? roles?.filter(item => item?.name === "GUEST")[0]?.id : ""
+    }
+
+    console.log("Sending invitation:", uploadFormData);
+
+    // return 
 
     try {
       const response = await axios.post(
         `${BASE_URL}team/member/new`,
-        formData,
+        uploadFormData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -78,6 +86,7 @@ const PartnerTeamSettings = () => {
 
       console.log("Invitation response:", response);
       toast.success("Invitation sent successfully");
+      
     } catch (error) {
       console.error("Error sending invitation:", error);
       toast.error("Failed to send invitation");
@@ -308,7 +317,7 @@ const PartnerTeamSettings = () => {
                     className="border rounded-md w-full px-4 py-2 focus:outline-none"
                   />
                 </div>
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label className="block mb-1">Role</label>
                   <select
                     name="roleId"
@@ -325,7 +334,7 @@ const PartnerTeamSettings = () => {
                       </option>
                     ))}
                   </select>
-                </div>
+                </div> */}
                 <div className="flex justify-end">
                   <button
                     onClick={handleInviteMember}

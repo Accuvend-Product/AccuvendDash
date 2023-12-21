@@ -272,13 +272,13 @@ const Navbar = () => {
   return (
     <div className="text-body1 border-b border-body1/80 sticky top-0 z-20">
       <div className="py-2.5 px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
-        <a href="#" className="flex items-center w-auto">
-          <div className=" h-full py-1.5 pr-2 mr-2 border-r-2 border-[#002E87]">
-            <img src={Logo} className="block h-[0.825rem] xl-h-4 aspect-auto" />
+        <a href="#" className="flex items-center w-auto divide-x-[3px] divide-[#002E87] ">
+          <div className=" h-full mr-2 ">
+            <img src={Logo} className="block h-[0.825rem]  xl-h-4 aspect-auto" />
           </div>
           
           
-          <div className="text  font-bold text-lg text-[#002E87]">
+          <div className="text  font-bold text-lg pl-2 text-[#002E87]">
             {PORTAL_TYPE === PARTNER ? "Partner" : ""}
             {PORTAL_TYPE === CUSTOMERCARE ? "Support" : ""}
             {PORTAL_TYPE === ADMIN ? "Admin" : ""}

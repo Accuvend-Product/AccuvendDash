@@ -1,5 +1,9 @@
 export const columns = [
-    
+    {
+        accessorKey: "ticketId",
+        header: "TicketId",
+        cell: (props) => <p>{props.getValue()}</p>,
+    },
     
     {
         accessorKey: "title",

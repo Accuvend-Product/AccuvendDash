@@ -4,18 +4,19 @@ import useUserData from "../../hooks/useUserData";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { Plus } from "lucide-react";
 import { useModal } from "../../hooks/useModal";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery , useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { useGetComplaints } from "../../api/Complaints.js";
+import { useGetComplaints  } from "../../api/Complaints.js";
 import { SupportTicketTable } from "../../components/SupportTicketTable/table";
+const VITE_PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE;
 const ResolutionCenter = () => {
   const { email, isUserDataLoading , entityId } = useUserData(BASE_URL);
   
   const {ModalProvider: AddComplaintModal, openModal : openAddModal , closeModal} = useModal("New Support Request")
   // get Complaints 
 
-
+ 
   const {
     pagination,
     filters, 
@@ -24,7 +25,8 @@ const ResolutionCenter = () => {
     tableData, 
     setPagination,
     isError,
-  } = useGetComplaints()
+    refetch,
+  } = useGetComplaints(entityId)
 
   
 
@@ -38,7 +40,9 @@ const ResolutionCenter = () => {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           })
+          
           onSuccessFunction()
+          refetch()
           return res
         }catch(err){
           onFailureFunction()
@@ -66,12 +70,12 @@ const ResolutionCenter = () => {
               Partner Support Center
             </p>
             <p class="text-left text-sm text-gray-500 ">
-              Your One-Stop Destination for Assistance and Guidance
+              {VITE_PORTAL_TYPE === 'PARTNER' ? 'Your One-Stop Destination for Assistance and Guidance': 'Manage all Parnters Enquiries'}
             </p>
           </div>
-          <button onClick={() => openAddModal()}  type="button" class="px-3 flex gap-x-2 items-center py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+          {VITE_PORTAL_TYPE === 'PARTNER' ? <button onClick={() => openAddModal()}  type="button" class="px-3 flex gap-x-2 items-center py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
             <Plus/> Make A Support Request
-          </button>
+          </button>:<></>}
           </div>
           <div className="mt-7">
             {/* Table */}

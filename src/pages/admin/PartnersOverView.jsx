@@ -149,10 +149,11 @@ const PartnersOverView = () => {
 
 const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
   const [email, setEmail] = useState("");
-  const [complaintImage, setComplaintImage] = useState(null);
+  const [name, setName] = useState("");
   const createComplain = async () => {
     invitePartnerMutation.mutate({
       email,
+      name,
       onSuccessFunction: () => {
         console.log("success");
         toast.success("Partner Invite Sent Successfully");
@@ -173,7 +174,7 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
             for="default-input"
             className="block mb-2 text-sm font-medium text-gray-900  "
           >
-            Email
+            Partner Email
           </label>
           <input
             type="text"
@@ -182,6 +183,22 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
         </div>
+
+        <div className="mb-6">
+          <label
+            for="default-input"
+            className="block mb-2 text-sm font-medium text-gray-900  "
+          >
+            Partner Name
+          </label>
+          <input
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          />
+        </div>
+
       </div>
 
       <div>

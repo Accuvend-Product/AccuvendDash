@@ -29,6 +29,7 @@ import PartnerTransctions from "./pages/admin/partner-transactions";
 import CustomerTransactionDetails from "./pages/customer/customer-transaction-details";
 import ResolutionCenter from "./pages/partner/resolution-center";
 import Notification from "./pages/Notification";
+import SingleSupportPage from "./pages/partner/SingleSupportPage";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -48,7 +49,7 @@ const SelectRoutes = () => {
             <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
             <Route path="/partner-dashboard/resolution-center" element={<ResolutionCenter/>} /> 
             <Route path="notifications" element={<Notification/>}/>
-
+            <Route path="/ticket/:id" element={<SingleSupportPage/>}/>
         </Routes> ;
     }else if(PORTAL_TYPE === CUSTOMERCARE){
         return <Routes>
@@ -59,6 +60,8 @@ const SelectRoutes = () => {
                 <Route path={`${CUSTOMER_CARE_ROUTE}${REPLAY_ROUTE}`} element={<CustomerCareReplays/>}/>
                 <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
                 <Route path="notifications" element={<Notification/>}/>
+                <Route path="/resolution-center" element={<ResolutionCenter/>} /> 
+                <Route path="/ticket/:id" element={<SingleSupportPage/>}/>
         </Routes> ;
     }else if(PORTAL_TYPE === ADMIN){
         return <Routes>
@@ -71,6 +74,8 @@ const SelectRoutes = () => {
             <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}\overview`} element={<></>}/>
             <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
             <Route path="notifications" element={<Notification/>}/>
+            <Route path="/resolution-center" element={<ResolutionCenter/>} /> 
+            <Route path="/ticket/:id" element={<SingleSupportPage/>}/>
         </Routes>
         ;
     }else if(PORTAL_TYPE === CUSTOMER){
@@ -105,7 +110,7 @@ function App() {
             <TransactionDataProvider>
                 <SelectRoutes/>
                 <Toaster />
-                <ReactQueryDevtools initialIsOpen={false} />
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
             </TransactionDataProvider>
         </QueryClientProvider>
     );
