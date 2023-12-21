@@ -94,6 +94,11 @@ export const columns = [
     header: "Partner Id",
     cell: (props) => props.getValue(),
   },
+  {
+    accessorKey: "companyName",
+    header: "companyName",
+    cell: (props) => props.getValue(),
+  },
 ];
 
 export default columns;

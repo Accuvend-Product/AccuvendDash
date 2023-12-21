@@ -134,16 +134,21 @@ export const AdminPartnerTable  = ({ tableData, flexLeft = <></>}) => {
             {table.getRowModel().rows.map((row) => (
                 <a href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/${tableData[row.index]["partnerId"]}${TRANSACTION_ROUTE}`} className=" block px-3 py-5 bg-white border border-gray-200 rounded-lg shadow" key={row.id}> 
                 
-                    {row.getVisibleCells().map((cell) => cell.column.id === 'partnerImage'   &&  (
+                    
 
-                        <div  className={`flex justify-between text-sm items-center`} key ={cell.id}>
-                           <span className="block w-9 h-9">{flexRender(cell.column.columnDef.cell, cell.getContext())}</span>
+                        <div  className={`flex justify-between text-sm items-center`}>
+                            <div className="flex items-center">
+                                {row.getVisibleCells().map((cell) => cell.column.id === 'partnerImage'   &&  (<span className="block w-9 h-9">{flexRender(cell.column.columnDef.cell, cell.getContext())}</span> ))}
+                                <div>
+                                {row.getVisibleCells().map((cell) => cell.column.id === 'companyName'   &&  (<span className="text-bold">{flexRender(cell.column.columnDef.cell, cell.getContext())}</span> ))}
+                                </div>
+                            </div>
                            <span>Overview</span>
                         </div>
-                    ))}
+                    
 
                     <div className="mt-4 flex flex-col gap-y-3">
-                    {row.getVisibleCells().map((cell) => cell.column.id !== 'partnerImage' && cell.column.id !== 'partnerId' &&  (
+                    {row.getVisibleCells().map((cell) => cell.column.id !== 'partnerImage' && cell.column.id !== 'partnerId' && cell.column.id !== 'companyName'  &&  (
                         <div key={cell.id}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </div>

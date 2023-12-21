@@ -79,6 +79,7 @@ const PartnersOverView = () => {
         return response?.data?.data?.partners?.map((item) => {
           return {
             partnerImage: item?.entity?.profilePicture || <User2 />,
+            companyName: item?.companyName,
             partnerId: item?.id,
             failedTransaction: "0",
             NumberOfTranscations: "0",
@@ -153,7 +154,7 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
   const createComplain = async () => {
     invitePartnerMutation.mutate({
       email,
-      name,
+      companyName:name,
       onSuccessFunction: () => {
         console.log("success");
         toast.success("Partner Invite Sent Successfully");
