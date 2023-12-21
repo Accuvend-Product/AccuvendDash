@@ -61,11 +61,17 @@ export const CustomerLinks = [
         href: `${CUSTOMER_CARE_ROUTE}${EVENT_ROUTE}`,
         active: false,
     },
+    // {
+    //     name: "MY REPLAYS",
+    //     icon: <Replay className="h-5 w-5 mr-2 text-2xl" />,
+    //     href: `${CUSTOMER_CARE_ROUTE}${REPLAY_ROUTE}`,
+    //     active: false,
+    // },
     {
-        name: "MY REPLAYS",
-        icon: <Replay className="h-5 w-5 mr-2 text-2xl" />,
-        href: `${CUSTOMER_CARE_ROUTE}${REPLAY_ROUTE}`,
-        active: false,
+      icon: <HelpCircle className="h-5 w-5 mr-2" />,
+      active: false,
+      name: "RESOLUTION CENTER",
+      href: "/resolution-center"
     },
 
 ] ; 
@@ -94,6 +100,10 @@ const AdminLinks = [
       //   active: false,
       // },
       {
+        name: "RESOLUTION CENTER",
+        href: "/resolution-center"
+      },
+      {
         name: "EVENTS",
         href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`,
         active: false,
@@ -102,9 +112,10 @@ const AdminLinks = [
   },
   {
     name: "ERP",
-    icon: <Erp className="h-5 w-5 mr-2 text-2xl"/>,
-    href: `${ADMIN_ROUTE}`,
+    icon: <Erp className="h-6 w-6 mr-2 text-2xl"/>,
+    href: `https://one.zoho.com/zohoone/accuvend/`,
     active: false,
+    blank: true,
   },
 
 ] ;
@@ -149,6 +160,7 @@ const Sidebar = ({sideBartype}) => {
                     ? "text-primary"
                     : "text-black"
                 }`}
+                target={link?.blank ? "_blank": ""}
                 key={link.name}
                 onClick={(event) => {
                   if(link.subLinks){
@@ -174,12 +186,12 @@ const Sidebar = ({sideBartype}) => {
               </a>
               {
                 link?.subLinks && showSupportSubLinks ? <>
-                  <ol className="mt-2 pl-8">
+                  <ol className="mt-2 pl-9">
                     {link?.subLinks?.map((item)=> <>
                     <li className="mt-4 text-sm">
                       <a href={item?.href} className={`${location?.pathname === item?.href
                     ? "text-primary"
-                    : "text-black"}`}>
+                    : "text-black"} hover:text-primary`}>
                         {item.name}
                       </a>
                     </li>

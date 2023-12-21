@@ -1,7 +1,7 @@
 import ErpIcon from "../../images/erp.png"
-const Erp = () => {
+const Erp = (props) => {
     return (
-        <img src={ErpIcon} />
+        <img {...props} src={ErpIcon} />
     )
 }
 

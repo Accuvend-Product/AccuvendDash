@@ -77,7 +77,7 @@ export const columns = [
 
       return (
         <div className="flex mb-6 items-start">
-          <ol className="flex justify-between items-center w-10/12">
+          <ol className="flex justify-between items-center w-full"> {/*w-10/12">*/}
             {ListOfEvents?.map((eventItem, index) => {
 
                 const status_color = {
@@ -108,7 +108,7 @@ export const columns = [
                         </div>
                     </div>
                     </> :  */
-                    <div className={`z-10 flex items-center justify-center p-3 w-12 h-12 ${status_color[currentStatus] || 'bg-gray-200'} rounded-full ring-0 ring-white `}>
+                    <div className={`flex items-center justify-center p-3 w-12 h-12 ${status_color[currentStatus] || 'bg-gray-200'} rounded-full ring-0 ring-white `}>
                         <GetIcon eventItem={eventItem} className={`text-white `}/>
                     </div> }
                     {(eventItem?.eventType !== 'TOKEN_SENT')&& <div className="flex w-full bg-gray-200 h-0.5 border-dashed border-t-2 border-gray-400"></div>}
@@ -120,14 +120,14 @@ export const columns = [
               );
             })}
           </ol>
-          <div className="flex items-center gap-x-7  ">
+          {/* <div className="flex items-center gap-x-7  ">
             <button type="button" className="text-sm cursor-pointer hover:bg-blue-900 bg-blue-800 py-3 px-3 text-white rounded-md">
                 Create Ticket
             </button>
             <button type="button" className="w-10 h-10 text-green-500 hover:text-green-800 cursor-pointer">
                 <PlayCircle strokeWidth={1.5} className="w-full h-full" />
             </button>
-          </div>
+          </div> */}
         </div>
       );
     },
