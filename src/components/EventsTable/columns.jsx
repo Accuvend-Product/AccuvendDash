@@ -4,6 +4,7 @@ import Replay from "../icons/replay";
 import DiscoUp from "../icons/Disco-up";
 import PaymentConfirmed from '../icons/payment-confirmed'
 import { Check, PlayCircle } from "lucide-react";
+import { METER_VALIDATION_SENT_PARTNER , TOKEN_SENT_TO_PARTNER , TOKEN_RECIEVED_FROM_VENDOR,  VEND_ELECTRICITY_REQUESTED_FROM_VENDOR,  POWER_PURCHASE_INITIATED_BY_CUSTOMER } from "./constants";
 export const columns = [
   
   {
@@ -19,11 +20,11 @@ export const columns = [
       //   {title:"Token Sent", id:"Token Sent"},
       // ];
       const ListOfEvents = [
-        {title: "Meter Validated", eventType: 'VALIDATE_METER'},
-        {title: "Disco up", eventType: "DISCO_UP"},
-        {title:"Payment Confirmed", eventType:"REQUEST_TOKEN"},
-        {title:"Token Generated", eventType:"TOKEN_SENT_GEN" , eventType2 : "TOKEN_SENT" },
-        {title:"Token Sent", eventType:"TOKEN_SENT"},
+        {title: "Meter Validated", eventType: METER_VALIDATION_SENT_PARTNER},
+        {title: "Disco up", eventType: POWER_PURCHASE_INITIATED_BY_CUSTOMER},
+        {title:"Payment Confirmed", eventType: VEND_ELECTRICITY_REQUESTED_FROM_VENDOR},
+        {title:"Token Generated", eventType:TOKEN_RECIEVED_FROM_VENDOR  , eventType2 : "TOKEN_SENT" },
+        {title:"Token Sent", eventType:TOKEN_SENT_TO_PARTNER },
       ];
 
       const GetIcon = ({eventItem , ...props}) => {
@@ -50,19 +51,19 @@ export const columns = [
         //         break;
         // }
         switch (eventItem?.eventType) {
-          case "VALIDATE_METER":
+          case METER_VALIDATION_SENT_PARTNER:
               icon = <MeterValidated {...props}/>
               break;
-          case "DISCO_UP":
+          case POWER_PURCHASE_INITIATED_BY_CUSTOMER:
               icon = <DiscoUp {...props}/>
               break;
-          case "REQUEST_TOKEN":
+          case  VEND_ELECTRICITY_REQUESTED_FROM_VENDOR:
               icon =<PaymentConfirmed {...props}/>
               break;
-          case "TOKEN_SENT_GEN":
+          case TOKEN_RECIEVED_FROM_VENDOR :
               icon = <TokenGenerated {...props}/>
               break;
-          case "TOKEN_SENT":
+          case TOKEN_SENT_TO_PARTNER :
               icon = <Check {...props}/>
               break;
       
@@ -111,7 +112,7 @@ export const columns = [
                     <div className={`flex items-center justify-center p-3 w-12 h-12 ${status_color[currentStatus] || 'bg-gray-200'} rounded-full ring-0 ring-white `}>
                         <GetIcon eventItem={eventItem} className={`text-white `}/>
                     </div> }
-                    {(eventItem?.eventType !== 'TOKEN_SENT')&& <div className="flex w-full bg-gray-200 h-0.5 border-dashed border-t-2 border-gray-400"></div>}
+                    {(eventItem?.eventType !== TOKEN_SENT_TO_PARTNER )&& <div className="flex w-full bg-gray-200 h-0.5 border-dashed border-t-2 border-gray-400"></div>}
                   </div>
                   <div className="mt-3">
                     <h3 className="font-medium text-gray-900 text-sm max-w-md">{eventItem?.title}</h3>
