@@ -351,7 +351,7 @@ export const EventTable = ({ tableData , isPartnerAdminPage , isPartnerTable = f
    
 
     return (
-        <div className="">
+        <div className="min-h-screen">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex space-x-4 items-center">
                     <p className="text-body1 font-semibold">Filter by</p>

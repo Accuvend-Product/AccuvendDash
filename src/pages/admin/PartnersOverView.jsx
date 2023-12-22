@@ -76,15 +76,19 @@ const PartnersOverView = () => {
           },
         });
         // return response
+
         return response?.data?.data?.partners?.map((item) => {
+          const itemStats = response?.data?.data?.stats?.filter((search) => search.id === item.id)[0]
           return {
             partnerImage: item?.entity?.profilePicture || <User2 />,
+            companyName: item?.companyName,
             partnerId: item?.id,
-            failedTransaction: "0",
-            NumberOfTranscations: "0",
-            VendedTransaction: "0",
+            failedTransaction: itemStats?.failed_Transactions,
+            PendingTranscations: itemStats?.pending_Transactions,
+            SuccessfulTransaction: itemStats?.success_Transactions,
           };
         });
+
       } catch (err) {
         throw err;
       }
@@ -153,7 +157,7 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
   const createComplain = async () => {
     invitePartnerMutation.mutate({
       email,
-      name,
+      companyName:name,
       onSuccessFunction: () => {
         console.log("success");
         toast.success("Partner Invite Sent Successfully");

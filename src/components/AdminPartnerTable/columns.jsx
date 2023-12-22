@@ -48,17 +48,17 @@ export const columns = [
     },
   },
   {
-    accessorKey: "NumberOfTranscations",
-    header: "Number Of Transactions",
+    accessorKey: "PendingTranscations",
+    header: "Pending Transactions",
     cell: (props) => {
       
       return (
         <div
-          className={`flex justify-between text-sm items-center py-3 px-3 bg-green-100 rounded-sm`}
+          className={`flex justify-between text-sm items-center py-3 px-3 bg-yellow-100 rounded-sm`}
         >
           <div className="flex gap-x-2 items-center">
-            <div className="w-6 h-6 p-1 border-green-500 rounded-sm border-2 ">
-              <Hash className="w-full h-full text-green-500"/>
+            <div className="w-6 h-6 p-1 border-yellow-500 rounded-sm border-2 ">
+              <Hash className="w-full h-full text-yellow-500"/>
             </div>
             
             <span className={`text-sm`} > {props.column.columnDef.header} </span>
@@ -69,8 +69,8 @@ export const columns = [
     },
   },
   {
-    accessorKey: "VendedTransaction",
-    header: "Vended Transactions",
+    accessorKey: "SuccessfulTransaction",
+    header: "Successful Transactions",
     cell: (props) => {
       
       return (
@@ -92,6 +92,11 @@ export const columns = [
   {
     accessorKey: "partnerId",
     header: "Partner Id",
+    cell: (props) => props.getValue(),
+  },
+  {
+    accessorKey: "companyName",
+    header: "companyName",
     cell: (props) => props.getValue(),
   },
 ];

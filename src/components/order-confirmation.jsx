@@ -3,11 +3,21 @@ import RedCheck from "./icons/red-check";
 import PropTypes from "prop-types";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useMemo } from "react";
+import { METER_VALIDATION_RECIEVED_FROM_VENDOR, POWER_PURCHASE_INITIATED_BY_CUSTOMER, TOKEN_RECIEVED_FROM_VENDOR, TOKEN_SENT_TO_PARTNER } from "./EventsTable/constants";
 
 const OrderConfirmation = ({ transaction }) => {
-  const { amount, meter, disco, powerUnit, user, event } = transaction;
+  const { amount, meter, disco, powerUnit, user, events } = transaction;
+
+  const checkEventExist = (event) => {
+    const _event = events?.filter((item) => item?.eventType === event)
+    if(_event.length > 0) return true
+    else return false
+  }
+
+ 
 
   const getBgColor = (prevState, CurrenState) => {
+    console.log(prevState, CurrenState )
     if (!prevState) {
       return "bg-[#F7F7F7]";
     }
@@ -54,7 +64,7 @@ const OrderConfirmation = ({ transaction }) => {
           <div
             className={`bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start `}
           >
-            {meter.meterNumber && user.name && user.address ? (
+            {checkEventExist(METER_VALIDATION_RECIEVED_FROM_VENDOR) ? (
               <>
                 <div className="mt-2">
                   <CheckCircle2
@@ -99,14 +109,14 @@ const OrderConfirmation = ({ transaction }) => {
           </div>
           <div
             className={`${getBgColor(
-              meter.meterNumber || user.name || user.address,
-              amount !== "0"
+              checkEventExist(METER_VALIDATION_RECIEVED_FROM_VENDOR),
+              checkEventExist(POWER_PURCHASE_INITIATED_BY_CUSTOMER)
             )} px-4 py-2 rounded-md flex gap-4 items-start `}
           >
             <div className="mt-2">
               {getIcon(
-                meter.meterNumber || user.name || user.address,
-                amount !== "0"
+                checkEventExist(METER_VALIDATION_RECIEVED_FROM_VENDOR),
+                checkEventExist(POWER_PURCHASE_INITIATED_BY_CUSTOMER)
               )}
             </div>
             <div>
@@ -116,30 +126,37 @@ const OrderConfirmation = ({ transaction }) => {
           </div>
           <div
             className={`${getBgColor(
-              amount !== "0",
-              powerUnit !== null
+              checkEventExist(POWER_PURCHASE_INITIATED_BY_CUSTOMER),
+              checkEventExist(TOKEN_RECIEVED_FROM_VENDOR)
             )} px-4 py-2 rounded-md flex gap-4 items-start `}
           >
             <div className="mt-2">
-              {getIcon(amount !== "0", powerUnit !== null)}
+              {getIcon(checkEventExist(POWER_PURCHASE_INITIATED_BY_CUSTOMER),
+              checkEventExist(TOKEN_RECIEVED_FROM_VENDOR))}
             </div>
             <div>
               <h1 className="font-bold text-lg">Generate Token</h1>
               {powerUnit?.token ? (
                 <p className="text-sm">Token generated successfully</p>
               ) : (
-                <p className="text-sm">Token not generated</p>
+                <p className="text-sm">
+                  Token not generated yet <br/>
+                  { !checkEventExist(TOKEN_RECIEVED_FROM_VENDOR) ? 'We are currently retrying the process to obtain a token for you. We appreciate your patience': ''}
+                </p>
               )}
             </div>
           </div>
           <div
             className={`${getBgColor(
-              amount !== "0",
-              powerUnit !== null
+              checkEventExist(TOKEN_RECIEVED_FROM_VENDOR),
+              checkEventExist(TOKEN_SENT_TO_PARTNER)
             )} px-4 py-2 rounded-md flex gap-4 items-start `}
           >
             <div className="mt-2">
-              {getIcon(amount !== "0", powerUnit !== null)}
+              {getIcon(
+                checkEventExist(TOKEN_RECIEVED_FROM_VENDOR), 
+                checkEventExist(TOKEN_SENT_TO_PARTNER)
+              )}
             </div>
             <div>
               <h1 className="font-bold text-lg">Send Token</h1>
