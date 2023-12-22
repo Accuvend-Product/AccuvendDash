@@ -94,7 +94,7 @@ export const useGetTransactions = (query = {} , url) => {
     try {
       const response = await axios.get(
         `${BASE_URL}${url ? url : 'transaction?'}${new URLSearchParams(query).toString()}${
-          isObjectEmpty(query) ? "" : "&"
+           "&"
         }${new URLSearchParams(pagination).toString()}${
           isObjectEmpty(pagination) ? "" : "&"
         }${new URLSearchParams(filters).toString()}`,
