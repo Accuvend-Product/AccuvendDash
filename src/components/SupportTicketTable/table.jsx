@@ -330,7 +330,7 @@ export const SupportTicketTable = ({
                   return (
                     <td
                       key={cell.id}
-                      className={`py-1 px-4 text-sm ${
+                      className={`py-1 px-2 text-sm ${
                         cell.column.id === "status"
                           ? "text-center"
                           : "text-left"

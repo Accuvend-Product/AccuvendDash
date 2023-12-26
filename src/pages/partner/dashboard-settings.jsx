@@ -403,10 +403,15 @@ const PartnerDashboardSettings = () => {
                                 <div className="flex items-center gap-4">
                                     <PhoneIcon />
                                     <div className="flex flex-col">
-                                        <p className="font-bold">2-step verification</p>
-                                        <p className="text-sm">
-                                            Manage your 2-step authentication methods
-                                        </p>
+                                        <p className="text-gray-300 font-bold">2-step verification</p>
+                                        <div className="flex items-center gap-2">
+                                            <p className="text-sm text-gray-300">
+                                                Manage your 2-step authentication methods
+                                            </p>
+                                            <span className="text-[#954A00] bg-[#FFCA96] px-2 py-0.5 rounded-full text-xs text-center">
+                                                Coming Soon
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <ChevronDown className="h-4 w-4 ml-auto" />

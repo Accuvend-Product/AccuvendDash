@@ -29,7 +29,14 @@ export const columns = [
 
             // Format the date
             const dateObject = new Date(inputDate);
-            const options = { month: "short", day: "numeric", year: "numeric" };
+            const options = {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+              };
             const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
                 dateObject
             );
