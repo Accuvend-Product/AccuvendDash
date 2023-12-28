@@ -113,6 +113,8 @@ export const useGetTransactions = (query = {} , url) => {
           disco: transaction.disco ?? "TEST",
           "meter number": transaction.meter.meterNumber,
           "customer name": transaction.user.name,
+          "customer email": transaction.user.email,
+          "customer phone": transaction.user.phoneNumber,
           "transaction reference": transaction.id,
           "bank reference": transaction.bankRefId,
           "transaction date": transaction.transactionTimestamp,

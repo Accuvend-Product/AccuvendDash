@@ -83,6 +83,8 @@ const PartnersOverView = () => {
             partnerImage: item?.entity?.profilePicture || <User2 />,
             companyName: item?.companyName,
             partnerId: item?.id,
+            email: item?.entity?.email,
+            activatedStatus: item?.entity?.status?.activated,
             failedTransaction: itemStats?.failed_Transactions,
             PendingTranscations: itemStats?.pending_Transactions,
             SuccessfulTransaction: itemStats?.success_Transactions,

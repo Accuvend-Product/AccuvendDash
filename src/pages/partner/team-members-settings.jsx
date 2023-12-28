@@ -147,6 +147,7 @@ const PartnerTeamSettings = () => {
         toast.error("Failed to fetch team members");
       }
     } catch (error) {
+      toast.error("Failed to fetch team members");
       console.error("Error fetching team members:", error);
     }
   };
