@@ -42,7 +42,7 @@ export const columns = [
             
             <span className={`text-sm`} > {props.column.columnDef.header} </span>
           </div>
-          <span>{props.getValue()}</span>
+          <span>{props.getValue()?.toLocaleString()}</span>
         </div>
       );
     },
@@ -63,7 +63,7 @@ export const columns = [
             
             <span className={`text-sm`} > {props.column.columnDef.header} </span>
           </div>
-          <span>{props.getValue()}</span>
+          <span>{props.getValue()?.toLocaleString()}</span>
         </div>
       );
     },
@@ -84,7 +84,7 @@ export const columns = [
             
             <span className={`text-sm`} > {props.column.columnDef.header} </span>
           </div>
-          <span>{props.getValue()}</span>
+          <span>{props.getValue()?.toLocaleString()}</span>
         </div>
       );
     },

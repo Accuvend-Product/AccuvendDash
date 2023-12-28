@@ -127,7 +127,7 @@ const PartnerDashboard = () => {
                     <p className="hover:text-white">Loading...</p>
                   </div>
                 ) : (
-                  <p className="text-center">₦{failedTransactionCount?.toLocaleString() || 0}</p>
+                  <p className="text-center">{failedTransactionCount?.toLocaleString() || 0}</p>
                 )}
               </div>
             </div>

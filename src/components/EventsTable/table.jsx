@@ -430,12 +430,19 @@ export const EventTable = ({ tableData , isPartnerAdminPage , isPartnerTable = f
             <div>
             {table.getRowModel().rows.map((row) => (
                 <div className="my-5 py-5 px-3 border-b-2 hover:bg-slate-50" key={row.id}>
-                    {row.getVisibleCells().map((cell) => cell.column.id !== 'events' &&  (
+                    
+                    <div className="flex gap-x-2 mb-3 items-center">
+                        <span className="font-extrabold">{tableData[row.index]["customer name"]}</span> <span className="text-sm">( {tableData[row.index]["meter number"]} )</span> 
+                    </div>
+
+                    {row.getVisibleCells().map((cell) => cell.column.id !== 'events' && cell.column.id !== 'customer name' && cell.column.id !== 'meter number' &&  (
 
                         <div  className={`flex gap-x-2 ${cell.column.id === "customer name" ? "": "text-sm"}`} key ={cell.id}>
                             <span className={`${cell.column.id === "customer name" ? "hidden": ""}`}>{cell.column.columnDef.header} - </span> <span>{flexRender(cell.column.columnDef.cell, cell.getContext())}</span>
                         </div>
                     ))}
+                    
+
 
                     {row.getVisibleCells().map((cell) => cell.column.id === 'events' &&  (
                         <div className="mt-7">
