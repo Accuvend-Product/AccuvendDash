@@ -121,7 +121,7 @@ const OrderConfirmation = ({ transaction }) => {
             </div>
             <div>
               <h1 className="font-bold text-lg">Confirm Payment</h1>
-              <p className="text-sm">Amount - ₦{amount}</p>
+              <p className="text-sm">Amount - ₦{Number(amount)?.toLocaleString()}</p>
             </div>
           </div>
           <div

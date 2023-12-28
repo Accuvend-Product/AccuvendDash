@@ -342,7 +342,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                                     return(
                                         <td
                                             key={cell.id}
-                                            className={`py-1 px-4 text-sm ${cell.column.id === "status" ? "text-center" : "text-left"
+                                            className={`py-1 px-2 text-sm ${cell.column.id === "status" ? "text-center" : "text-left"
                                                 }`}
                                         >
                                             <Link

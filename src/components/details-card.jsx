@@ -17,13 +17,23 @@ import WHATSAPP_IMAGE_2 from "../images/disco-images/WhatsApp Image 2023-12-14 a
 const DetailsCard = ({transaction}) => {
 
     const formatTimeStamp = (_date) => {
+        let date = new Date()
         try{
-            const date = new Date(_date);
-            return date.toLocaleDateString()
+            date = new Date(_date);
         }catch(err){
-            const date = new Date();
-            return date.toLocaleDateString()
         }
+        const options = {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+          };
+          const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+            date
+          );
+        return formattedDate
         
     }
 
@@ -104,7 +114,7 @@ const DetailsCard = ({transaction}) => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Amount</p>
-                        <p className="text-gray-500">₦ {amount}</p>
+                        <p className="text-gray-500">₦ {Number(amount)?.toLocaleString()}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
