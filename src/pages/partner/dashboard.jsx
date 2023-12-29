@@ -65,9 +65,6 @@ const PartnerDashboard = () => {
         <div className=" ml-auto py-10">
           {/* cards */}
           <div className="flex space-x-12 items-center justify-end">
-            {/* <div>{filters?.status}</div>
-                <div>{filters?.disco}</div> */}
-
             <div className="hover:bg-primary hover:text-white px-4 py-2 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
               <p className="font-bold">Total no. Transacted Yesterday</p>
               <div className="text-[48px] font-semibold hover:text-white">
