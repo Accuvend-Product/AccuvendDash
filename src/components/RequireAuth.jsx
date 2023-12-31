@@ -11,7 +11,6 @@ const RequireAuth = ({children}) => {
     const { isUserDataError} = useUserData(BASE_URL)
     useEffect(()=>{
         const authToken = localStorage.getItem("token");
-        
         if(!authToken){
             toast.error("Sorry you have to login to see the dashboard");
             // Clear authentication token and user email from local storage
@@ -22,7 +21,7 @@ const RequireAuth = ({children}) => {
             
         }else{
             if(isUserDataError?.response?.data?.message === "Invalid authentication"){
-                handleLogout()
+                handleLogout();
             }
         }
         
