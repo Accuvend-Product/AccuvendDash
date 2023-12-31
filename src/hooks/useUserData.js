@@ -7,10 +7,11 @@ const useUserData = (BASE_URL) => {
     const [isUserDataLoading, setIsUserDataLoading] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState(0);
     const [entityId , setEntityId] = useState('')
+    const [isUserDataError , setIsUserDataError] = useState(null)
 
     useEffect(() => {
         const fetchUserData = async () => {
-            console.log("here")
+            setIsUserDataError(null)
             setIsUserDataLoading(true);
             try {
                 const token = localStorage.getItem('token');
@@ -41,6 +42,7 @@ const useUserData = (BASE_URL) => {
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
+                setIsUserDataError(error)
             } finally {
                 setIsUserDataLoading(false);
             }
@@ -49,7 +51,7 @@ const useUserData = (BASE_URL) => {
         fetchUserData();
     }, [BASE_URL]);
 
-    return { entityId, email, uploadedImageLink, isUserDataLoading , unreadNotifications};
+    return { entityId, email, uploadedImageLink, isUserDataLoading , unreadNotifications , isUserDataError , isUserDataLoading};
 };
 
 export default useUserData;

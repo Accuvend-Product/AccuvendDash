@@ -13,6 +13,15 @@ export const useLogout = () => {
             setIsLogginLoading(true)
             // Retrieve the authentication token from local storage
             const authToken = localStorage.getItem("token");
+            if(!authToken){
+                toast.error("Sorry you have to login to see the dashboard");
+                // Clear authentication token and user email from local storage
+                localStorage.removeItem("token");
+                localStorage.removeItem("userEmail");
+                // Redirect to the login page
+                navigate("/");
+                return 
+            }
             
             // Send a POST request to the server's logout endpoint with the authentication token as data
             const response = await axios.post(
@@ -31,6 +40,7 @@ export const useLogout = () => {
             if (response.status === 200) {
                 toast.success("Logout Successful");
             } else {
+               
                 throw new Error("Logout Failed. Please try again.");
             }
             
@@ -42,7 +52,17 @@ export const useLogout = () => {
         } catch (error) {
             console.log(error);
             console.error("Error logging out:", error.message);
-            toast.error("An error occurred while logging out. Please try again.");
+            // if the error is because of invalid session still log the user out 
+            if(error.response?.data?.message === "Invalid authentication"){
+                toast.error("Sorry you have been logged out of this session , because another session has been started");
+                 // Clear authentication token and user email from local storage
+                localStorage.removeItem("token");
+                localStorage.removeItem("userEmail");
+                // Redirect to the login page
+                navigate("/");
+            }else{
+                toast.error("An error occurred while logging out. Please try again.");
+            }
         }finally{
           setIsLogginLoading(false)
         }
