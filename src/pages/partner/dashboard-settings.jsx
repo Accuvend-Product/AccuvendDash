@@ -15,6 +15,7 @@ import MainContent from "../../components/MainContent";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 import { PARTNER_DASHBOARD_ROUTE, PREFERENCES_ROUTE } from "../../Routes";
+import { useLogout } from "../../hooks/utilityHooks";
 
 const PartnerDashboardSettings = () => {
     const [showChangePassword, setShowChangePassword] = useState(false);
@@ -31,6 +32,10 @@ const PartnerDashboardSettings = () => {
         notifyFailedTransaction: false,
         notifyNewAccounts: false,
     });
+
+    //adding the logout to Password and Email changes 
+
+    const {handleLogout , isLogginLoading} = useLogout()
 
     useEffect(() => {
         // Fetch user's notification preferences from the server and update state
@@ -127,6 +132,8 @@ const PartnerDashboardSettings = () => {
             if (response.status === 200) {
                 console.log("Password changed successfully");
                 toast.success("Password changed successfully");
+                // logout when user changes password
+                handleLogout()
             } else {
                 toast.error("Failed to change password. Please try again.");
             }
@@ -167,6 +174,8 @@ const PartnerDashboardSettings = () => {
 
                 // Update the email in local storage
                 localStorage.setItem("email", newEmail);
+                // logout when user changes email 
+                handleLogout()
             } else {
                 toast.error("Failed to change email. Please try again.");
             }
@@ -332,7 +341,7 @@ const PartnerDashboardSettings = () => {
                                         </p>
                                         <div className="flex items-center gap-2">
                                             <p className="text-sm text-gray-300">
-                                                Integrations connected to your Rayna account
+                                                Integrations connected to your Accuvend account
                                             </p>
                                             <span className="text-[#954A00] bg-[#FFCA96] px-2 py-0.5 rounded-full text-xs text-center">
                                                 Coming Soon
@@ -394,10 +403,15 @@ const PartnerDashboardSettings = () => {
                                 <div className="flex items-center gap-4">
                                     <PhoneIcon />
                                     <div className="flex flex-col">
-                                        <p className="font-bold">2-step verification</p>
-                                        <p className="text-sm">
-                                            Manage your 2-step authentication methods
-                                        </p>
+                                        <p className="text-gray-300 font-bold">2-step verification</p>
+                                        <div className="flex items-center gap-2">
+                                            <p className="text-sm text-gray-300">
+                                                Manage your 2-step authentication methods
+                                            </p>
+                                            <span className="text-[#954A00] bg-[#FFCA96] px-2 py-0.5 rounded-full text-xs text-center">
+                                                Coming Soon
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <ChevronDown className="h-4 w-4 ml-auto" />

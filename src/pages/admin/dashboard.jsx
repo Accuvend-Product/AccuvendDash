@@ -6,38 +6,20 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useTransactionData } from "../../contexts/transaction-context";
 import MainContent from "../../components/MainContent";
+import { useGetTransactions } from "../../api/Transaction";
 
 const AdminDashboard = () => {
 
 
-
-    const { isLoading , data : tableData } = useQuery({
-        queryKey: ["transactions"],
-        queryFn: async () => {
-            const response = await axios.get(`${BASE_URL}transaction`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-
-            const transformedData = response.data.data.transactions.map(
-                (transaction) => ({
-                    image: transaction.powerUnit?.discoLogo ? transaction.powerUnit?.discoLogo : "https://res.cloudinary.com/richiepersonaldev/image/upload/v1699947957/dpijlhj08ard76zao2uk.jpg",
-                    disco: transaction.disco ?? "TEST",
-                    "meter number": transaction.meter.meterNumber,
-                    "customer name": transaction.user.name,
-                    "transaction reference": {id: transaction.id, bankRefId: transaction.bankRefId},
-                    "transaction date": transaction.transactionTimestamp,
-                    amount: `₦${transaction.amount}`,
-                    status: transaction.status.toLowerCase(),
-                    selection: transaction.partnerId ?? "TESTID",
-                })
-            );
-
-            
-            return transformedData;
-        },
-    });
+    const {
+        pagination,
+        filters, 
+        setFilters, 
+        isLoading,
+        tableData, 
+        setPagination
+    } = useGetTransactions()
+    
 
     const { isLoading: totalTransactionsLoading, data: totalTransactionData  } = useQuery({
         queryKey: ["transactions", "total"],
@@ -68,11 +50,11 @@ const AdminDashboard = () => {
             );
 
             const failedTransactionCount = response.data.data.transactions.length;
-            setFailedTransactions(failedTransactionCount);
+            // setFailedTransactions(failedTransactionCount);
 
             return failedTransactionCount;
         },
-        staleTime: 1000 * 60 * 60,
+        // staleTime: 1000 * 60 * 60,
     });
 
     return (
@@ -150,7 +132,7 @@ const AdminDashboard = () => {
                 tableData && (
                     <>
                         {/* Render your cards here */}
-                        <AdminTransactionTable tableData={tableData} />
+                        <AdminTransactionTable filter={filters} setFilter={setFilters} tableData={tableData} />
                     </>
                 )
             )}

@@ -7,38 +7,22 @@ import axios from "axios";
 import { useTransactionData } from "../../contexts/transaction-context";
 import MainContent from "../../components/MainContent";
 import { ADMIN_ROUTE, PARTNERS_ROUTE } from "../../Routes";
+import { useGetTransactions } from "../../api/Transaction";
+import { useSearchParams , useParams } from "react-router-dom";
 
 const PartnerTransctions = () => {
 
+    const {id} = useParams()
 
 
-    const { isLoading , data : tableData } = useQuery({
-        queryKey: ["transactions"],
-        queryFn: async () => {
-            const response = await axios.get(`${BASE_URL}transaction`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-
-            const transformedData = response.data.data.transactions.map(
-                (transaction) => ({
-                    image: transaction.powerUnit?.discoLogo ? transaction.powerUnit?.discoLogo : "https://res.cloudinary.com/richiepersonaldev/image/upload/v1699947957/dpijlhj08ard76zao2uk.jpg",
-                    disco: transaction.disco ?? "TEST",
-                    "meter number": transaction.meter.meterNumber,
-                    "customer name": transaction.user.name,
-                    "transaction reference": {id: transaction.id, bankRefId: transaction.bankRefId},
-                    "transaction date": transaction.transactionTimestamp,
-                    amount: `₦${transaction.amount}`,
-                    status: transaction.status.toLowerCase(),
-                    selection: transaction.partnerId ?? "TESTID",
-                })
-            );
-
-            
-            return transformedData;
-        },
-    });
+    const {
+        pagination,
+        filters, 
+        setFilters, 
+        isLoading,
+        tableData, 
+        setPagination
+      } = useGetTransactions({partnerId : id})
 
     const { isLoading: totalTransactionsLoading, data: totalTransactionData  } = useQuery({
         queryKey: ["transactions", "total"],
@@ -69,7 +53,7 @@ const PartnerTransctions = () => {
             );
 
             const failedTransactionCount = response.data.data.transactions.length;
-            setFailedTransactions(failedTransactionCount);
+            // setFailedTransactions(failedTransactionCount);
 
             return failedTransactionCount;
         },
@@ -83,7 +67,7 @@ const PartnerTransctions = () => {
                 {/* cards */}
                 <a href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} className="text-blue-900">Partner</a>
                 <span class="mx-2 text-gray-400">/</span>
-                <a>zenith</a>
+                {/* <a>zenith</a> */}
             </div>
 
             {isLoading ? (
@@ -99,7 +83,10 @@ const PartnerTransctions = () => {
                 tableData && (
                     <>
                         {/* Render your cards here */}
-                        <AdminTransactionTable tableData={tableData} isPartnerAdminPage={true} />
+                        <AdminTransactionTable filter={filters}
+                            setFilter={setFilters}
+                            tableData={tableData}
+                            isPartnerAdminPage={true} />
                     </>
                 )
             )}

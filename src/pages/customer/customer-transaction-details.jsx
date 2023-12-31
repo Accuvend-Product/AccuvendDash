@@ -4,7 +4,7 @@ import RedCheck from "../../components/icons/red-check";
 import PropTypes from "prop-types";
 
 import DetailsCard from "../../components/details-card";
-import OrderConfirmation from "../../components/order-confirmation-old";
+import OrderConfirmation from "../../components/order-confirmation";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";

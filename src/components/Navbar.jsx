@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import { useLogout } from "../hooks/utilityHooks";
 import { LogOutIcon } from "lucide-react";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, REPLAY_ROUTE, TRANSACTION_ROUTE } from "../Routes";
+import { Link } from "react-router-dom";
 
 
 
@@ -39,11 +40,13 @@ const NotificationDropDown = ({ NotificationData }) => {
           <button
             type="button"
             onClick={() => setShow((prevState) => !prevState)}
-            className="relative inline-flex items-center p-3 text-sm font-medium text-center"
+            className="relative inline-flex items-center p-2 text-sm font-medium text-center"
           >
             <BellIcon className="h-6 w-6" />
 
-            <div className="absolute inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-2 end-2 "></div>
+            <div className={`absolute inline-flex items-center justify-center w-5 h-5 ${notificationData && notificationData?.length > 10 ? 'text-[6.5px]' : 'text-[7.5px]'} font-bold text-white bg-red-500 border-2 border-white rounded-full top-0.5 end-0.5 `}>
+             {notificationData ? (notificationData?.length > 99 ? '99+' : notificationData?.length ) : '0'}
+            </div>
           </button>
         </div>
 
@@ -79,14 +82,14 @@ const NotificationDropDown = ({ NotificationData }) => {
               </> : <></>}
               {!isError && !isLoading && notificationData && notificationData?.length > 0  ? <>
               {
-                [1,2,3,4,5,6,7,8,9]?.map(()=><div
+                notificationData?.map((item)=><div
                 href="#"
                 className="flex flex-col gap-y-1 rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                 role="menuitem"
               >
-                <p className="text-black text-sm">Heading</p>
-                <p className="text-xs truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur leo nibh, volutpat nec justo sed, malesuada ullamcorper massa. Quisque elementum.</p>
-                <p className="text-xs text-end">11/10/2023 5:00pm</p>
+                <p className="text-black text-sm">{item?.heading}</p>
+                <p className="text-xs truncate">{item?.message}</p>
+                <p className="text-xs text-end">{new Date(item?.createdAt)?.toLocaleString()}</p>
               </div>
                 )
               }
@@ -106,7 +109,7 @@ const NotificationDropDown = ({ NotificationData }) => {
               
             </div>
             <div className="p-2">
-              <button
+              <Link to="/notifications"
                
                 className={`flex w-full px-4 py-2 text-sm items-center text-blue-700 hover:bg-blue-50 gap-2`}
               >
@@ -114,7 +117,7 @@ const NotificationDropDown = ({ NotificationData }) => {
                 <p className="text-center w-full">
                   See more
                 </p>
-              </button>
+              </Link>
             </div>
           </div>
         )}
@@ -143,17 +146,17 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
           <button
             type="button"
             onClick={() => setShow((prevState) => !prevState)}
-            className="relative inline-flex items-center p-3 text-sm font-medium text-center"
+            className="relative inline-flex items-center p-2 text-sm font-medium text-center"
           >
             {uploadedImageLink ? (
               <img
                 src={uploadedImageLink}
                 alt="profile picture"
-                className="w-8 h-8 rounded-full ring-2 ring-gray-300 p-1"
+                className="w-6 h-6 rounded-full ring-2 ring-gray-300 p-1"
               />
             ) : userEmail && userEmail?.length > 0 ? (<>
           
-              <div className="relative ring-2 ring-gray-300 p-1 inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full ">
+              <div className="relative ring-2 ring-gray-300 p-1 text-xs inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-100 rounded-full ">
                 <span className="font-medium ">
                   {userEmail[0].toUpperCase()}
                 </span>
@@ -166,7 +169,7 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
             ) : (
               <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full ring-2 ring-gray-300 p-1">
                 <svg
-                  className="absolute w-12 h-12 text-gray-400 -left-1"
+                  className="absolute w-6 h-6 text-gray-400 -left-1"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -267,18 +270,36 @@ const Navbar = () => {
   const NotificationData = useNotificationData(BASE_URL);
   const userEmail = localStorage.getItem("userEmail");
   return (
-    <div className="text-body1 border-b border-body1/80 sticky top-0 z-40">
-      <div className="py-3 px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
-        <a href="/dashboard" className="flex items-center gap-1.5">
-          <img src={Logo} className="block h-4 aspect-auto" />
-          <div className="text-sm">
+    <div className="text-body1 border-b border-body1/80 sticky top-0 z-20">
+      <div className="py-2.5 px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">
+        {/* <a href="#" className="flex items-baseline w-auto divide-x-[3px] divide-[#002E87] ">
+          <div className=" h-full mr-2 ">
+            <img src={Logo} className="block h-[0.825rem]  xl-h-4 aspect-auto" />
+          </div>
+          
+          
+          <div className="text  font-bold text-base pl-2 text-[#002E87]">
             {PORTAL_TYPE === PARTNER ? "Partner" : ""}
-            {PORTAL_TYPE === CUSTOMERCARE ? "Customer Care" : ""}
+            {PORTAL_TYPE === CUSTOMERCARE ? "Support" : ""}
             {PORTAL_TYPE === ADMIN ? "Admin" : ""}
           </div>
-          {/* <img src={Logo} className="hidden sm:block h-10 aspect-auto" />
-           <img src={Logo} className="sm:hidden h-10 aspect-auto" /> */}
+          
+        </a> */}
+
+        <a href="#" className="flex w-auto divide-x-[3px] divide-[#002E87] ">
+          <div className=" h-full mr-2 relative top-[0.425rem]">
+            <img src={Logo} className="block h-[0.825rem]  xl-h-4 aspect-auto" />
+          </div>
+          
+          
+          <div className="font-bold text-base pl-2 text-[#002E87]">
+            {PORTAL_TYPE === PARTNER ? "Partner" : ""}
+            {PORTAL_TYPE === CUSTOMERCARE ? "Support" : ""}
+            {PORTAL_TYPE === ADMIN ? "Admin" : ""}
+          </div>
+          
         </a>
+        
         
         
         <div className="flex items-center gap-3">

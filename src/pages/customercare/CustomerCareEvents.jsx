@@ -4,39 +4,19 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { EventTable } from "../../components/EventsTable/table";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+import { useGetTransactions } from "../../api/Transaction";
 
 const CustomerCareEvents = () => {
 
-  const { isLoading , data: tableData } = useQuery({
-    queryKey: ["transactions-event"],
-    queryFn: async () => {
-        const response = await axios.get(`${BASE_URL}transaction`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        });
-
-        const transformedData = response.data.data.transactions.map(
-            (transaction) => ({
-                image: transaction.powerUnit?.discoLogo ? transaction.powerUnit?.discoLogo : "https://res.cloudinary.com/richiepersonaldev/image/upload/v1699947957/dpijlhj08ard76zao2uk.jpg",
-                disco: transaction.disco ?? "TEST",
-                "meter number": transaction.meter.meterNumber,
-                "customer name": transaction.user.name,
-                bankRefId: transaction.bankRefId,
-                transactionId: transaction.id,
-                "transaction date": transaction.transactionTimestamp,
-                amount: `₦${transaction.amount}`,
-                status: transaction.status.toLowerCase(),
-                selection: transaction.partnerId ?? "TESTID",
-                events : transaction.events,
-            })
-        );
-
-        // setTableData(transformedData);
-        // setPartnerTableData(transformedData);
-        return transformedData;
-    },
-});
+    const {
+        pagination,
+        filters, 
+        setFilters, 
+        isLoading,
+        tableData, 
+        setPagination
+      } = useGetTransactions({},'transaction?status=PENDING')
+  
 
   return (
     <>
@@ -55,7 +35,11 @@ const CustomerCareEvents = () => {
                 tableData && (
                     <>
                         {/* Render your cards here */}
-                        <EventTable tableData={tableData} />
+                        <EventTable 
+                        filter={filters}
+                        setFilter={setFilters}
+                        
+                        tableData={tableData} />
                     </>
                 )
             )}

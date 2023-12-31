@@ -10,6 +10,7 @@ import PartnerDashboardProfile from "./pages/partner/profile";
 import PartnerTeamSettings from "./pages/partner/team-members-settings";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from "react";
 
 import {
     QueryClient,
@@ -22,10 +23,14 @@ import CustomerCareReplays from "./pages/customercare/CustomerCareReplays";
 import PartnersOverView from "./pages/admin/PartnersOverView";
 import AdminDashboard from "./pages/admin/dashboard";
 import CustomerDashboard from "./pages/customercare/dashboard";
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 import { ADMIN, CUSTOMER, CUSTOMERCARE, PARTNER } from "./Constants";
 import PartnerTransctions from "./pages/admin/partner-transactions";
 import CustomerTransactionDetails from "./pages/customer/customer-transaction-details";
+import ResolutionCenter from "./pages/partner/resolution-center";
+import Notification from "./pages/Notification";
+import SingleSupportPage from "./pages/partner/SingleSupportPage";
+import RequireAuth from "./components/RequireAuth";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -36,33 +41,42 @@ const SelectRoutes = () => {
         return <Routes>
             <Route path="/" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/partner-dashboard" element={<PartnerDashboard />} />
-            <Route path={`${PARTNER_DASHBOARD_ROUTE }${PREFERENCES_ROUTE}`} element={<PartnerDashboardSettings />} />
-            <Route path="/partner-dashboard/devcenter" element={<PartnerDevCenter />} />
-            <Route path="/partner-dashboard/profile" element={<PartnerDashboardProfile />} />
-            <Route path="/partner-dashboard/team-settings" element={<PartnerTeamSettings />} />
-            <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
+            <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
+            <Route path="/partner-dashboard" element={<RequireAuth><PartnerDashboard /></RequireAuth>} />
+            <Route path={`${PARTNER_DASHBOARD_ROUTE }${PREFERENCES_ROUTE}`} element={<RequireAuth><PartnerDashboardSettings /></RequireAuth>} />
+            <Route path="/partner-dashboard/devcenter" element={<RequireAuth><PartnerDevCenter /></RequireAuth>} />
+            <Route path="/partner-dashboard/profile" element={<RequireAuth><PartnerDashboardProfile /></RequireAuth>} />
+            <Route path="/partner-dashboard/team-settings" element={<RequireAuth><PartnerTeamSettings /></RequireAuth>} />
+            <Route path="transaction/details/:id" element={<RequireAuth><TransactionDetails /></RequireAuth>} /> 
+            <Route path="/partner-dashboard/resolution-center" element={<RequireAuth><ResolutionCenter/></RequireAuth>} /> 
+            <Route path="notifications" element={<RequireAuth><Notification/></RequireAuth>}/>
+            <Route path="/ticket/:id" element={<RequireAuth><SingleSupportPage/></RequireAuth>}/>
         </Routes> ;
     }else if(PORTAL_TYPE === CUSTOMERCARE){
         return <Routes>
                 <Route path="/" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
-                <Route path={`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`} element={<CustomerDashboard/>} />
-                <Route path={`${CUSTOMER_CARE_ROUTE}${EVENT_ROUTE}`} element={<CustomerCareEvents/>} />
-                <Route path={`${CUSTOMER_CARE_ROUTE}${REPLAY_ROUTE}`} element={<CustomerCareReplays/>}/>
-                <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
+                <Route path={`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`} element={<RequireAuth><CustomerDashboard/></RequireAuth>} />
+                <Route path={`${CUSTOMER_CARE_ROUTE}${EVENT_ROUTE}`} element={<RequireAuth><CustomerCareEvents/></RequireAuth>} />
+                <Route path={`${CUSTOMER_CARE_ROUTE}${REPLAY_ROUTE}`} element={<RequireAuth><CustomerCareReplays/></RequireAuth>}/>
+                <Route path="transaction/details/:id" element={<RequireAuth><TransactionDetails /></RequireAuth>} /> 
+                <Route path="notifications" element={<RequireAuth><Notification/></RequireAuth>}/>
+                <Route path="/resolution-center" element={<RequireAuth><ResolutionCenter/></RequireAuth>} /> 
+                <Route path="/ticket/:id" element={<RequireAuth><SingleSupportPage/></RequireAuth>}/>
         </Routes> ;
     }else if(PORTAL_TYPE === ADMIN){
         return <Routes>
             <Route path="/" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<AdminDashboard/>} />
-            <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} element={<PartnersOverView/>} />
-            <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/:id${TRANSACTION_ROUTE}`} element={<PartnerTransctions/>} />
-            <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`} element={<CustomerCareEvents/>}/>
+            <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<RequireAuth><AdminDashboard/></RequireAuth>} />
+            <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} element={<RequireAuth><PartnersOverView/></RequireAuth>} />
+            <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/:id${TRANSACTION_ROUTE}`} element={<RequireAuth><PartnerTransctions/></RequireAuth>} />
+            <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`} element={<RequireAuth><CustomerCareEvents/></RequireAuth>}/>
             <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}\overview`} element={<></>}/>
-            <Route path="transaction/details/:id" element={<TransactionDetails />} /> 
+            <Route path="transaction/details/:id" element={<RequireAuth><TransactionDetails /></RequireAuth>} /> 
+            <Route path="notifications" element={<RequireAuth><Notification/></RequireAuth>}/>
+            <Route path="/resolution-center" element={<RequireAuth><ResolutionCenter/></RequireAuth>} /> 
+            <Route path="/ticket/:id" element={<RequireAuth><SingleSupportPage/></RequireAuth>}/>
         </Routes>
         ;
     }else if(PORTAL_TYPE === CUSTOMER){
@@ -77,13 +91,27 @@ const SelectRoutes = () => {
 }
 function App() {
 
+    useEffect(() => {
+        let title = ''
+        if(PORTAL_TYPE === CUSTOMERCARE){
+            title = 'Customer Care Portal'
+        }else if(PORTAL_TYPE === ADMIN){
+            title = 'Administrator Care Portal'
+        }else if(PORTAL_TYPE === PARTNER) {
+            title = 'Partner Portal'
+        }else{
+            title = 'Accuvend'
+        }
+        document.title = title;
+      }, []);
+
     return (
 
         <QueryClientProvider client={queryClient}>
             <TransactionDataProvider>
                 <SelectRoutes/>
                 <Toaster />
-                <ReactQueryDevtools initialIsOpen={false} />
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
             </TransactionDataProvider>
         </QueryClientProvider>
     );

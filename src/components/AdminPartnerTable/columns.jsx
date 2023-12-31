@@ -6,20 +6,29 @@ export const columns = [
     header: "Partner",
     cell: (props) => {
       const imageUrl = props.getValue();
-      return (
-        <div className="flex items-center w-full h-full p-1">
-          <img
-            src={imageUrl}
-            // alt={`${disco} logo`}
-            className="w-full h-full object-contain"
-          />
-        </div>
-      );
+      if(typeof imageUrl === 'string' ){
+        return (
+          <div className="flex items-center w-full h-full p-1">
+            <img
+              src={imageUrl}
+              
+              className="w-full h-full object-contain"
+            />
+          </div>
+        );
+      }else{
+          return <div className="flex items-center w-full h-full p-1">
+          {imageUrl}
+          </div> 
+        
+      }
+
+      
     },
   },
   {
     accessorKey: "failedTransaction",
-    header: "Failed Transaction",
+    header: "Failed Transactions",
     cell: (props) => {
       
       return (
@@ -33,35 +42,35 @@ export const columns = [
             
             <span className={`text-sm`} > {props.column.columnDef.header} </span>
           </div>
-          <span>{props.getValue()}</span>
+          <span>{props.getValue()?.toLocaleString()}</span>
         </div>
       );
     },
   },
   {
-    accessorKey: "NumberOfTranscations",
-    header: "Number Of Transcation",
+    accessorKey: "PendingTranscations",
+    header: "Pending Transactions",
     cell: (props) => {
       
       return (
         <div
-          className={`flex justify-between text-sm items-center py-3 px-3 bg-green-100 rounded-sm`}
+          className={`flex justify-between text-sm items-center py-3 px-3 bg-yellow-100 rounded-sm`}
         >
           <div className="flex gap-x-2 items-center">
-            <div className="w-6 h-6 p-1 border-green-500 rounded-sm border-2 ">
-              <Hash className="w-full h-full text-green-500"/>
+            <div className="w-6 h-6 p-1 border-yellow-500 rounded-sm border-2 ">
+              <Hash className="w-full h-full text-yellow-500"/>
             </div>
             
             <span className={`text-sm`} > {props.column.columnDef.header} </span>
           </div>
-          <span>{props.getValue()}</span>
+          <span>{props.getValue()?.toLocaleString()}</span>
         </div>
       );
     },
   },
   {
-    accessorKey: "VendedTransaction",
-    header: "Vended Transaction",
+    accessorKey: "SuccessfulTransaction",
+    header: "Successful Transactions",
     cell: (props) => {
       
       return (
@@ -75,7 +84,7 @@ export const columns = [
             
             <span className={`text-sm`} > {props.column.columnDef.header} </span>
           </div>
-          <span>{props.getValue()}</span>
+          <span>{props.getValue()?.toLocaleString()}</span>
         </div>
       );
     },
@@ -85,6 +94,13 @@ export const columns = [
     header: "Partner Id",
     cell: (props) => props.getValue(),
   },
+  {
+    accessorKey: "companyName",
+    header: "companyName",
+    cell: (props) => props.getValue(),
+  },
 ];
 
 export default columns;
+
+
