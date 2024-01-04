@@ -84,3 +84,27 @@ export function convertToISOWithLastMinute(dateString) {
 
 
 export const isObjectEmpty = (objectName) => (Object.keys(objectName).length === 0 && objectName.constructor === Object) 
+
+
+export const getDateTimeString = (inputDate) => {
+  // Check if inputDate is undefined or not a valid date string
+  if (!inputDate || isNaN(new Date(inputDate).getTime())) {
+    return '-'; // or handle it in a way that makes sense for your application
+  }
+
+  // Format the date
+  const dateObject = new Date(inputDate);
+  const options = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  };
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    dateObject
+  );
+
+  return formattedDate;
+}

@@ -74,9 +74,9 @@ const OrderConfirmation = ({ transaction }) => {
                 </div>
                 <div>
                   <h1 className="font-bold text-lg">Validate Meter</h1>
-                  <p className="text-sm">Meter Number - {meter.meterNumber}</p>
-                  <p className="text-sm">Name - {user.name}</p>
-                  <p className="text-sm">Address - {user.address}</p>
+                  <p className="text-sm">Meter Number - {meter?.meterNumber}</p>
+                  <p className="text-sm">Name - {user?.name}</p>
+                  <p className="text-sm">Address - {user?.address}</p>
                 </div>
               </>
             ) : (
@@ -89,9 +89,9 @@ const OrderConfirmation = ({ transaction }) => {
                 </div>
                 <div>
                   <h1 className="font-bold text-lg">Validate Meter</h1>
-                  <p className="text-sm">Meter Number - {meter.meterNumber}</p>
-                  <p className="text-sm">Name - {user.name}</p>
-                  <p className="text-sm">Address - {user.address}</p>
+                  <p className="text-sm">Meter Number - {meter?.meterNumber}</p>
+                  <p className="text-sm">Name - {user?.name}</p>
+                  <p className="text-sm">Address - {user?.address}</p>
                 </div>
               </>
             )}

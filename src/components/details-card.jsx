@@ -99,17 +99,17 @@ const DetailsCard = ({transaction}) => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Customer Name</p>
-                        <p className="text-gray-500">{user.name}</p>
+                        <p className="text-gray-500">{user?.name}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Meter number</p>
-                        <p className="text-gray-500">{meter.meterNumber}</p>
+                        <p className="text-gray-500">{meter?.meterNumber}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Transaction Type</p>
-                        <p className="text-gray-500">{meter.vendType}</p>
+                        <p className="text-gray-500">{meter?.vendType}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">

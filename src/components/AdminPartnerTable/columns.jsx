@@ -96,7 +96,17 @@ export const columns = [
   },
   {
     accessorKey: "companyName",
-    header: "companyName",
+    header: "Name",
+    cell: (props) => props.getValue(),
+  },
+  {
+    accessorKey: "companyAddress",
+    header: "Address",
+    cell: (props) => props.getValue(),
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
     cell: (props) => props.getValue(),
   },
 ];
