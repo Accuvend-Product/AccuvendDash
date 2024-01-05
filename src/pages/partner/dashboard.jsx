@@ -11,53 +11,55 @@ import { queryClient } from "../../App";
 import { useGetTransactions } from "../../api/Transaction";
 
 const PartnerDashboard = () => {
-  
-
   const {
     pagination,
-    filters, 
-    setFilters, 
+    filters,
+    setFilters,
     isLoading,
-    tableData, 
-    setPagination
-  } = useGetTransactions()
+    tableData,
+    setPagination,
+  } = useGetTransactions();
 
+
+  
   const { isLoading: totalTransactionsLoading, data: totalTransactionData } =
     useQuery({
-      queryKey: ["transactions", "total", ...Object.keys(filters)],
+      queryKey: ["transactions", "total", `${new URLSearchParams(filters).toString()}`],
       queryFn: async () => {
-        const response = await axios.get(`${BASE_URL}transaction/yesterday?${new URLSearchParams(filters).toString()}`, {
+        const response = await axios.get(`${BASE_URL}transaction/kpi?${new URLSearchParams(filters).toString()}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
 
-        const totalTransactions = response.data.data.transactions.length;
-        const totalAmount = response.data.data.totalAmount;
+        const totalAmount =
+          response?.data?.data?.totalTransactionAmount[0]?.total_amount;
+        const totalTransactions = response?.data?.data?.totalTransactionCount;
         return { totalTransactions, totalAmount };
       },
     });
 
-  const { isLoading: failedTransactionsLoading, data: failedTransactionCount } =
-    useQuery({
-      queryKey: ["transactions", "failed"],
-      queryFn: async () => {
-        const response = await axios.get(
-          `${BASE_URL}transaction/yesterday?${new URLSearchParams(filters).toString()}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+  const {
+    isLoading: totalFailedTransactionsLoading,
+    data: totalFailedTransactionData,
+  } = useQuery({
+    queryKey: ["transactions", "total", "failed",`${new URLSearchParams({...filters , status:"failed"}).toString()}`],
+    queryFn: async () => {
+      const response = await axios.get(
+        `${BASE_URL}transaction/kpi/?${new URLSearchParams({...filters , status:"failed"}).toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-        const failedTransactionCount = response.data.data.totalAmount;
-        
-
-        return failedTransactionCount;
-      },
-      // staleTime: 1000 * 60 * 60,
-    });
+      const totalAmount =
+        response?.data?.data?.totalTransactionAmount[0]?.total_amount;
+      const totalTransactions = response?.data?.data?.totalTransactionCount;
+      return { totalTransactions, totalAmount };
+    },
+  });
 
   return (
     <>
@@ -66,7 +68,9 @@ const PartnerDashboard = () => {
           {/* cards */}
           <div className="lg:w-5/6 grid grid-cols-3 gap-x-7 lg:ml-auto">
             <div className="hover:bg-primary hover:text-white px-4 py-3 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
-              <p className="font-bold text-center text-lg">Total No. Transacted    </p>
+              <p className="font-bold text-center text-lg">
+                Total No. Transacted{" "}
+              </p>
               <div className="text-[1.65rem] font-semibold hover:text-white">
                 {totalTransactionsLoading ? (
                   <div className="flex items-center gap-2">
@@ -92,16 +96,20 @@ const PartnerDashboard = () => {
                   </div>
                 ) : (
                   <p className="text-center">
-                    {totalTransactionData?.totalTransactions || 0}
+                    {parseInt(
+                      totalTransactionData?.totalTransactions
+                    )?.toLocaleString() || 0}
                   </p>
                 )}
               </div>
             </div>
 
             <div className="hover:bg-primary hover:text-white px-4 py-3 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
-              <p className="font-bold text-center text-lg">Failed Transactions    </p>
+              <p className="font-bold text-center text-lg">
+                Failed Transactions{" "}
+              </p>
               <div className="text-[1.65rem] font-semibold hover:text-white">
-                {failedTransactionsLoading ? (
+                {totalFailedTransactionsLoading ? (
                   <div className="flex items-center gap-2">
                     <div role="">
                       <svg
@@ -124,13 +132,19 @@ const PartnerDashboard = () => {
                     <p className="hover:text-white">Loading...</p>
                   </div>
                 ) : (
-                  <p className="text-center">{failedTransactionCount?.toLocaleString() || 0}</p>
+                  <p className="text-center">
+                    {parseInt(
+                      totalFailedTransactionData?.totalTransactions
+                    )?.toLocaleString() || 0}
+                  </p>
                 )}
               </div>
             </div>
 
             <div className="hover:bg-primary hover:text-white px-4 py-3 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
-              <p className="font-bold text-center text-lg">Total Amount Transacted    </p>
+              <p className="font-bold text-center text-lg">
+                Total Amount Transacted{" "}
+              </p>
               <div className="text-[1.65rem] font-semibold">
                 {" "}
                 {totalTransactionsLoading ? (
@@ -161,7 +175,10 @@ const PartnerDashboard = () => {
                   </div>
                 ) : (
                   <p className="text-center">
-                    ₦{totalTransactionData?.totalAmount?.toLocaleString() || 0}
+                    ₦
+                    {parseInt(
+                      totalTransactionData?.totalAmount
+                    )?.toLocaleString() || 0}
                   </p>
                 )}
               </div>

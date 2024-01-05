@@ -31,6 +31,7 @@ import ResolutionCenter from "./pages/partner/resolution-center";
 import Notification from "./pages/Notification";
 import SingleSupportPage from "./pages/partner/SingleSupportPage";
 import RequireAuth from "./components/RequireAuth";
+import AdminSignIn from "./pages/adminsignin";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -66,7 +67,7 @@ const SelectRoutes = () => {
         </Routes> ;
     }else if(PORTAL_TYPE === ADMIN){
         return <Routes>
-            <Route path="/" element={<SignIn />} />
+            <Route path="/" element={<AdminSignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<RequireAuth><AdminDashboard/></RequireAuth>} />
             <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} element={<RequireAuth><PartnersOverView/></RequireAuth>} />
@@ -96,7 +97,7 @@ function App() {
         if(PORTAL_TYPE === CUSTOMERCARE){
             title = 'Customer Care Portal'
         }else if(PORTAL_TYPE === ADMIN){
-            title = 'Administrator Care Portal'
+            title = 'Administrator Portal'
         }else if(PORTAL_TYPE === PARTNER) {
             title = 'Partner Portal'
         }else{

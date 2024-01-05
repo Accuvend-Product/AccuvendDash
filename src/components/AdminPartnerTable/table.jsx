@@ -36,7 +36,7 @@ import MainContent from "../../components/MainContent";
 import { Trash } from "lucide-react";
 import { useModal } from "../../hooks/useModal";
 
-const AdminTileDropDown = ({ partnerData }) => {
+const AdminTileDropDown = ({ partnerData, setShowDetails ,showDetails  }) => {
   const [show, setShow] = useState(false);
   const DropDownMenuRef = useRef(null);
   const [buttonRequest, setButtonRequest] = useState("activate");
@@ -54,7 +54,7 @@ const AdminTileDropDown = ({ partnerData }) => {
     } Partner Confirmation`,
     () => null,
     () => {
-      setDeleteEmail(null);
+      // setDeleteEmail(null);
     }
   );
 
@@ -243,10 +243,136 @@ const AdminTileDropDown = ({ partnerData }) => {
                 </button>
               </li>
             </ul>
+            <div class="py-2">
+                <button
+                  href="#"
+                  onClick={() => {
+                    setShowDetails((prevState) => !prevState)
+                  }}
+                  className="block px-4 py-2 text-black text-left w-full hover:bg-gray-100  "
+                >
+                  {showDetails ? 'Hide': 'Show'} Partner Info
+                </button>
+            </div>
           </div>
         )}
       </div>
     </>
+  );
+};
+
+// Admin Table RowComponent
+
+const AdminRow = ({ row, tableData }) => {
+  const [showDetails ,setShowDetails] = useState(false)
+
+  return (
+    <span
+      className=" block px-3 py-5 bg-white border border-gray-200 rounded-lg shadow"
+      key={row.id}
+    >
+      <div className={`flex justify-between text-sm items-center`}>
+        <div className="flex items-center gap-x-2">
+          {row
+            .getVisibleCells()
+            .map(
+              (cell) =>
+                cell.column.id === "partnerImage" && (
+                  <span className="block w-9 h-9">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </span>
+                )
+            )}
+
+          <div>
+            {row
+              .getVisibleCells()
+              .map(
+                (cell) =>
+                  cell.column.id === "companyName" && (
+                    <span className="text-bold">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </span>
+                  )
+              )}
+          </div>
+          <div>
+            <span
+              className={`${
+                tableData[row.index]?.activatedStatus === true
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }  text-xs font-medium me-2 px-2.5 py-0.5 rounded-full `}
+            >
+              {tableData[row.index]["activatedStatus"] === true
+                ? "Activated"
+                : "Deactivated"}
+            </span>
+          </div>
+        </div>
+        <span>
+          <AdminTileDropDown setShowDetails={setShowDetails} showDetails={showDetails} partnerData={tableData[row.index]} />
+        </span>
+      </div>
+
+     {showDetails && <div>
+      {row
+          .getVisibleCells()
+          .map(
+            (cell) =>
+              (cell.column.id === "email" ||
+                cell.column.id === "companyAddress" ||
+                cell.column.id === "companyName") && (
+                <div key={cell.id}>
+                  <span className="font-bold">{cell.column.columnDef.header}:</span> {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </div>
+              )
+          )}
+      </div>}
+
+      <div className="mt-4 flex flex-col gap-y-3">
+        {row
+          .getVisibleCells()
+          .map(
+            (cell) =>
+              (cell.column.id === "PendingTranscations" ||
+                cell.column.id === "SuccessfulTransaction" ||
+                cell.column.id === "failedTransaction") && (
+                <div key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </div>
+              )
+          )}
+      </div>
+      <div>
+        <a
+          class="inline-flex justify-end mt-3 items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"
+          href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/${
+            tableData[row.index]["partnerId"]
+          }${TRANSACTION_ROUTE}`}
+        >
+          View Transactions
+          <svg
+            class="w-4 h-4 ms-2 rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 5h12m0 0L9 1m4 4L9 9"
+            />
+          </svg>
+        </a>
+      </div>
+    </span>
   );
 };
 
@@ -341,104 +467,7 @@ export const AdminPartnerTable = ({ tableData, flexLeft = <></> }) => {
       {/* card container */}
       <div className="grid grid-cols-3 gap-4">
         {table.getRowModel().rows.map((row) => (
-          <span
-            className=" block px-3 py-5 bg-white border border-gray-200 rounded-lg shadow"
-            key={row.id}
-          >
-            <div className={`flex justify-between text-sm items-center`}>
-              <div className="flex items-center gap-x-2">
-                {row
-                  .getVisibleCells()
-                  .map(
-                    (cell) =>
-                      cell.column.id === "partnerImage" && (
-                        <span className="block w-9 h-9">
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </span>
-                      )
-                  )}
-
-                <div>
-                  {row
-                    .getVisibleCells()
-                    .map(
-                      (cell) =>
-                        cell.column.id === "companyName" && (
-                          <span className="text-bold">
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </span>
-                        )
-                    )}
-                </div>
-                <div>
-                  <span
-                    className={`${
-                      tableData[row.index]["activatedStatus"] === true
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }  text-xs font-medium me-2 px-2.5 py-0.5 rounded-full `}
-                  >
-                    {tableData[row.index]["activatedStatus"] === true
-                      ? "Activated"
-                      : "Deactivated"}
-                  </span>
-                </div>
-              </div>
-              <span>
-                <AdminTileDropDown partnerData={tableData[row.index]} />
-              </span>
-            </div>
-
-            <div className="mt-4 flex flex-col gap-y-3">
-              {row
-                .getVisibleCells()
-                .map(
-                  (cell) =>
-                    cell.column.id !== "partnerImage" &&
-                    cell.column.id !== "partnerId" &&
-                    cell.column.id !== "companyName" && (
-                      <div key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </div>
-                    )
-                )}
-            </div>
-            <div>
-             
-              <a
-                class="inline-flex justify-end mt-3 items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/${
-                    tableData[row.index]["partnerId"]
-                  }${TRANSACTION_ROUTE}`}
-              >
-                View Transactions
-                <svg
-                  class="w-4 h-4 ms-2 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </span>
+          <AdminRow tableData={tableData} row={row} />
         ))}
       </div>
 
@@ -459,6 +488,8 @@ export const AdminPartnerTable = ({ tableData, flexLeft = <></> }) => {
     </div>
   );
 };
+
+
 
 // export default TransactionTable;
 

@@ -82,6 +82,7 @@ const PartnersOverView = () => {
           return {
             partnerImage: item?.entity?.profilePicture || <User2 />,
             companyName: item?.companyName,
+            companyAddress: item?.address && item?.address !== null ? item?.address :  '-',
             partnerId: item?.id,
             email: item?.entity?.email,
             activatedStatus: item?.entity?.status?.activated,

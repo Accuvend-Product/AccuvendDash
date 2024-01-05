@@ -5,6 +5,7 @@ import { ClipboardCopy } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import MainContent from "../../components/MainContent";
+import { getDateTimeString } from "../../lib/utils";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -124,8 +125,12 @@ const PartnerDevCenter = () => {
                     </button>
                   </td>
 
-                  <td className="py-2 px-4">8 Nov 2023</td>
-                  <td className="py-2 px-4">23 Nov 2023</td>
+                  <td className="py-2 px-4">{
+                    getDateTimeString(apiKeyData?.createdAt)
+                  }</td>
+                  <td className="py-2 px-4">{
+                    getDateTimeString(apiKeyData?.lastUsed)
+                  }</td>
                 </tr>
               </tbody>
             </table>

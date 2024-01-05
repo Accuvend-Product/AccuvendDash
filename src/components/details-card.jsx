@@ -1,18 +1,5 @@
-import PHEDImage from '../images/phed.png';
 import PropTypes from 'prop-types';
-import ABUJA from "../images/disco-images/ABUJA.jpeg";
-import IBADAN from "../images/disco-images/IBADAN.jpeg";
-import KANO from "../images/disco-images/KANO.jpeg";
-import YOLA from "../images/disco-images/YOLA.jpeg";
-import BENIN from "../images/disco-images/BENIN.jpeg";
-import IKEJA from "../images/disco-images/IKEJA.jpeg";
-import PORTHACOURT from "../images/disco-images/PORTHACOURT.jpeg";
-import EKO from "../images/disco-images/EKO.jpeg";
-import JOS from "../images/disco-images/JOS.jpeg";
-import WHATSAPP_IMAGE_1 from "../images/disco-images/WhatsApp Image 2023-12-14 at 14.06.48 (3).jpeg";
-import ENUGU from "../images/disco-images/ENUGU.jpeg";
-import KADUNA from "../images/disco-images/KADUNA.jpeg";
-import WHATSAPP_IMAGE_2 from "../images/disco-images/WhatsApp Image 2023-12-14 at 14.06.49 (3).jpeg";
+import { getDiscoImage as getImage } from '../lib/utils';
 
 const DetailsCard = ({transaction}) => {
 
@@ -37,25 +24,7 @@ const DetailsCard = ({transaction}) => {
         
     }
 
-    const getImage = (disco) => {
-        const logos = {
-            ABUJA,
-            IBADAN,
-            KANO,
-            YOLA,
-            BENIN,
-            IKEJA,
-            PORTHACOURT,
-            EKO,
-            JOS,
-            WHATSAPP_IMAGE_1,
-            ENUGU,
-            KADUNA,
-            WHATSAPP_IMAGE_2,
-          };
-
-        return logos[disco]
-    }
+    
 
         const {
           transactionTimestamp,
@@ -99,17 +68,17 @@ const DetailsCard = ({transaction}) => {
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Customer Name</p>
-                        <p className="text-gray-500">{user.name}</p>
+                        <p className="text-gray-500">{user?.name}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Meter number</p>
-                        <p className="text-gray-500">{meter.meterNumber}</p>
+                        <p className="text-gray-500">{meter?.meterNumber}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Transaction Type</p>
-                        <p className="text-gray-500">{meter.vendType}</p>
+                        <p className="text-gray-500">{meter?.vendType}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">

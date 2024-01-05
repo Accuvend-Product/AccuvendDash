@@ -1,3 +1,5 @@
+import { getDiscoImage } from "../../lib/utils";
+
 export const columns = [
   {
     accessorKey: "disco",
@@ -5,17 +7,20 @@ export const columns = [
     cell: (props) => {
       const disco = props.getValue();
       const imageUrl = props.row.original.image;
+      // const imageArray = ["EKO","PORTHARCOURT", "YOLA"]
+      // const random_ = Math.floor(Math.random() * 3);
       return (
-        <div className="flex items-center">
+        <div className="flex items-center py-0.5">
           <img
-            src={imageUrl}
+            src={getDiscoImage(disco?.toUpperCase())}
+            // src={imageUrl}
             alt={`${disco} logo`}
-            className="mr-2"
-            style={{
-              width: "50px",
-              height: "50px",
-              objectFit: "contain", // Preserve aspect ratio
-            }}
+            className="mr-2 h-9 w-9 object-contain"
+            // style={{
+            //   width: "50px",
+            //   height: "50px",
+            //   objectFit: "contain", // Preserve aspect ratio
+            // }}
           />
           <p className="">{disco}</p>
         </div>
