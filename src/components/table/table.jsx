@@ -327,7 +327,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                     <tbody>
                         {table.getRowModel().rows.map((row) => (
                             <tr
-                                className={`border-b border-[#F8F7F7] hover:bg-blue-50 hover:cursor-pointer hover:text-blue-800 hover:underline`}
+                                className={`border-bborder-[#F8F7F7] hover:bg-blue-50 hover:cursor-pointer hover:text-blue-800 hover:underline`}
                                 key={row.id}
                                 onClick={()=> navigate(`/transaction/details/${tableData[row.index]["transaction reference"]}`)}
                             >

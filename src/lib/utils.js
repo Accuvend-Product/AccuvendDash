@@ -1,5 +1,19 @@
 import { clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+
+import ABUJA from "../images/disco-images/ABUJA.jpeg";
+import IBADAN from "../images/disco-images/IBADAN.jpeg";
+import KANO from "../images/disco-images/KANO.jpeg";
+import YOLA from "../images/disco-images/YOLA.jpeg";
+import BENIN from "../images/disco-images/BENIN.jpeg";
+import IKEJA from "../images/disco-images/IKEJA.jpeg";
+import PORTHACOURT from "../images/disco-images/PORTHACOURT.jpeg";
+import EKO from "../images/disco-images/EKO.jpeg";
+import JOS from "../images/disco-images/JOS.jpeg";
+import WHATSAPP_IMAGE_1 from "../images/disco-images/WhatsApp Image 2023-12-14 at 14.06.48 (3).jpeg";
+import ENUGU from "../images/disco-images/ENUGU.jpeg";
+import KADUNA from "../images/disco-images/KADUNA.jpeg";
+import PLUG from "../images/disco-images/plug.png";
  
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
@@ -107,4 +121,23 @@ export const getDateTimeString = (inputDate) => {
   );
 
   return formattedDate;
+}
+
+
+export const getDiscoImage = (disco) => {
+  const logos = {
+      ABUJA,
+      IBADAN,
+      KANO,
+      YOLA,
+      BENIN,
+      IKEJA,
+      PORTHACOURT,
+      EKO,
+      JOS,
+      ENUGU,
+      KADUNA,
+    };
+
+  return logos[disco] ? logos[disco] : PLUG
 }
