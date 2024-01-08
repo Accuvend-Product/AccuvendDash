@@ -175,10 +175,12 @@ const PartnerDashboard = () => {
                   </div>
                 ) : (
                   <p className="text-center">
-                    ₦
-                    {parseInt(
+                    ₦ {parseInt(
                       totalTransactionData?.totalAmount
-                    )?.toLocaleString() || 0}
+                    )?.toLocaleString() !== "NaN"  ? parseInt(
+                      totalTransactionData?.totalAmount
+                    )?.toLocaleString() : 0 }
+                    
                   </p>
                 )}
               </div>

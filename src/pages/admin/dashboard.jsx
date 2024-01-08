@@ -171,9 +171,11 @@ const {
                 ) : (
                   <p className="text-center">
                     ₦
-                    {totalTransactionData?.totalAmount ? parseInt(
+                    {parseInt(
                       totalTransactionData?.totalAmount
-                    )?.toLocaleString() : 0}
+                    )?.toLocaleString() !== "NaN"  ? parseInt(
+                      totalTransactionData?.totalAmount
+                    )?.toLocaleString() : 0 }
                   </p>
                 )}
               </div>
