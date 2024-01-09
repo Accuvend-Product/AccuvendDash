@@ -55,7 +55,7 @@ const SelectRoutes = () => {
         </Routes> ;
     }else if(PORTAL_TYPE === CUSTOMERCARE){
         return <Routes>
-                <Route path="/" element={<SignIn />} />
+                <Route path="/" element={<AdminSignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path={`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`} element={<RequireAuth><CustomerDashboard/></RequireAuth>} />
                 <Route path={`${CUSTOMER_CARE_ROUTE}${EVENT_ROUTE}`} element={<RequireAuth><CustomerCareEvents/></RequireAuth>} />

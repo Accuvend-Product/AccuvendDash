@@ -43,9 +43,11 @@ const SignIn = () => {
       if (PORTAL_TYPE === PARTNER) navigate("/partner-dashboard");
       if (PORTAL_TYPE === CUSTOMERCARE) navigate(`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`);
     } catch (error) {
-      toast.error("Login Failed");
-      console.error("Error signing in:", error);
-      setError(error);
+      let error_message = error?.response?.status === 400 ? error?.response?.data?.message  : "Login Failed"
+      error_message = error?.response?.status === 403 && error?.response?.data?.message === "Unauthorized access to current login route"  ? "Sorry You don't have access to this portal" : "Login Failed"
+      toast.error(error_message);
+      console.error("Error signing in:", error_message);
+      setError(error_message);
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +67,7 @@ const SignIn = () => {
         </a>
         {error && (
           <p className="text-white bg-red-500 rounded-xl px-4 py-5 text-xl text-center my-10">
-            Login Failed
+            {error}
           </p>
         )}
         <form className="mt-[50px]" onSubmit={handleSubmit}>
