@@ -46,7 +46,7 @@ const Dashboard = () => {
             {/* cards */}
             <div className="flex space-x-12 items-center justify-end">
               <div className="">
-                <p className="text-3xl">Total no. Transacted 24hrs</p>
+                <p className="text-3xl">Total Transacted 24hrs</p>
                 <p className="text-[48px] text-primary font-semibold">
                   1,234
                 </p>
@@ -58,7 +58,7 @@ const Dashboard = () => {
                 </p>
               </div>
               <div className="bg-primary text-white p-4">
-                <p className="text-3xl">Total Amount Transacted 24hrs</p>
+                <p className="text-3xl">Total Amount 24hrs</p>
                 <p className="text-[48px] font-semibold">N1,234,476.87</p>
               </div>
             </div>

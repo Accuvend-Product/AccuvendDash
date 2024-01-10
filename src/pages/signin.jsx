@@ -4,7 +4,7 @@ import logo from "../assets/brandmark-design.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { ADMIN, CUSTOMERCARE, PARTNER } from "../Constants";
+import { ADMIN, CUSTOMER, CUSTOMERCARE, PARTNER } from "../Constants";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, TRANSACTION_ROUTE } from "../Routes";
 import { EyeOff, Eye } from "lucide-react";
 
@@ -42,6 +42,7 @@ const SignIn = () => {
       if (PORTAL_TYPE === ADMIN) navigate(`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`);
       if (PORTAL_TYPE === PARTNER) navigate("/partner-dashboard");
       if (PORTAL_TYPE === CUSTOMERCARE) navigate(`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`);
+      if (PORTAL_TYPE === CUSTOMER) navigate(`/transactions`);
     } catch (error) {
       let error_message = ""
       if(error_message = error?.response?.status === 400){

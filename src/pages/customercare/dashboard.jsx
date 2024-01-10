@@ -9,7 +9,7 @@ import { useTransactionData } from "../../contexts/transaction-context";
 import MainContent from "../../components/MainContent";
 import { useGetTransactions } from "../../api/Transaction";
 
-const CustomerDashboard = () => {
+const CustomerCareDashboard = () => {
 
     const {
         pagination,
@@ -50,4 +50,4 @@ const CustomerDashboard = () => {
     );
 };
 
-export default CustomerDashboard;
+export default CustomerCareDashboard;

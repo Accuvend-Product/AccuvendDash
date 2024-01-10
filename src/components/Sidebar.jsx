@@ -17,109 +17,13 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 import Replay from "./icons/replay.jsx";
 import MessageQuestion from "./icons/messagequestion";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, EVENT_ROUTE, PARTNERS_ROUTE, REPLAY_ROUTE, SUPPORT_ROUTE, TRANSACTION_ROUTE } from "../Routes";
-import { CUSTOMERCARE, PARTNER , ADMIN } from "../Constants";
+import { CUSTOMERCARE, PARTNER , ADMIN , CUSTOMER } from "../Constants";
 import { useLogout } from "../hooks/utilityHooks";
 import Profile2Users from "./icons/profile2user";
-const ParnterLinks = [
+import { ParnterLinks , CustomerCareLinks , CustomerLinks , AdminLinks } from "./menu-items.jsx";
 
-  {
-    name: "DASHBOARD",
-    icon: <LayoutDashboard className="h-5 w-5 mr-2 text-2xl" />,
-    href: "/partner-dashboard",
-    active: false,
-  },
-  {
-    name: "PROFILE",
-    icon: <User className="h-5 w-5 mr-2" />,
-    href: "/partner-dashboard/profile",
-    active: false,
-  },
-  {
-    name: "RESOLUTION CENTER",
-    icon: <HelpCircle className="h-5 w-5 mr-2" />,
-    href: "/partner-dashboard/resolution-center",
-    active: false,
-  },
-  {
-    name: "DEV CENTER",
-    icon: <Cpu className="h-5 w-5 mr-2" />,
-    href: "/partner-dashboard/devcenter",
-    active: false,
-  },
-];
-
-export const CustomerLinks = [
-    {
-        name: "TRANSACTIONS",
-        icon: <ArrowRightLeft className="h-5 w-5 mr-2 text-2xl" />,
-        href: `${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`,
-        active: false,
-    },
-    { 
-        name: "EVENTS",
-        icon: <MessageQuestion className="h-5 w-5 mr-2 text-2xl" />,
-        href: `${CUSTOMER_CARE_ROUTE}${EVENT_ROUTE}`,
-        active: false,
-    },
-    // {
-    //     name: "MY REPLAYS",
-    //     icon: <Replay className="h-5 w-5 mr-2 text-2xl" />,
-    //     href: `${CUSTOMER_CARE_ROUTE}${REPLAY_ROUTE}`,
-    //     active: false,
-    // },
-    {
-      icon: <HelpCircle className="h-5 w-5 mr-2" />,
-      active: false,
-      name: "RESOLUTION CENTER",
-      href: "/resolution-center"
-    },
-
-] ; 
-const AdminLinks = [
-  {
-    name: "TRANSACTIONS",
-    icon: <ArrowRightLeft className="h-5 w-5 mr-2 text-2xl" />,
-    href: `${ADMIN_ROUTE}${TRANSACTION_ROUTE}`,
-    active: false,
-  },
-  {
-    name: "PARTNERS",
-    icon: <Profile2Users className="h-5 w-5 mr-2 text-2xl" />,
-    href: `${ADMIN_ROUTE}${PARTNERS_ROUTE}`,
-    active: false,
-  },
-  {
-    name: "CUSTOMER SUPPORT",
-    icon: <MessageQuestion className="h-5 w-5 mr-2 text-2xl" />,
-    href: `#`,
-    active: false,
-    subLinks: [
-      // {
-      //   name: "OVERVIEW",
-      //   href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}/overview`,
-      //   active: false,
-      // },
-      {
-        name: "RESOLUTION CENTER",
-        href: "/resolution-center"
-      },
-      {
-        name: "EVENTS",
-        href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`,
-        active: false,
-      }
-    ]
-  },
-  {
-    name: "ERP",
-    icon: <Erp className="h-6 w-6 mr-2 text-2xl"/>,
-    href: `https://one.zoho.com/zohoone/accuvend/`,
-    active: false,
-    blank: true,
-  },
-
-] ;
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
+
 
 const Sidebar = ({sideBartype}) => {
   
@@ -128,7 +32,7 @@ const Sidebar = ({sideBartype}) => {
     let _link = '';
     switch (PORTAL_TYPE) {
         case CUSTOMERCARE:
-            _link = CustomerLinks;
+            _link = CustomerCareLinks;
             break;
         case ADMIN:
             _link = AdminLinks;
@@ -136,6 +40,9 @@ const Sidebar = ({sideBartype}) => {
         case PARTNER:
             _link = ParnterLinks;
             break;
+        case CUSTOMER:
+              _link = CustomerLinks;
+              break;
         default:   
             _link = ParnterLinks;
             break;
@@ -149,7 +56,7 @@ const Sidebar = ({sideBartype}) => {
 
   return (
     <div className="flex">
-      <div className="w-full md:w-[260px] max-h-screen overflow-hidden border-r border-body1 flex flex-col fixed top-0 left-0 bottom-0 pb-10 pt-16">
+      <div className="hidden md:w-[260px] max-h-screen overflow-hidden border-r border-body1 md:flex flex-col fixed top-0 left-0 bottom-0 pb-10 pt-16">
         <div className="flex flex-col pt-8 space-y-4 px-4 md:px-4 lg:px-4 xl:px-6">
           {links.map((link) => (
             <span className="flex flex-col">

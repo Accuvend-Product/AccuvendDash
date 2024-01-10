@@ -444,11 +444,11 @@ export const AdminPartnerTable = ({ tableData, flexLeft = <></> }) => {
 
   return (
     <div className="">
-      <div className="flex items-center justify-between self-end mb-4">
+      <div className="flex md:flex-row flex-col gap-y-3 items-end md:items-center justify-between self-end mb-4">
         <div>{flexLeft}</div>
 
         {/* seach area */}
-        <div className="flex items-center bg-[#F7F7F7] p-1 rounded-[8px]">
+        <div className="flex w-full md:w-auto items-center bg-[#F7F7F7] p-1 rounded-[8px]">
           <button className="p-2 rounded-l-md">
             <Search className="w-4 h-4 text-body1" />
           </button>
@@ -465,7 +465,7 @@ export const AdminPartnerTable = ({ tableData, flexLeft = <></> }) => {
         </div>
       </div>
       {/* card container */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {table.getRowModel().rows.map((row) => (
           <AdminRow tableData={tableData} row={row} />
         ))}

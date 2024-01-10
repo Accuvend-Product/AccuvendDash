@@ -41,10 +41,13 @@ const CustomerTransactionDetails = ({sidebarType=''}) => {
                     <ArrowLeft className="mr-2 mt-1 w-7 h-7 hover:cursor-pointer text-blue-800" onClick={() => navigate(-1)}/>
                     <h1 className="font-bold text-2xl">Transaction Details</h1>
                 </div>
-                <h1 className="text-body1 text-xl my-2">{transactionDetails.id}</h1>
+
+                <h1 className="text-body1 text-xl mt-8 mb-6 ">
+                    Token: {transactionDetails?.powerUnit?.token}
+                </h1>
 
                 {/* both cards */}
-                <div className="flex gap-16 items-stretch">
+                <div className="flex flex-col md:flex-row md:gap-x-16 items-stretch gap-y-8">
                     <DetailsCard transaction={transactionDetails} />
                     <OrderConfirmation transaction={transactionDetails} />
                 </div>

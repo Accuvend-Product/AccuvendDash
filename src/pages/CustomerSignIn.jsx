@@ -16,7 +16,7 @@ const CustomerSignIn = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: "",
+    phoneNumber: "",
     password: "",
     OTP: "",
   });
@@ -39,15 +39,15 @@ const CustomerSignIn = () => {
 
       // Save the tokens and user credentials in local storage
       localStorage.setItem("token", response.data.data.accessToken);
-      localStorage.setItem("userEmail", response.data.data.entity.email);
+      localStorage.setItem("userEmail", response.data.data.entity.phoneNumber);
 
       toast.success("Login Successful");
 
       // Redirect to the dashboard for the right portal
       if (PORTAL_TYPE === ADMIN) navigate(`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`);
       if (PORTAL_TYPE === PARTNER) navigate("/partner-dashboard");
-      if (PORTAL_TYPE === CUSTOMERCARE)
-        navigate(`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`);
+      if (PORTAL_TYPE === CUSTOMERCARE) navigate(`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`);
+      if (PORTAL_TYPE === CUSTOMER) navigate(`/transactions`);
     } catch (error) {
       let error_message = ""
       if(error_message = error?.response?.status === 400){
@@ -88,14 +88,14 @@ const CustomerSignIn = () => {
               htmlFor="phone"
               className="block text-2xl font-medium mb-2 text-left"
             >
-              Email
+              Phone number
             </label>
             <input
               type="phone"
-              id="email"
-              value={formData.email}
+              id="phoneNumber"
+              value={formData.phoneNumber}
               onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
+                setFormData({ ...formData, phoneNumber: e.target.value })
               }
               className="border border-gray-300 rounded-lg w-full px-2 py-4 focus:outline-none focus:ring-0 focus:border-blue-600"
             />
@@ -132,7 +132,7 @@ const CustomerSignIn = () => {
           {(loggInOTPSet && otpRequestSuccessful)&&<div className="mt-[20px]">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="phoneNumber"
                 className="block text-2xl font-medium mb-2 text-left"
               >
                 OTP

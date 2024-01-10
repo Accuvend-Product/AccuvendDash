@@ -209,7 +209,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
 
     return (
         <div className="">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex md:flex-row flex-col gap-y-3 md:items-center justify-between mb-4">
                 <div className="flex space-x-4 items-center">
                     <p className="text-body1 font-semibold">Filter by</p>
                     <DiscoFilter isActive={filter?.disco} handleDiscoSelect={handleDiscoSelect}/>
@@ -282,7 +282,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                 </span>}
             </div>}
             
-            <div className="min-h-[40vh]">
+            <div className="min-h-[40vh] min-w-full overflow-x-scroll">
                 <table className="min-w-full border-b border-[#F8F7F7]">
                     <thead>
                         {table.getHeaderGroups().map((headerGroup) => (
