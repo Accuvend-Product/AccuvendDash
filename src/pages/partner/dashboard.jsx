@@ -69,7 +69,7 @@ const PartnerDashboard = () => {
           <div className="lg:w-5/6 grid grid-cols-3 gap-x-7 lg:ml-auto">
             <div className="hover:bg-primary hover:text-white px-4 py-3 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
               <p className="font-bold text-center text-lg">
-                Total No. Transacted{" "}
+                Total Transacted{" "}
               </p>
               <div className="text-[1.65rem] font-semibold hover:text-white">
                 {totalTransactionsLoading ? (
@@ -143,7 +143,7 @@ const PartnerDashboard = () => {
 
             <div className="hover:bg-primary hover:text-white px-4 py-3 bg-gray-100 text-primary rounded-lg hover:cursor-pointer">
               <p className="font-bold text-center text-lg">
-                Total Amount Transacted{" "}
+                Total Amount{" "}
               </p>
               <div className="text-[1.65rem] font-semibold">
                 {" "}
@@ -175,10 +175,12 @@ const PartnerDashboard = () => {
                   </div>
                 ) : (
                   <p className="text-center">
-                    ₦
-                    {parseInt(
+                    ₦ {parseInt(
                       totalTransactionData?.totalAmount
-                    )?.toLocaleString() || 0}
+                    )?.toLocaleString() !== "NaN"  ? parseInt(
+                      totalTransactionData?.totalAmount
+                    )?.toLocaleString() : 0 }
+                    
                   </p>
                 )}
               </div>

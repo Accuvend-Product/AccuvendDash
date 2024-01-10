@@ -22,7 +22,7 @@ import CustomerCareEvents from "./pages/customercare/CustomerCareEvents";
 import CustomerCareReplays from "./pages/customercare/CustomerCareReplays";
 import PartnersOverView from "./pages/admin/PartnersOverView";
 import AdminDashboard from "./pages/admin/dashboard";
-import CustomerDashboard from "./pages/customercare/dashboard";
+import CustomerCareDashboard from "./pages/customercare/dashboard";
 export const queryClient = new QueryClient()
 import { ADMIN, CUSTOMER, CUSTOMERCARE, PARTNER } from "./Constants";
 import PartnerTransctions from "./pages/admin/partner-transactions";
@@ -32,6 +32,8 @@ import Notification from "./pages/Notification";
 import SingleSupportPage from "./pages/partner/SingleSupportPage";
 import RequireAuth from "./components/RequireAuth";
 import AdminSignIn from "./pages/adminsignin";
+import CustomerSignIn from "./pages/CustomerSignIn";
+import CustomerDashboard from "./pages/customer/dashboard";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -55,9 +57,9 @@ const SelectRoutes = () => {
         </Routes> ;
     }else if(PORTAL_TYPE === CUSTOMERCARE){
         return <Routes>
-                <Route path="/" element={<SignIn />} />
+                <Route path="/" element={<AdminSignIn />} />
                 <Route path="/signup" element={<SignUp />} />
-                <Route path={`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`} element={<RequireAuth><CustomerDashboard/></RequireAuth>} />
+                <Route path={`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`} element={<RequireAuth><CustomerCareDashboard/></RequireAuth>} />
                 <Route path={`${CUSTOMER_CARE_ROUTE}${EVENT_ROUTE}`} element={<RequireAuth><CustomerCareEvents/></RequireAuth>} />
                 <Route path={`${CUSTOMER_CARE_ROUTE}${REPLAY_ROUTE}`} element={<RequireAuth><CustomerCareReplays/></RequireAuth>}/>
                 <Route path="transaction/details/:id" element={<RequireAuth><TransactionDetails /></RequireAuth>} /> 
@@ -82,7 +84,10 @@ const SelectRoutes = () => {
         ;
     }else if(PORTAL_TYPE === CUSTOMER){
         return <Routes>
-            <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<></>} />
+            <Route path={`/`} element={<CustomerSignIn/>} />
+            <Route path={`/transactions`} element={<RequireAuth>
+                <CustomerDashboard/>
+            </RequireAuth>}/>
             <Route path="transaction/details/:id" element={<CustomerTransactionDetails />} /> 
         </Routes>
         ;

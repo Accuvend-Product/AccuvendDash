@@ -27,6 +27,7 @@ const AdminSignIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+    setError(null)
 
     try {
       const response = await axios.post(BASE_URL + "auth/login/admin", formData);
@@ -43,9 +44,19 @@ const AdminSignIn = () => {
       if (PORTAL_TYPE === PARTNER) navigate("/partner-dashboard");
       if (PORTAL_TYPE === CUSTOMERCARE) navigate(`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`);
     } catch (error) {
-      toast.error("Login Failed");
-      console.error("Error signing in:", error);
-      setError(error);
+      console.log(error?.response?.data?.message)
+      let error_message = ""
+      if(error_message = error?.response?.status === 400){
+        error_message = error?.response?.data?.message
+      }else if(error_message = error?.response?.status === 403  && error?.response?.data?.message === "Unauthorized access to current login route" ){
+        error_message = "Sorry You don't have access to this portal"
+      }else{
+        error_message = "Login Failed"
+      }
+      
+      toast.error(error_message);
+      console.error("Error signing in:", error_message);
+      setError(error_message);
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +76,7 @@ const AdminSignIn = () => {
         </a>
         {error && (
           <p className="text-white bg-red-500 rounded-xl px-4 py-5 text-xl text-center my-10">
-            Login Failed
+            {error}
           </p>
         )}
         <form className="mt-[50px]" onSubmit={handleSubmit}>

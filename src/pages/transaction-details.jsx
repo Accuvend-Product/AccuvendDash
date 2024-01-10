@@ -44,7 +44,7 @@ const TransactionDetails = ({sidebarType=''}) => {
                 {/* <h1 className="text-body1 text-xl my-2">{transactionDetails.id}</h1> */}
 
                 {/* both cards */}
-                <div className="flex gap-16 items-stretch">
+                <div className="mt-8 flex flex-col md:flex-row md:gap-x-16 items-stretch gap-y-8">
                     <DetailsCard transaction={transactionDetails} />
                     <OrderConfirmation transaction={transactionDetails} />
                 </div>

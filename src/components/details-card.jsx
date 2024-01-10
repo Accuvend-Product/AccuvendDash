@@ -53,7 +53,7 @@ const DetailsCard = ({transaction}) => {
                 statusClass = "bg-black text-white font-bold py-2 px-3  text-xs";
         }
         return (
-        <div className="rounded-xl border border-gray-300 w-[60%] mt-8">
+        <div className="rounded-xl border border-gray-300 w-full md:w-[60%]">
             {/* head section */}
             <div className="flex flex-col">
                 <div className="flex items-center justify-between bg-[#F7F7F7] py-4 px-8">

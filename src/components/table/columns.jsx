@@ -13,7 +13,6 @@ export const columns = [
         <div className="flex items-center py-0.5">
           <img
             src={getDiscoImage(disco?.toUpperCase())}
-            // src={imageUrl}
             alt={`${disco} logo`}
             className="mr-2 h-9 w-9 object-contain"
             // style={{
