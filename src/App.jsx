@@ -32,6 +32,7 @@ import Notification from "./pages/Notification";
 import SingleSupportPage from "./pages/partner/SingleSupportPage";
 import RequireAuth from "./components/RequireAuth";
 import AdminSignIn from "./pages/adminsignin";
+import CustomerSignIn from "./pages/CustomerSignIn";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -82,6 +83,8 @@ const SelectRoutes = () => {
         ;
     }else if(PORTAL_TYPE === CUSTOMER){
         return <Routes>
+            <Route path={`/`} element={<CustomerSignIn/>} />
+            <Route path={`/transactions`} element={<></>}/>
             <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<></>} />
             <Route path="transaction/details/:id" element={<CustomerTransactionDetails />} /> 
         </Routes>

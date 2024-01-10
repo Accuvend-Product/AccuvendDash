@@ -7,17 +7,22 @@ import { toast } from "react-hot-toast";
 import { ADMIN, CUSTOMERCARE, PARTNER } from "../Constants";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, TRANSACTION_ROUTE } from "../Routes";
 import { EyeOff, Eye } from "lucide-react";
+import OTPInput from "../components/OTPInput";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE;
 
-const SignIn = () => {
+const CustomerSignIn = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    OTP: "",
   });
+
+  const [loggInOTPSet, setLoggInOTPSet] = useState(true);
+  const [otpRequestSuccessful , setOtpRequestSuccessful] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,7 +46,8 @@ const SignIn = () => {
       // Redirect to the dashboard for the right portal
       if (PORTAL_TYPE === ADMIN) navigate(`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`);
       if (PORTAL_TYPE === PARTNER) navigate("/partner-dashboard");
-      if (PORTAL_TYPE === CUSTOMERCARE) navigate(`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`);
+      if (PORTAL_TYPE === CUSTOMERCARE)
+        navigate(`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`);
     } catch (error) {
       let error_message = ""
       if(error_message = error?.response?.status === 400){
@@ -79,13 +85,13 @@ const SignIn = () => {
         <form className="mt-[50px]" onSubmit={handleSubmit}>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="phone"
               className="block text-2xl font-medium mb-2 text-left"
             >
               Email
             </label>
             <input
-              type="email"
+              type="phone"
               id="email"
               value={formData.email}
               onChange={(e) =>
@@ -94,7 +100,7 @@ const SignIn = () => {
               className="border border-gray-300 rounded-lg w-full px-2 py-4 focus:outline-none focus:ring-0 focus:border-blue-600"
             />
           </div>
-          <div className="mt-[20px]">
+          {(!loggInOTPSet)&&<div className="mt-[20px]">
             <label
               htmlFor="password"
               className="block mb-2 text-2xl font-medium text-left"
@@ -103,7 +109,6 @@ const SignIn = () => {
             </label>
 
             <div className="relative">
-             
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
@@ -113,25 +118,52 @@ const SignIn = () => {
                 }
                 className="flex border border-gray-300 rounded-lg w-full px-2 py-4 hover:outline-none hover:ring-0 hover:border-blue-600 focus:outline-none focus:ring-0 focus:border-blue-600"
               />
-               <div className="absolute inset-y-0 end-0 pe-6 z-10  flex items-center">
+              <div className="absolute inset-y-0 end-0 pe-6 z-10  flex items-center">
                 <button
-                    className="w-4 h-4"
-                    type="button"
-                    onClick={() => setShowPassword((prevState) => !prevState)}
+                  className="w-4 h-4"
+                  type="button"
+                  onClick={() => setShowPassword((prevState) => !prevState)}
                 >
-                    {showPassword ? <Eye /> : <EyeOff />}
+                  {showPassword ? <Eye /> : <EyeOff />}
                 </button>
               </div>
             </div>
-          </div>
+          </div>}
+          {(loggInOTPSet && otpRequestSuccessful)&&<div className="mt-[20px]">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-2xl font-medium mb-2 text-left"
+              >
+                OTP
+              </label>
+              <OTPInput
+                id="otp"
+                value={formData.OTP}
+                onChange={(value) => setFormData({ ...formData, value })}
+                className="border border-gray-300 rounded-lg w-full px-2 py-4 focus:outline-none focus:ring-0 focus:border-blue-600"
+              />
+            </div>
+          </div>}
+
           <div className="flex items-center justify-between">
-            <div className="flex items-start"></div>
-            <a
+            <button
+              href="#"
+              type="button"
+              onClick={() => setLoggInOTPSet((prevSate)=> !prevSate)}
+              className="text-lg font-medium text-primary-600 hover:underline dark:text-primary-500 mt-[20px]"
+            >
+             { !loggInOTPSet ?'Login with OTP' :`Login with Password`}
+            </button>
+            {!loggInOTPSet && <a
               href="#"
               className="text-lg font-medium text-primary-600 hover:underline dark:text-primary-500 mt-[20px]"
             >
               Forgot password?
-            </a>
+            </a>}
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-start"></div>
           </div>
           <button
             type="submit"
@@ -149,4 +181,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default CustomerSignIn;

@@ -44,8 +44,16 @@ const AdminSignIn = () => {
       if (PORTAL_TYPE === PARTNER) navigate("/partner-dashboard");
       if (PORTAL_TYPE === CUSTOMERCARE) navigate(`${CUSTOMER_CARE_ROUTE}${TRANSACTION_ROUTE}`);
     } catch (error) {
-      let error_message = error?.response?.status === 400 ? error?.response?.data?.message  : "Login Failed"
-      error_message = error?.response?.status === 403 && error?.response?.data?.message === "Unauthorized access to current login route"  ? "Sorry You don't have access to this portal" : "Login Failed"
+      console.log(error?.response?.data?.message)
+      let error_message = ""
+      if(error_message = error?.response?.status === 400){
+        error_message = error?.response?.data?.message
+      }else if(error_message = error?.response?.status === 403  && error?.response?.data?.message === "Unauthorized access to current login route" ){
+        error_message = "Sorry You don't have access to this portal"
+      }else{
+        error_message = "Login Failed"
+      }
+      
       toast.error(error_message);
       console.error("Error signing in:", error_message);
       setError(error_message);
