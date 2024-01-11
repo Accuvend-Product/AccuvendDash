@@ -38,6 +38,12 @@ const SignIn = () => {
 
       toast.success("Login Successful");
 
+      if(response?.data?.data?.entity?.requireOTPOnLogin){
+        toast.success('OTP has been successfully sent to your email')
+        navigate("/confirm/otp");
+        return
+      }
+
       // Redirect to the dashboard for the right portal
       if (PORTAL_TYPE === ADMIN) navigate(`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`);
       if (PORTAL_TYPE === PARTNER) navigate("/partner-dashboard");
@@ -60,7 +66,7 @@ const SignIn = () => {
     }
   };
   return (
-    <section className="flex justify-center items-center h-screen">
+    <section className="flex justify-center items-center h-screen px-5">
       <div className="w-[600px] p-16 border border-gray-300 rounded-lg">
         <a
           href="#"
