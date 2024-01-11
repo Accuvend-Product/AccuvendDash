@@ -4,7 +4,7 @@ import logo from "../assets/brandmark-design.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { ADMIN, CUSTOMERCARE, PARTNER } from "../Constants";
+import { ADMIN, CUSTOMERCARE, PARTNER,  CUSTOMER } from "../Constants";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, TRANSACTION_ROUTE } from "../Routes";
 import { EyeOff, Eye } from "lucide-react";
 import OTPInput from "../components/OTPInput";
@@ -34,12 +34,19 @@ const CustomerSignIn = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(BASE_URL + "auth/login", formData);
+      const response = await axios.post(BASE_URL + "auth/login/customer", formData);
       console.log("Successful sign-in:", response.data.data);
 
       // Save the tokens and user credentials in local storage
       localStorage.setItem("token", response.data.data.accessToken);
       localStorage.setItem("userEmail", response.data.data.entity.phoneNumber);
+
+
+      if(response?.data?.data?.entity?.requireOTPOnLogin){
+        toast.success('OTP has been successfully sent to your email')
+        navigate("/confirm/otp");
+        return
+      }
 
       toast.success("Login Successful");
 
@@ -65,7 +72,7 @@ const CustomerSignIn = () => {
     }
   };
   return (
-    <section className="flex justify-center items-center h-screen">
+    <section className="flex justify-center items-center h-screen px-5">
       <div className="w-[600px] p-16 border border-gray-300 rounded-lg">
         <a
           href="#"

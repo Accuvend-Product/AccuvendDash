@@ -12,23 +12,7 @@ import { User2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 const PartnersOverView = () => {
-  // const isLoading = false
-  // const bankImages = [
-  //   'https://nigerianbanks.xyz/logo/zenith-bank.png',
-  //   "https://nigerianbanks.xyz/logo/access-bank.png",
-  //   "https://nigerianbanks.xyz/logo/first-city-monument-bank.png"
-
-  // ]
-  // const tableData = [1,2,3].map((_,index)=>{
-  //   return {
-  //     partnerImage : bankImages[index],
-  //     partnerId: 'eydychhehhehdhhshhsh',
-  //     failedTransaction: '0',
-  //     NumberOfTranscations: '0',
-  //     VendedTransaction: '0',
-  //   }
-  // })
-
+ 
   // Invite Partner Mutation
 
   const invitePartnerMutation = useMutation({
@@ -54,6 +38,9 @@ const PartnersOverView = () => {
         throw err;
       }
     },
+    onSuccess : () => {
+      queryClient.invalidateQueries({ queryKey: ["partners"] })
+    }
   });
 
   const {

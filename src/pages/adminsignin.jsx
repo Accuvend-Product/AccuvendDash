@@ -4,7 +4,7 @@ import logo from "../assets/brandmark-design.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { ADMIN, CUSTOMERCARE, PARTNER } from "../Constants";
+import { ADMIN, CUSTOMERCARE, PARTNER,  CUSTOMER } from "../Constants";
 import { ADMIN_ROUTE, CUSTOMER_CARE_ROUTE, TRANSACTION_ROUTE } from "../Routes";
 import { EyeOff, Eye } from "lucide-react";
 
@@ -39,6 +39,12 @@ const AdminSignIn = () => {
 
       toast.success("Login Successful");
 
+      if(response?.data?.data?.entity?.requireOTPOnLogin){
+        toast.success('OTP has been successfully sent to your email')
+        navigate("/confirm/otp");
+        return
+      }
+
       // Redirect to the dashboard for the right portal
       if (PORTAL_TYPE === ADMIN) navigate(`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`);
       if (PORTAL_TYPE === PARTNER) navigate("/partner-dashboard");
@@ -62,7 +68,7 @@ const AdminSignIn = () => {
     }
   };
   return (
-    <section className="flex justify-center items-center h-screen">
+    <section className="flex justify-center items-center h-screen px-5">
       <div className="w-[600px] p-16 border border-gray-300 rounded-lg">
         <a
           href="#"

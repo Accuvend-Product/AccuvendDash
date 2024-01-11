@@ -34,6 +34,7 @@ import RequireAuth from "./components/RequireAuth";
 import AdminSignIn from "./pages/adminsignin";
 import CustomerSignIn from "./pages/CustomerSignIn";
 import CustomerDashboard from "./pages/customer/dashboard";
+import { ConfirmOTP } from "./pages/ConfirmOTP";
 
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE
 
@@ -54,6 +55,7 @@ const SelectRoutes = () => {
             <Route path="/partner-dashboard/resolution-center" element={<RequireAuth><ResolutionCenter/></RequireAuth>} /> 
             <Route path="notifications" element={<RequireAuth><Notification/></RequireAuth>}/>
             <Route path="/ticket/:id" element={<RequireAuth><SingleSupportPage/></RequireAuth>}/>
+            <Route path="/confirm/otp" element={<ConfirmOTP/>}/>
         </Routes> ;
     }else if(PORTAL_TYPE === CUSTOMERCARE){
         return <Routes>
@@ -66,6 +68,7 @@ const SelectRoutes = () => {
                 <Route path="notifications" element={<RequireAuth><Notification/></RequireAuth>}/>
                 <Route path="/resolution-center" element={<RequireAuth><ResolutionCenter/></RequireAuth>} /> 
                 <Route path="/ticket/:id" element={<RequireAuth><SingleSupportPage/></RequireAuth>}/>
+                <Route path="/confirm/otp" element={<ConfirmOTP/>}/>
         </Routes> ;
     }else if(PORTAL_TYPE === ADMIN){
         return <Routes>
@@ -80,6 +83,7 @@ const SelectRoutes = () => {
             <Route path="notifications" element={<RequireAuth><Notification/></RequireAuth>}/>
             <Route path="/resolution-center" element={<RequireAuth><ResolutionCenter/></RequireAuth>} /> 
             <Route path="/ticket/:id" element={<RequireAuth><SingleSupportPage/></RequireAuth>}/>
+            <Route path="/confirm/otp" element={<ConfirmOTP/>}/>
         </Routes>
         ;
     }else if(PORTAL_TYPE === CUSTOMER){
@@ -89,6 +93,7 @@ const SelectRoutes = () => {
                 <CustomerDashboard/>
             </RequireAuth>}/>
             <Route path="transaction/details/:id" element={<CustomerTransactionDetails />} /> 
+            <Route path="/confirm/otp" element={<ConfirmOTP/>}/>
         </Routes>
         ;
     }else{
