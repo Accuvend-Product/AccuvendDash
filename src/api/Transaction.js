@@ -48,6 +48,8 @@ export const useGetTransactions = (query = {} , url) => {
           status: transaction?.status.toLowerCase(),
           selection: transaction?.partnerId ?? "TESTID",
           events : transaction?.events,
+          superagent: transaction?.superagent,
+          partnerName : transaction?.partner?.companyName,
         })
       );
       setTableData(transformedData);

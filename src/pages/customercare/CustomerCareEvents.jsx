@@ -15,7 +15,8 @@ const CustomerCareEvents = () => {
         isLoading,
         tableData, 
         setPagination
-      } = useGetTransactions({},'transaction?status=PENDING')
+     // } = useGetTransactions({})
+    } = useGetTransactions({},'transaction?status=PENDING')
   
 
   return (
