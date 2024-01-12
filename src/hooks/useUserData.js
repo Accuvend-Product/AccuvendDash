@@ -30,14 +30,14 @@ const useUserData = (BASE_URL) => {
                     unreadNotifications: response.data.unreadNotificationsCount
                 };
                 setUserData(response.data.data)
-
+                console.log(_userData)
                 setEmail(_userData?.email);
                 setUnreadNotifications(response.data.unreadNotificationsCount);
                 if (_userData.profilePicture) {
-                    setUploadedImageLink(userData.profilePicture);
+                    setUploadedImageLink(_userData.profilePicture);
                 }
                 if(_userData?.entityId){
-                    setEntityId(userData?.entityId)
+                    setEntityId(_userData?.entityId)
                 }
             }
         } catch (error) {
