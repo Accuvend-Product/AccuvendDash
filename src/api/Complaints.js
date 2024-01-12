@@ -20,7 +20,7 @@ export const useGetComplaints = (entityid) => {
       const [entityFilter, setEntityFilter] = useState()
     
     
-      const getTransactions = async (entityId) => {
+      const getComplaints = async (entityId) => {
         
         setIsLoading(true)
         setIsError(false)
@@ -59,7 +59,7 @@ export const useGetComplaints = (entityid) => {
       };
     
       useEffect(() => {
-        getTransactions(entityid);
+        getComplaints(entityid);
       }, [filters, pagination , entityid]);
     
     //   const {isLoading, data , isError} = useQuery({
@@ -85,6 +85,6 @@ export const useGetComplaints = (entityid) => {
         isError,
         paginationDetail ,
         setPaginationDetail,
-        refetch : () =>  getTransactions(entityid)
+        refetch : () =>  getComplaints(entityid)
       }
 }

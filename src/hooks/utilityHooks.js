@@ -60,7 +60,10 @@ export const useLogout = () => {
                 localStorage.removeItem("userEmail");
                 // Redirect to the login page
                 navigate("/");
-            }else{
+            }else if(error.response?.data?.message === "Invalid authentication"){
+                
+            }
+            else{
                 toast.error("An error occurred while logging out. Please try again.");
             }
         }finally{
