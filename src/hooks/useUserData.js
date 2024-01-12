@@ -34,7 +34,7 @@ const useUserData = (BASE_URL) => {
                 setEmail(_userData?.email);
                 setUnreadNotifications(response.data.unreadNotificationsCount);
                 if (_userData.profilePicture) {
-                    setUploadedImageLink(_userData.profilePicture);
+                    setUploadedImageLink(_userData?.profilePicture);
                 }
                 if(_userData?.entityId){
                     setEntityId(_userData?.entityId)
