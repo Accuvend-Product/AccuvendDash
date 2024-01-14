@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const useUserData = (BASE_URL) => {
   const fetchUserData = async () => {
-    try {
+    
       const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("No token available");
@@ -30,18 +30,12 @@ const useUserData = (BASE_URL) => {
           unreadNotifications: response.data.unreadNotificationsCount,
         };
       }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      throw Error;
-      
-    } finally {
-      
-    }
   };
 
   const queryInfo = useQuery({
     queryKey: ["current-user"],
     queryFn: fetchUserData,
+    staleTime: 1000 * 360,
   });
 
   return {
@@ -49,7 +43,7 @@ const useUserData = (BASE_URL) => {
     email: queryInfo.data?.email,
     uploadedImageLink: queryInfo.data?.uploadedImageLink,
     unreadNotifications: queryInfo.data?.unreadNotifications ,
-    isUserDataError: queryInfo.isError ,
+    isUserDataError: queryInfo.error ,
     isUserDataLoading: queryInfo.isLoading,
     userData: queryInfo.data?.userData,
     refetch: queryInfo.refetch,
