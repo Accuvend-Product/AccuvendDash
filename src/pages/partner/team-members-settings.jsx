@@ -16,6 +16,7 @@ const initialFormData = {
   roleId: "",
 };
 import { PARTNER_DASHBOARD_ROUTE, PREFERENCES_ROUTE } from "../../Routes";
+import ProfileNavigation from "./ProfileNavigation";
 const PartnerTeamSettings = () => {
   const [showModal, setShowModal] = useState(false);
   const [showGuestModal, setShowGuestModal] = useState(false);
@@ -25,6 +26,8 @@ const PartnerTeamSettings = () => {
   const [deleteEmail, setDeleteEmail] = useState(null);
   const [deleteTeamMeberIsLoading, setDeleteTeamMeberIsLoading] =
     useState(false);
+
+  const allowRoles = ["TEAMMEMBER", "GUEST"];
   const {
     ModalProvider: RemoveMemberModal,
     openModal: openMemberModal,
@@ -64,14 +67,17 @@ const PartnerTeamSettings = () => {
 
   const handleInviteMember = async () => {
     console.log("Sending invitation:", formData);
-    const uploadFormData = {...formData}
-    if (!uploadFormData?.roleId || !uploadFormData?.roleId === "" ){
-       uploadFormData.roleId = roles?.filter(item => item?.name === "GUEST")[0]?.id  ? roles?.filter(item => item?.name === "GUEST")[0]?.id : ""
+    const uploadFormData = { ...formData };
+    if (!uploadFormData?.roleId || !uploadFormData?.roleId === "") {
+      uploadFormData.roleId = roles?.filter((item) => item?.name === "GUEST")[0]
+        ?.id
+        ? roles?.filter((item) => item?.name === "GUEST")[0]?.id
+        : "";
     }
 
     console.log("Sending invitation:", uploadFormData);
 
-    // return 
+    // return
 
     try {
       const response = await axios.post(
@@ -86,7 +92,6 @@ const PartnerTeamSettings = () => {
 
       console.log("Invitation response:", response);
       toast.success("Invitation sent successfully");
-      
     } catch (error) {
       console.error("Error sending invitation:", error);
       toast.error("Failed to send invitation");
@@ -187,7 +192,7 @@ const PartnerTeamSettings = () => {
               </h3>
               <button
                 onClick={() => {
-                    removeInvitedMember(deleteEmail)
+                  removeInvitedMember(deleteEmail);
                 }}
                 disabled={deleteTeamMeberIsLoading}
                 data-modal-hide="popup-modal"
@@ -235,7 +240,7 @@ const PartnerTeamSettings = () => {
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-white rounded-lg p-8 w-[35%]">
+              <div className="bg-white rounded-lg p-8 lg:w-[35%] md:w-1/2 w-full mx-5 md:mx-0">
                 <h1 className="text-lg font-bold mb-4">Invite New Member</h1>
                 <div className="mb-4">
                   <label className="block mb-1">Name</label>
@@ -268,11 +273,13 @@ const PartnerTeamSettings = () => {
                     <option value="" disabled>
                       Select a role
                     </option>
-                    {roles.map((role) => (
-                      <option key={role.id} value={role.id}>
-                        {role.name}
-                      </option>
-                    ))}
+                    {roles
+                      ?.filter((item) => allowRoles.includes(item.name))
+                      .map((role) => (
+                        <option key={role.id} value={role.id}>
+                          {role.name}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <div className="flex justify-end">
@@ -361,26 +368,7 @@ const PartnerTeamSettings = () => {
             Take a look at your policies and the new policy to see what is
             covered
           </p>
-          <div className="flex ">
-            <Link
-              to="/partner-dashboard/profile"
-              className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md"
-            >
-              Profile
-            </Link>
-            <Link
-              to={`${PARTNER_DASHBOARD_ROUTE}${PREFERENCES_ROUTE}`}
-              className="px-2 py-1 border-y border-gray-300 text-body1"
-            >
-              Preferences
-            </Link>
-            <Link
-              to="/partner-dashboard/team-settings"
-              className="px-2 py-1 border rounded-r-md bg-gray-200 border-gray-300 text-primary font-semibold "
-            >
-              Team members
-            </Link>
-          </div>
+          <ProfileNavigation/>
         </div>
 
         <div className="mt-10 flex flex-col px-8 border border-gray-200 rounded-md pb-40">
@@ -421,20 +409,53 @@ const PartnerTeamSettings = () => {
                         <tr key={member.id} className="border-b">
                           <td className="px-4 py-2">
                             <div className="flex items-center">
-                              <img
+                              {/* <img
                                 src={member.profilePicture ?? ZenithImage}
                                 alt="User 1"
                                 className="w-10 h-10 rounded-full mr-2"
-                              />
+                              /> */}
+                              <div className="mr-3">
+                              {member?.profilePicture ? (
+                                <img
+                                  src={member?.profilePicture}
+                                  alt="profile picture"
+                                  className="w-7 h-7 rounded-full ring-2 ring-gray-300 p-1"
+                                />
+                              ) : member?.entity?.email && member?.entity?.email?.length > 0 ? (
+                                <>
+                                  <div className="relative ring-2 ring-gray-300 p-1 text-xs inline-flex items-center justify-center w-7 h-7 overflow-hidden bg-gray-100 rounded-full ">
+                                    <span className="font-medium ">
+                                      {member?.entity?.email[0].toUpperCase()}
+                                    </span>
+                                  </div>
+                                </>
+                              ) : (
+                                <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full ring-2 ring-gray-300 p-1">
+                                  <svg
+                                    className="absolute w-6 h-6 text-gray-400 -left-1"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                      clip-rule="evenodd"
+                                    ></path>
+                                  </svg>
+                                </div>
+                              )}
+                              </div>
+                              
                               <div>
-                                <p className="font-semibold">{member.name}</p>
-                                <p className="text-gray-500">
+                                <p className="font-semibold text">{member.name}</p>
+                                <p className="text-gray-500 text-sm">
                                   {member.entity.email}
                                 </p>
                               </div>
                             </div>
                           </td>
-                          <td className="px-4 py-2">
+                          <td className="px-4 py-2 text-sm">
                             {
                               new Date(member.createdAt)
                                 .toISOString()
@@ -444,7 +465,7 @@ const PartnerTeamSettings = () => {
                           <td className="px-4 py-2">
                             <button
                               onClick={() => console.log("Tell")}
-                              className="text-primary bg-blue-100 rounded-full px-3 py-1.5 text-center font-semibold w-full hover:cursor-default"
+                              className="text-primary bg-blue-100 rounded-full text-sm px-3 py-1.5 text-center font-semibold w-full hover:cursor-default"
                             >
                               {member.entity.role.name
                                 .toLowerCase()

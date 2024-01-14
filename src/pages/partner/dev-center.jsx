@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import MainContent from "../../components/MainContent";
 import { getDateTimeString } from "../../lib/utils";
+import useUserData from "../../hooks/useUserData";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PartnerDevCenter = () => {
   const [apiKeyData, setApiKeyData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const {userData} = useUserData(BASE_URL)
 
   const fetchApiKeys = async () => {
     try {
@@ -136,12 +138,12 @@ const PartnerDevCenter = () => {
             </table>
 
             {/* Button to generate a new key */}
-            <button
+            {userData?.entity?.role?.name === "PARTNER" && <button
               className="mt-7 bg-primary text-white py-2 px-4 rounded-md"
               onClick={createNewKey}
             >
               + Request a new secret key
-            </button>
+            </button>}
 
             {/* Developer Guide  */}
             <div

@@ -91,9 +91,12 @@ const {
                   </div>
                 ) : (
                   <p className="text-center">
+                    
                     {parseInt(
                       totalTransactionData?.totalTransactions
-                    )?.toLocaleString() || 0}
+                    )?.toLocaleString() !== "NaN"  ? parseInt(
+                      totalTransactionData?.totalTransactions
+                    )?.toLocaleString() : 0 }
                   </p>
                 )}
               </div>
@@ -128,9 +131,11 @@ const {
                   </div>
                 ) : (
                   <p className="text-center">
-                    {totalFailedTransactionData?.totalTransactions ? parseInt(
-                      totalFailedTransactionData?.totalTransactions
-                    )?.toLocaleString() : 0}
+                    {parseInt(
+                      totalFailedTransactionData?.totalTransactions 
+                    )?.toLocaleString() !== "NaN"  ? parseInt(
+                      totalFailedTransactionData?.totalTransactions 
+                    )?.toLocaleString() : 0 }
                   </p>
                 )}
               </div>

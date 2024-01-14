@@ -19,6 +19,7 @@ import { PARTNER_DASHBOARD_ROUTE, PREFERENCES_ROUTE } from "../../Routes";
 import { useLogout } from "../../hooks/utilityHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useModal } from "../../hooks/useModal";
+import ProfileNavigation from "./ProfileNavigation";
 
 const PartnerDashboardSettings = () => {
   const [showChangePassword, setShowChangePassword] = useState(false);
@@ -55,7 +56,7 @@ const PartnerDashboardSettings = () => {
     ModalProvider: ChangeTwoFAModal,
     openModal: openChangeTwoFAModal,
     closeModal,
-  } = useModal("Invite Partner");
+  } = useModal("Enable Two Factor");
 
   useEffect(() => {
     // Fetch user's notification preferences from the server and update state
@@ -334,33 +335,14 @@ const PartnerDashboardSettings = () => {
             Take a look at your policies and the new policy to see what is
             covered
           </p>
-          <div className="flex ">
-            <Link
-              to="/partner-dashboard/profile"
-              className="px-2 py-1 border border-gray-300 text-body1 rounded-l-md"
-            >
-              Profile
-            </Link>
-            <Link
-              to={`${PARTNER_DASHBOARD_ROUTE}${PREFERENCES_ROUTE}`}
-              className="px-2 py-1 border-y border-gray-300 bg-gray-200 text-primary font-semibold  "
-            >
-              Preferences
-            </Link>
-            <Link
-              to="/partner-dashboard/team-settings"
-              className="px-2 py-1 border border-gray-300 text-body1 rounded-r-md "
-            >
-              Team members
-            </Link>
-          </div>
+          <ProfileNavigation/>
         </div>
 
         <div className="mt-10 flex justify-center border border-gray-200 rounded-md">
           {/* Container div */}
           <div className="flex flex-col space-y-8 items-center py-7 px-8 lg:mx-0 lg:w-2/3">
             {/* Email Settings */}
-            <div className="w-full">
+            {userData?.entity?.role?.name === "PARTNER" && <div className="w-full">
               <div
                 className="flex items-center justify-between w-full cursor-pointer"
                 onClick={() => setShowChangeEmail(!showChangeEmail)}
@@ -397,10 +379,10 @@ const PartnerDashboardSettings = () => {
                   </button>
                 </div>
               )}
-            </div>
+            </div>}
 
             {/* Notifications */}
-            <div
+            {userData?.entity?.role?.name === "PARTNER" &&<div
               className="flex items-center justify-between w-full cursor-pointer"
               onClick={() => setShowNotificationsModal(true)}
             >
@@ -412,10 +394,10 @@ const PartnerDashboardSettings = () => {
                 </div>
               </div>
               <ChevronDown className="h-4 w-4 ml-auto" />
-            </div>
+            </div>}
 
             {/* Connected account */}
-            <div className="flex items-center justify-between w-full">
+            {userData?.entity?.role?.name === "PARTNER" && <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-4">
                 <LinkIcon />
                 <div className="flex flex-col">
@@ -431,7 +413,7 @@ const PartnerDashboardSettings = () => {
                 </div>
               </div>
               <ChevronDown className="h-4 w-4 ml-auto" />
-            </div>
+            </div>}
             
             {/* Update Password */}
             <div className="w-full">
@@ -482,7 +464,7 @@ const PartnerDashboardSettings = () => {
             </div>
 
             {/* 2 step verification */}
-            <div className="w-full">
+            {userData?.entity?.role?.name === "PARTNER" &&<div className="w-full">
               <div
                 className="flex items-center justify-between w-full cursor-pointer"
                 onClick={() => {
@@ -524,10 +506,10 @@ const PartnerDashboardSettings = () => {
                 </label>
               </div>
               }
-            </div>
+            </div>}
 
             {/* Webhooks */}
-            <div className="flex items-center justify-between w-full">
+            {userData?.entity?.role?.name === "PARTNER" && <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-4">
                 <LinkIcon />
                 <div className="flex flex-col">
@@ -543,7 +525,7 @@ const PartnerDashboardSettings = () => {
                 </div>
               </div>
               <ChevronDown className="h-4 w-4 ml-auto" />
-            </div>
+            </div>}
           </div>
         </div>
       </MainContent>
