@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useRef } from "react";
 
 const OTPInput = (props) => {
   const [inputValues, setInputValues] = useState(
@@ -7,14 +7,29 @@ const OTPInput = (props) => {
   useEffect(() => {
     if (props.onChange) props.onChange(inputValues.join(""));
   }, [inputValues]);
+  const otpReferences = useRef([]);
+  const inputLength = 6
   return (
     <>
       <div class="flex justify-center mb-2 space-x-2 rtl:space-x-reverse">
-        {Array.from({ length: 6 }, (value, index) => value).map((_, index) => (
+        {Array.from({ length: inputLength }, (value, index) => value).map((_, index) => (
           <div>
             <input
+              key={index}
+              onKeyUp={(event) => {
+                if(event.target.value && index < inputLength - 1){
+                  otpReferences.current[index + 1].focus()
+                }
+              }}  
+              ref={(reference) => (otpReferences.current[index] = reference)}
               onKeyDown={(event) => {
-                console.log('l')
+
+                if(event.key === "Backspace" && !event.target.value && index > 0){
+                  otpReferences.current[index - 1].focus()
+                }
+                if(event.key === "Enter" && event.target.value && index < inputLength - 1){
+                  otpReferences.current[index + 1].focus()
+                }
                 
                 if (index === 0) {
                   console.log(event.key , event.ctrlKey||event.metaKey)
@@ -34,6 +49,7 @@ const OTPInput = (props) => {
                           err
                         );
                       });
+                      otpReferences.current[inputLength - 1].focus()
                   }
                 }
               }}

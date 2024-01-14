@@ -71,9 +71,12 @@ const CustomerDashboard = () => {
                   </div>
                 ) : (
                   <p className="text-center">
+                    
                     {parseInt(
                       totalTransactionData?.totalTransactions
-                    )?.toLocaleString() || 0}
+                    )?.toLocaleString() !== "NaN"  ? parseInt(
+                      totalTransactionData?.totalTransactions
+                    )?.toLocaleString() : 0 }
                   </p>
                 )}
               </div>

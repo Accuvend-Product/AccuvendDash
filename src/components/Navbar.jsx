@@ -375,7 +375,7 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
 };
 
 const Navbar = () => {
-  const { uploadedImageLink, unreadNotifications } = useUserData(BASE_URL);
+  const { uploadedImageLink, unreadNotifications , userData } = useUserData(BASE_URL);
   const NotificationData = useNotificationData(BASE_URL);
   const userEmail = localStorage.getItem("userEmail");
   return (
@@ -399,7 +399,7 @@ const Navbar = () => {
 
         <div className="flex items-center gap-3">
           {/* Notification */}
-          <NotificationDropDown NotificationData={NotificationData} />
+          {userData?.entity?.partnerProfileId && <NotificationDropDown NotificationData={NotificationData} />}
           {/* Notification end */}
           <IconDropDown
             userEmail={userEmail}

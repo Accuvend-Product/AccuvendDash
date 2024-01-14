@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import LoadingSpinner from "../../components/ui/loading";
 import MainContent from "../../components/MainContent";
 import { PARTNER_DASHBOARD_ROUTE , PREFERENCES_ROUTE } from "../../Routes";
+import ProfileNavigation from "./ProfileNavigation";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PartnerDashboardProfile = () => {
@@ -100,26 +101,7 @@ const PartnerDashboardProfile = () => {
                             Take a look at your policies and the new policy to see what is
                             covered
                         </p>
-                        <div className="flex ">
-                            <Link
-                                to="/partner-dashboard/profile"
-                                className="px-2 py-1 border bg-gray-200 border-gray-300 font-semibold text-primary rounded-l-md"
-                            >
-                                Profile
-                            </Link>
-                            <Link
-                                to={`${PARTNER_DASHBOARD_ROUTE }${PREFERENCES_ROUTE}`}
-                                className="px-2 py-1 border-y border-gray-300 text-body1"
-                            >
-                                Preferences
-                            </Link>
-                            <Link
-                                to="/partner-dashboard/team-settings"
-                                className="px-2 py-1 border border-gray-300 text-body1 rounded-r-md "
-                            >
-                                Team members
-                            </Link>
-                        </div>
+                        <ProfileNavigation/>
                     </div>
 
                     <div className="mt-10 flex flex-col px-8 border border-gray-200 rounded-md pb-40">

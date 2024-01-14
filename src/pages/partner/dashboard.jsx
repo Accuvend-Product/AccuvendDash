@@ -97,8 +97,10 @@ const PartnerDashboard = () => {
                 ) : (
                   <p className="text-center">
                     {parseInt(
-                      totalTransactionData?.totalTransactions
-                    )?.toLocaleString() || 0}
+                       totalTransactionData?.totalTransactions
+                    )?.toLocaleString() !== "NaN"  ? parseInt(
+                       totalTransactionData?.totalTransactions
+                    )?.toLocaleString() : 0 }
                   </p>
                 )}
               </div>
@@ -135,7 +137,9 @@ const PartnerDashboard = () => {
                   <p className="text-center">
                     {parseInt(
                       totalFailedTransactionData?.totalTransactions
-                    )?.toLocaleString() || 0}
+                    )?.toLocaleString() !== "NaN"  ? parseInt(
+                      totalFailedTransactionData?.totalTransactions
+                    )?.toLocaleString() : 0 }
                   </p>
                 )}
               </div>

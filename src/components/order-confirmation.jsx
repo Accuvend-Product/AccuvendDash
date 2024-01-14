@@ -3,21 +3,25 @@ import RedCheck from "./icons/red-check";
 import PropTypes from "prop-types";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useMemo } from "react";
-import { METER_VALIDATION_RECIEVED_FROM_VENDOR, POWER_PURCHASE_INITIATED_BY_CUSTOMER, TOKEN_RECIEVED_FROM_VENDOR, TOKEN_SENT_TO_PARTNER } from "./EventsTable/constants";
+import {
+  METER_VALIDATION_RECIEVED_FROM_VENDOR,
+  POWER_PURCHASE_INITIATED_BY_CUSTOMER,
+  TOKEN_RECIEVED_FROM_VENDOR,
+  TOKEN_SENT_TO_PARTNER,
+  METER_VALIDATION_SENT_PARTNER,
+} from "./EventsTable/constants";
 
 const OrderConfirmation = ({ transaction }) => {
   const { amount, meter, disco, powerUnit, user, events } = transaction;
 
   const checkEventExist = (event) => {
-    const _event = events?.filter((item) => item?.eventType === event)
-    if(_event.length > 0) return true
-    else return false
-  }
-
- 
+    const _event = events?.filter((item) => item?.eventType === event);
+    if (_event.length > 0) return true;
+    else return false;
+  };
 
   const getBgColor = (prevState, CurrenState) => {
-    console.log(prevState, CurrenState )
+    console.log(prevState, CurrenState);
     if (!prevState) {
       return "bg-[#F7F7F7]";
     }
@@ -40,12 +44,14 @@ const OrderConfirmation = ({ transaction }) => {
       );
     }
     if (!CurrenState) {
-      return <>
-      <span class="relative flex h-6 w-6 items-center justify-center">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffbb00] opacity-75"></span>
-        <span class="animate-pulse relative inline-flex rounded-full h-4 w-4 bg-[#ffbb00]"></span>
-      </span>
-    </> ;
+      return (
+        <>
+          <span class="relative flex h-6 w-6 items-center justify-center">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffbb00] opacity-75"></span>
+            <span class="animate-pulse relative inline-flex rounded-full h-4 w-4 bg-[#ffbb00]"></span>
+          </span>
+        </>
+      );
     } else {
       return <CheckCircle2 strokeWidth={"2.5px"} className="text-green-600" />;
     }
@@ -61,11 +67,10 @@ const OrderConfirmation = ({ transaction }) => {
 
         {/* Order Confirmation rows */}
         <div className="flex flex-col space-y-4 px-8 pt-8 pb-4">
-          <div
-            className={`bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start `}
-          >
-            {checkEventExist(METER_VALIDATION_RECIEVED_FROM_VENDOR) ? (
-              <>
+          {/* {checkEventExist(METER_VALIDATION_SENT_PARTNER) ? (
+              <div
+                className={`bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start `}
+              >
                 <div className="mt-2">
                   <CheckCircle2
                     strokeWidth={"2.5px"}
@@ -78,29 +83,33 @@ const OrderConfirmation = ({ transaction }) => {
                   <p className="text-sm">Name - {user?.name}</p>
                   <p className="text-sm">Address - {user?.address}</p>
                 </div>
-              </>
-            ) : (
-              <>
-                <div className="mt-2">
-                  <CheckCircle2
-                    strokeWidth={"2.5px"}
-                    className="text-green-600"
-                  />
-                </div>
-                <div>
-                  <h1 className="font-bold text-lg">Validate Meter</h1>
-                  <p className="text-sm">Meter Number - {meter?.meterNumber}</p>
-                  <p className="text-sm">Name - {user?.name}</p>
-                  <p className="text-sm">Address - {user?.address}</p>
-                </div>
-              </>
-            )}
-          </div>
+              </div>
+            ) : ( */}
           <div
-            className={`bg-[#F2FBF6] px-4 py-2 rounded-md flex gap-4 items-start `}
+            className={`${getBgColor(
+              true,
+              checkEventExist(METER_VALIDATION_SENT_PARTNER)
+            )} px-4 py-2 rounded-md flex gap-4 items-start `}
           >
             <div className="mt-2">
-              <CheckCircle2 strokeWidth={"2.5px"} className="text-green-600" />
+              {getIcon(true, checkEventExist(METER_VALIDATION_SENT_PARTNER))}
+            </div>
+            <div>
+              <h1 className="font-bold text-lg">Validate Meter</h1>
+              <p className="text-sm">Meter Number - {meter?.meterNumber}</p>
+              <p className="text-sm">Name - {user?.name}</p>
+              <p className="text-sm">Address - {user?.address}</p>
+            </div>
+          </div>
+          {/* )} */}
+          <div
+            className={`${getBgColor(
+              checkEventExist(METER_VALIDATION_SENT_PARTNER),
+              true
+            )}  px-4 py-2 rounded-md flex gap-4 items-start `}
+          >
+            <div className="mt-2">
+              {getIcon(checkEventExist(METER_VALIDATION_SENT_PARTNER),true )}
             </div>
             <div>
               <h1 className="font-bold text-lg">Check if Disco is up</h1>
@@ -109,19 +118,21 @@ const OrderConfirmation = ({ transaction }) => {
           </div>
           <div
             className={`${getBgColor(
-              checkEventExist(METER_VALIDATION_RECIEVED_FROM_VENDOR),
+              checkEventExist(METER_VALIDATION_SENT_PARTNER),
               checkEventExist(POWER_PURCHASE_INITIATED_BY_CUSTOMER)
             )} px-4 py-2 rounded-md flex gap-4 items-start `}
           >
             <div className="mt-2">
               {getIcon(
-                checkEventExist(METER_VALIDATION_RECIEVED_FROM_VENDOR),
+                checkEventExist(METER_VALIDATION_SENT_PARTNER),
                 checkEventExist(POWER_PURCHASE_INITIATED_BY_CUSTOMER)
               )}
             </div>
             <div>
               <h1 className="font-bold text-lg">Confirm Payment</h1>
-              <p className="text-sm">Amount - ₦{Number(amount)?.toLocaleString()}</p>
+              <p className="text-sm">
+                Amount - ₦{Number(amount)?.toLocaleString()}
+              </p>
             </div>
           </div>
           <div
@@ -131,8 +142,10 @@ const OrderConfirmation = ({ transaction }) => {
             )} px-4 py-2 rounded-md flex gap-4 items-start `}
           >
             <div className="mt-2">
-              {getIcon(checkEventExist(POWER_PURCHASE_INITIATED_BY_CUSTOMER),
-              checkEventExist(TOKEN_RECIEVED_FROM_VENDOR))}
+              {getIcon(
+                checkEventExist(POWER_PURCHASE_INITIATED_BY_CUSTOMER),
+                checkEventExist(TOKEN_RECIEVED_FROM_VENDOR)
+              )}
             </div>
             <div>
               <h1 className="font-bold text-lg">Generate Token</h1>
@@ -140,8 +153,10 @@ const OrderConfirmation = ({ transaction }) => {
                 <p className="text-sm">Token generated successfully</p>
               ) : (
                 <p className="text-sm">
-                  Token not generated yet <br/>
-                  { !checkEventExist(TOKEN_RECIEVED_FROM_VENDOR) ? 'We are currently retrying the process to obtain a token for you. We appreciate your patience': ''}
+                  Token not generated yet <br />
+                  {!checkEventExist(TOKEN_RECIEVED_FROM_VENDOR)
+                    ? "We are currently retrying the process to obtain a token for you. We appreciate your patience"
+                    : ""}
                 </p>
               )}
             </div>
@@ -154,7 +169,7 @@ const OrderConfirmation = ({ transaction }) => {
           >
             <div className="mt-2">
               {getIcon(
-                checkEventExist(TOKEN_RECIEVED_FROM_VENDOR), 
+                checkEventExist(TOKEN_RECIEVED_FROM_VENDOR),
                 checkEventExist(TOKEN_SENT_TO_PARTNER)
               )}
             </div>
