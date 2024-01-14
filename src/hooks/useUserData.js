@@ -35,7 +35,6 @@ const useUserData = (BASE_URL) => {
   const queryInfo = useQuery({
     queryKey: ["current-user"],
     queryFn: fetchUserData,
-    staleTime: 1000 * 360,
   });
 
   return {

@@ -2,7 +2,7 @@ import React , {useEffect , useState} from 'react'
 import { useNavigate , Navigate } from "react-router-dom";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useLogout } from '../hooks/utilityHooks';
-import useUserData from '../hooks/useUserData';
+import useUserData from '../hooks/useUserDataFetchApi';
 import { toast } from "react-hot-toast";
 
 const RequireAuth = ({children}) => {
