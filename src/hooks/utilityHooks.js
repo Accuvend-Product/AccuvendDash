@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { useQueryClient, QueryCache} from '@tanstack/react-query'
 export const useLogout = () => {
     const navigate = useNavigate();
     const [isLogginLoading , setIsLogginLoading] = useState(false);
-    const handleLogout = async () => {
+    const queryClient = useQueryClient();
     
+    const handleLogout = async () => {
+        
         try {
             //Set Login out state loading to true
             setIsLogginLoading(true)
@@ -18,6 +21,10 @@ export const useLogout = () => {
                 // Clear authentication token and user email from local storage
                 localStorage.removeItem("token");
                 localStorage.removeItem("userEmail");
+                //invalidate current-user query when logged out 
+                queryClient.invalidateQueries({ queryKey: ['current-user'] })
+                //clear all cache when logged out for 
+                queryClient.clear()
                 // Redirect to the login page
                 navigate("/");
                 return 
@@ -47,6 +54,8 @@ export const useLogout = () => {
             // Clear authentication token and user email from local storage
             localStorage.removeItem("token");
             localStorage.removeItem("userEmail");
+            //invalidate current-user query when logged out 
+            queryClient.invalidateQueries({ queryKey: ['current-user'] })
             // Redirect to the login page
             navigate("/");
         } catch (error) {
@@ -58,6 +67,10 @@ export const useLogout = () => {
                  // Clear authentication token and user email from local storage
                 localStorage.removeItem("token");
                 localStorage.removeItem("userEmail");
+                //invalidate current-user query when logged out 
+                queryClient.invalidateQueries({ queryKey: ['current-user'] })
+                //clear all cache when logged out for 
+                queryClient.clear()
                 // Redirect to the login page
                 navigate("/");
             }else if(error.response?.data?.message === "Invalid authentication"){
