@@ -23,7 +23,7 @@ const OrderConfirmation = ({ transaction }) => {
   const getBgColor = (prevState, CurrenState) => {
     console.log(prevState, CurrenState);
     if (!prevState) {
-      return "bg-[#F7F7F7]";
+      return "bg-[#F7F7F7] text-gray-500";
     }
     if (!CurrenState) {
       return "bg-[#FFBF001A]";
@@ -149,7 +149,7 @@ const OrderConfirmation = ({ transaction }) => {
             </div>
             <div>
               <h1 className="font-bold text-lg">Generate Token</h1>
-              {powerUnit?.token ? (
+              {checkEventExist(TOKEN_RECIEVED_FROM_VENDOR) ? (
                 <p className="text-sm">Token generated successfully</p>
               ) : (
                 <p className="text-sm">
@@ -177,10 +177,10 @@ const OrderConfirmation = ({ transaction }) => {
               <h1 className="font-bold text-lg">Send Token</h1>
               <p
                 className={`text-sm ${
-                  powerUnit !== null ? "font-semibold" : ""
+                  checkEventExist(TOKEN_SENT_TO_PARTNER) ? "font-semibold" : ""
                 }`}
               >
-                {powerUnit !== null ? powerUnit.token : "Token not generated"}
+                {checkEventExist(TOKEN_SENT_TO_PARTNER) ? powerUnit?.token : "Token not sent"}
               </p>
             </div>
           </div>
