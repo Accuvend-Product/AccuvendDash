@@ -109,7 +109,7 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
       triggerEvents:[
         EventConstant.TOKEN_SENT_TO_PARTNER,
         EventConstant.TOKEN_SENT_TO_EMAIL,
-        EventConstant.TOKEN_SENT_TO_NUMBER,
+        // EventConstant.TOKEN_SENT_TO_NUMBER,
       ],
       Icon: (props) => <Check {...props} />,
     },
