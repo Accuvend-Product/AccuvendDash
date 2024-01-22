@@ -3,7 +3,7 @@ import { AdminPartnerTable } from "../../components/AdminPartnerTable/table";
 import { useState } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useModal } from "../../hooks/useModal";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Plus } from "lucide-react";
 import { useTransactionData } from "../../contexts/transaction-context";
@@ -12,9 +12,8 @@ import { User2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 const PartnersOverView = () => {
- 
   // Invite Partner Mutation
-
+  const queryClient = useQueryClient();
   const invitePartnerMutation = useMutation({
     mutationFn: async ({
       onSuccessFunction,
@@ -22,15 +21,11 @@ const PartnersOverView = () => {
       ...inviteBody
     }) => {
       try {
-        const res = await axios.post(
-          `${BASE_URL}partner/invite`,
-          inviteBody,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const res = await axios.post(`${BASE_URL}partner/invite`, inviteBody, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         onSuccessFunction();
         return res;
       } catch (err) {
@@ -38,9 +33,11 @@ const PartnersOverView = () => {
         throw err;
       }
     },
-    onSuccess : () => {
-      queryClient.invalidateQueries({ queryKey: ["partners"] })
-    }
+    onSuccess: () => {
+      console.log('failing ')
+      window.location.reload(true)
+      // queryClient.invalidateQueries({ queryKey: ["partners"] , exact: true });
+    },
   });
 
   const {
@@ -65,11 +62,14 @@ const PartnersOverView = () => {
         // return response
 
         return response?.data?.data?.partners?.map((item) => {
-          const itemStats = response?.data?.data?.stats?.filter((search) => search.id === item.id)[0]
+          const itemStats = response?.data?.data?.stats?.filter(
+            (search) => search.id === item.id
+          )[0];
           return {
             partnerImage: item?.entity?.profilePicture || <User2 />,
             companyName: item?.companyName,
-            companyAddress: item?.address && item?.address !== null ? item?.address :  '-',
+            companyAddress:
+              item?.address && item?.address !== null ? item?.address : "-",
             partnerId: item?.id,
             email: item?.entity?.email,
             activatedStatus: item?.entity?.status?.activated,
@@ -78,7 +78,6 @@ const PartnersOverView = () => {
             SuccessfulTransaction: itemStats?.success_Transactions,
           };
         });
-
       } catch (err) {
         throw err;
       }
@@ -88,7 +87,10 @@ const PartnersOverView = () => {
     <>
       <>
         <InvitePartnerModal>
-          <InvitePartnerForm invitePartnerMutation={invitePartnerMutation} closeModal={closeModal}/>
+          <InvitePartnerForm
+            invitePartnerMutation={invitePartnerMutation}
+            closeModal={closeModal}
+          />
         </InvitePartnerModal>
       </>
       <MainContent>
@@ -144,13 +146,28 @@ const PartnersOverView = () => {
 const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const createComplain = async () => {
+  const [emailRequried, setEmailRequired] = useState(false);
+  const [nameRequried, setNameRequired] = useState(false);
+  const invitePartner = async () => {
+    setEmailRequired(false);
+    setNameRequired(false);
+    if (email === null || email === "" || !email) {
+      setEmailRequired(true);
+      return;
+    }
+    if (name === null || name === "" || !name) {
+      setNameRequired(true);
+      return;
+    }
+
     invitePartnerMutation.mutate({
       email,
-      companyName:name,
+      companyName: name,
       onSuccessFunction: () => {
         console.log("success");
         toast.success("Partner Invite Sent Successfully");
+        setEmail("")
+        setName("")
         closeModal();
       },
       onFailureFunction: () => {
@@ -161,7 +178,7 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
   };
 
   return (
-    <form>
+    <form onSubmit={(e) => e.preventDefault()}>
       <div className="">
         <div className="mb-6">
           <label
@@ -176,6 +193,7 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
             value={email}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
+          {emailRequried && <p class="mt-2 text-sm text-red-600 ">Partner's Email is required</p>}
         </div>
 
         <div className="mb-6">
@@ -191,15 +209,15 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
             value={name}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
+          {nameRequried && <p class="mt-2 text-sm text-red-600 ">Partner's Name is required</p>}
         </div>
-
       </div>
 
       <div>
         <button
           type="button"
           disabled={invitePartnerMutation.isPending}
-          onClick={() => createComplain()}
+          onClick={() => invitePartner()}
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2   focus:outline-none "
         >
           {invitePartnerMutation.isPending ? (

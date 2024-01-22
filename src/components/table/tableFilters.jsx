@@ -4,6 +4,7 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
+import { ChevronDown } from "lucide-react";
 // import Datepicker from 'flowbite-datepicker/Datepicker';
 export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
   const [show, setShow] = useState(false);
@@ -25,13 +26,14 @@ export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
           <button
             type="button"
             onClick={() => setShow(true)}
-            className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
+            className={`rounded-full px-3.5 py-1 text-sm border transition-all flex items-center justify-center border-primary ${
               show || isActive
                 ? "bg-primary text-white font-semibold"
                 : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
             }`}
           >
-            STATUS
+            <span cl>STATUS</span>
+            <ChevronDown/>
           </button>
           {show && (
             <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
@@ -92,13 +94,15 @@ export const DateFilter = ({ handleDateSelect, isActive = false }) => {
           <button
             type="button"
             onClick={() => setShow(true)}
-            className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
+            className={`rounded-full px-3.5 py-1 text-sm border transition-all flex items-center justify-center border-primary ${
               isActive
                 ? "bg-primary text-white font-semibold"
                 : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
             }`}
           >
-            DATE
+            <span className="mr-3">DATE</span>
+            <ChevronDown/>
+
           </button>
           {show && (
             <div className="absolute mt-10 bg-white border border-gray-200 rounded shadow-md z-10 p-4">
@@ -161,13 +165,14 @@ export const DiscoFilter = ({
             <button
               type="button"
               onClick={() => setShow(true)}
-              className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
+              className={`rounded-full px-3.5 py-1 text-sm border transition-all flex items-center justify-center border-primary ${
                 show || isActive
                   ? "bg-primary text-white font-semibold"
                   : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
               }`}
             >
-              DISCO
+             <span className="mr-3">DISCO</span>
+             <ChevronDown/>
             </button>
             {show && (
               <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10 h-40 overflow-y-scroll">
