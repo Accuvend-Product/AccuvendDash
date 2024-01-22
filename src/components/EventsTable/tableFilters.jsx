@@ -4,6 +4,7 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
+import { ChevronDown } from "lucide-react";
 // import Datepicker from 'flowbite-datepicker/Datepicker';
 export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
   const [show, setShow] = useState(false);
@@ -32,6 +33,7 @@ export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
             }`}
           >
             STATUS
+            
           </button>
           {show && (
             <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
