@@ -24,6 +24,7 @@ export const useGetComplaints = (entityid) => {
         
         setIsLoading(true)
         setIsError(false)
+        console.log("Hello");
         try {
             const response = await axios.get(
                 `${BASE_URL}complaints/all?${new URLSearchParams(

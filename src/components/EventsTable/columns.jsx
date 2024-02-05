@@ -35,6 +35,16 @@ export const columns = [
     cell: (props) => <p> {props.getValue()}</p>,
   },
   {
+    accessorKey: "partnerName",
+    header: "Partner",
+    cell: (props) => <p> {props.getValue()}</p>,
+  },
+  {
+    accessorKey: "superagent",
+    header: "Vendor",
+    cell: (props) => <p> {props.getValue()}</p>,
+  },
+  {
     accessorKey: "transaction date",
     header: "Date",
     cell: (props) => {

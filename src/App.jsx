@@ -77,7 +77,7 @@ const SelectRoutes = () => {
             <Route path={`${ADMIN_ROUTE}${TRANSACTION_ROUTE}`} element={<RequireAuth><AdminDashboard/></RequireAuth>} />
             <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} element={<RequireAuth><PartnersOverView/></RequireAuth>} />
             <Route path={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/:id${TRANSACTION_ROUTE}`} element={<RequireAuth><PartnerTransctions/></RequireAuth>} />
-            <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`} element={<RequireAuth><CustomerCareEvents/></RequireAuth>}/>
+            <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`} element={<RequireAuth><CustomerCareEvents role="admin"/></RequireAuth>}/>
             <Route path={`${ADMIN_ROUTE}${SUPPORT_ROUTE}\overview`} element={<></>}/>
             <Route path="transaction/details/:id" element={<RequireAuth><TransactionDetails /></RequireAuth>} /> 
             <Route path="notifications" element={<RequireAuth><Notification/></RequireAuth>}/>

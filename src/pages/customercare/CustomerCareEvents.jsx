@@ -6,7 +6,7 @@ import { EventTable } from "../../components/EventsTable/table";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useGetTransactions } from "../../api/Transaction";
 
-const CustomerCareEvents = () => {
+const CustomerCareEvents = ({role}) => {
 
     const {
         pagination,
@@ -15,8 +15,7 @@ const CustomerCareEvents = () => {
         isLoading,
         tableData, 
         setPagination
-     // } = useGetTransactions({})
-    } = useGetTransactions({},'transaction?status=PENDING')
+    } = useGetTransactions({},`${role === "admin" ? '':'transaction?status=PENDING'}`)
   
 
   return (
@@ -39,7 +38,6 @@ const CustomerCareEvents = () => {
                         <EventTable 
                         filter={filters}
                         setFilter={setFilters}
-                        
                         tableData={tableData} />
                     </>
                 )
