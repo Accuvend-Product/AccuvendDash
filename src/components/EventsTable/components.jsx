@@ -8,9 +8,9 @@ import { Check, PlayCircle } from "lucide-react";
 import * as EventConstant from "./constants";
 import { getDateTimeString } from "../../lib/utils";
 
-export const EventTimeline = ({events , originalRow , showInfo}) => {
-//   const events = props.events;
-//   const originalRow = props.data;
+export const EventTimeline = ({ events, originalRow, showInfo }) => {
+  //   const events = props.events;
+  //   const originalRow = props.data;
   const ListOfEvents = [
     {
       title: (
@@ -43,10 +43,10 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
         EventConstant.CHECK_DISCO_UP_INITIATED_TO_VENDOR,
         EventConstant.CHECK_DISCO_UP_CONFIRMED_FROM_VENDOR,
       ],
-      triggerEvents:  [
+      triggerEvents: [
         EventConstant.CHECK_DISCO_UP_INITIATED_TO_VENDOR,
         EventConstant.CHECK_DISCO_UP_CONFIRMED_FROM_VENDOR,
-      ]
+      ],
     },
     {
       title: (
@@ -55,13 +55,9 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
         </span>
       ),
       eventType: EventConstant.VEND_ELECTRICITY_REQUESTED_FROM_VENDOR,
-      items_in_category: [
-        EventConstant.POWER_PURCHASE_INITIATED_BY_CUSTOMER,
-      ],
-      triggerEvents: [
-        EventConstant.POWER_PURCHASE_INITIATED_BY_CUSTOMER,
-      ],
-      Icon: (props) => <PaymentConfirmed {...props} />
+      items_in_category: [EventConstant.POWER_PURCHASE_INITIATED_BY_CUSTOMER],
+      triggerEvents: [EventConstant.POWER_PURCHASE_INITIATED_BY_CUSTOMER],
+      Icon: (props) => <PaymentConfirmed {...props} />,
     },
     {
       title: (
@@ -82,13 +78,13 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
         EventConstant.GET_TRANSACTION_TOKEN_REQUESTED_FROM_VENDOR,
         EventConstant.RETRY_PURCHASE_FROM_NEW_VENDOR,
       ],
-      triggerEvents:[
+      triggerEvents: [
         EventConstant.TOKEN_RECIEVED_FROM_VENDOR,
         EventConstant.VEND_ELECTRICITY_REQUESTED_FROM_VENDOR,
         // EventConstant.GET_TRANSACTION_TOKEN_REQUESTED_FROM_VENDOR,
         EventConstant.GET_TRANSACTION_TOKEN_FROM_VENDOR_INITIATED,
       ],
-      Icon : (props) => <TokenGenerated {...props} />
+      Icon: (props) => <TokenGenerated {...props} />,
     },
     {
       title: (
@@ -106,7 +102,7 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
         EventConstant.WEBHOOK_NOTIFICATION_CONFIRMED_FROM_PARTNER,
         EventConstant.WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY,
       ],
-      triggerEvents:[
+      triggerEvents: [
         EventConstant.TOKEN_SENT_TO_PARTNER,
         EventConstant.TOKEN_SENT_TO_EMAIL,
         // EventConstant.TOKEN_SENT_TO_NUMBER,
@@ -125,21 +121,26 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
             COMPLETE: "bg-green-500",
             FAILED: "bg-red-500",
           };
-         
-          let currentStatus = "PENDING"
-          if(index === 1){
-            // Done Because No Disco UP events Yet 
-            currentStatus = ListOfEvents[0].triggerEvents.every((item) => {
-              return events.findIndex(_item => _item?.eventType === item)  !== -1 
-            }) ? "COMPLETE" : "PENDING";
-          
-          }else {
-            currentStatus = eventItem?.triggerEvents.every((item) => {
-              return events.findIndex(_item => _item?.eventType === item)  !== -1 
-            }) ? "COMPLETE" : "PENDING";
-          }
-           
 
+          let currentStatus = "PENDING";
+          if (index === 1) {
+            // Done Because No Disco UP events Yet
+            currentStatus = ListOfEvents[0].triggerEvents.every((item) => {
+              return (
+                events.findIndex((_item) => _item?.eventType === item) !== -1
+              );
+            })
+              ? "COMPLETE"
+              : "PENDING";
+          } else {
+            currentStatus = eventItem?.triggerEvents.every((item) => {
+              return (
+                events.findIndex((_item) => _item?.eventType === item) !== -1
+              );
+            })
+              ? "COMPLETE"
+              : "PENDING";
+          }
 
           return (
             <li className="relative w-full">
@@ -150,11 +151,10 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
                       status_color[currentStatus] || "bg-gray-200"
                     } rounded-full ring-0 ring-white `}
                   >
-                    {eventItem?.Icon({className : `text-white`})}
+                    {eventItem?.Icon({ className: `text-white` })}
                   </div>
                 }
-                {eventItem?.eventType !==
-                  "TOKEN_SENT" && (
+                {eventItem?.eventType !== "TOKEN_SENT" && (
                   <div className="flex w-full bg-gray-200 h-0.5 border-dashed border-t-2 border-gray-400"></div>
                 )}
               </div>
@@ -163,37 +163,13 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
                   {eventItem?.title}
                 </h3>
               </div>
-             { showInfo && <div className="mt-5">
-                <ol class="relative border-s border-gray-200">
-                 
-                  {events.sort((a, b) => new Date(a?.createdAt) - new Date(b?.createdAt))
-                    ?.filter((ele) =>
-                      eventItem?.items_in_category?.includes(ele?.eventText)
-                    )
-                    ?.map((eventData) => {
-                      return (
-                        <li class="ms-4 mb-6 me-5">
-                          <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                          <time class="mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
-                            {getDateTimeString(eventData?.eventTimestamp)}
-                          </time>
-                          <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
-                            {eventData?.eventText
-                              ?.split("_")
-                              .map(
-                                (word) =>
-                                  word.charAt(0).toUpperCase() + word.slice(1)
-                              )
-                              .join(" ")}
-                          </h3>
-                          <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                            source : {eventData?.source}
-                          </p>
-                        </li>
-                      );
-                    })}
-                </ol>
-              </div>}
+              {showInfo && (
+                <div className="mt-5">
+                  <ol className="relative border-s border-gray-200">
+                    <EventSubTimeline events={events} partnerName={originalRow?.partnerName} eventItem={eventItem} />
+                  </ol>
+                </div>
+              )}
             </li>
           );
         })}
@@ -209,3 +185,98 @@ export const EventTimeline = ({events , originalRow , showInfo}) => {
     </div>
   );
 };
+
+const EventSubTimeline = ({ events, eventItem , partnerName }) => {
+  const subEvents = events
+    .sort((a, b) => new Date(a?.createdAt) - new Date(b?.createdAt))
+    ?.filter((ele) => eventItem?.items_in_category?.includes(ele?.eventText));
+  const eventSuccessIndexObject = eventCountData(subEvents);
+  return (
+    <>
+      {subEvents?.map((eventData, index) => {
+        const eventSuccess =
+          eventSuccessIndexObject[eventData.eventText] === index;
+        const payload = JSON.parse(eventData?.payload || "{}");
+        // transactions.events[].{name: eventType, age: eventTimestamp}
+        const superagent = eventData?.eventText === "RETRY_PURCHASE_FROM_NEW_VENDOR" ?  payload?.newSuperAgent : payload?.superagent
+        return (
+          <li className="ms-4 mb-6 me-5">
+            <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+            <time className="mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
+              {getDateTimeString(eventData?.eventTimestamp)}
+            </time>
+            <h3
+              className={`text-sm font-semibold  ${
+                eventSuccess ? "text-green-900 " : "text-red-900"
+              } `}
+            >
+              {
+                parseVendorPartnerName(
+                  EventConstant.eventsObjectHeadingsDscription[
+                    eventData?.eventText
+                  ]?.heading,
+                  superagent,
+                  partnerName
+                )
+              }
+            </h3>
+            <p
+              className={`text-sm font-normal ${
+                eventSuccess ? "text-green-500 " : "text-red-500"
+              }`}
+            >
+              {parseVendorPartnerName(
+                eventSuccess
+                  ? EventConstant.eventsObjectHeadingsDscription[
+                      eventData?.eventText
+                    ]?.description
+                  : EventConstant.eventsObjectHeadingsDscription[
+                      eventData?.eventText
+                    ]?.failedStateDescription,
+                    superagent,
+                    partnerName
+              )}
+            </p>
+          </li>
+        );
+      })}
+    </>
+  );
+};
+
+/**
+ * Returns an object containing the last index where each unique event occurs in the timeline.
+ * An event is considered failed if it occurs more than once or is not the latest occurrence.
+ *
+ * @param {Array} events - The list of grouped events.
+ * @returns {Object} - An object where keys are unique event texts, and values are the last index of their occurrence.
+ */
+function eventCountData(events) {
+  const eventStateObject = {};
+
+  for (let i = 0; i < events.length; i++) {
+    // Use eventText as the key and store the last index of its occurrence
+    eventStateObject[events[i]?.eventText] = i;
+  }
+
+  return eventStateObject;
+}
+
+/**
+ * Replaces placeholders (%vendor% and %partner%) in the given text with actual vendor and partner names.
+ *
+ * @param {string} text - The input text containing placeholders.
+ * @param {string} vendor - The actual vendor name to replace %vendor%.
+ * @param {string} partner - The actual partner name to replace %partner%.
+ * @returns {string} - The text with replaced vendor and partner names.
+ */
+
+function parseVendorPartnerName(text, vendor, partner) {
+  // Replace %vendor% with the actual vendor name
+  const textWithVendor = text.replace(/%vendor%/gi, vendor);
+
+  // Replace %partner% with the actual partner name
+  const textWithPartner = textWithVendor.replace(/%partner%/gi, partner);
+
+  return textWithPartner;
+}

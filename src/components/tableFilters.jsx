@@ -1,10 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
+import { useQuery } from "@tanstack/react-query";
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
+import axios from "axios";
 import { ChevronDown } from "lucide-react";
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
 // import Datepicker from 'flowbite-datepicker/Datepicker';
 export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
   const [show, setShow] = useState(false);
@@ -26,37 +30,35 @@ export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
           <button
             type="button"
             onClick={() => setShow(true)}
-            className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
+            className={`rounded-full px-3.5 py-1 text-sm border transition-all flex items-center justify-center border-primary ${
               show || isActive
                 ? "bg-primary text-white font-semibold"
                 : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
             }`}
           >
-            STATUS
-            
+            <span>STATUS</span>
+            <ChevronDown/>
           </button>
           {show && (
             <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
               <button
                 type="button"
                 onClick={() => handleStatusSelect("PENDING")}
-                className={`block w-full text-left px-4 py-2 hover:bg-gray-100 
-                                            `}
+                className={`block w-full text-left px-4 py-2 hover:bg-gray-100`}
               >
                 Pending
               </button>
               <button
                 type="button"
                 onClick={() => handleStatusSelect("FAILED")}
-                className={`block w-full text-left px-4 py-2 hover:bg-gray-100
-                                            `}
+                className={`block w-full text-left px-4 py-2 hover:bg-gray-100`}
               >
                 Failed
               </button>
               <button
                 type="button"
                 onClick={() => handleStatusSelect("COMPLETE")}
-                className={`block w-full text-left px-4 py-2 hover:bg-gray-100 `}
+                className={`block w-full text-left px-4 py-2 hover:bg-gray-100`}
               >
                 Completed
               </button>
@@ -94,13 +96,15 @@ export const DateFilter = ({ handleDateSelect, isActive = false }) => {
           <button
             type="button"
             onClick={() => setShow(true)}
-            className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
+            className={`rounded-full px-3.5 py-1 text-sm border transition-all flex items-center justify-center border-primary ${
               isActive
                 ? "bg-primary text-white font-semibold"
                 : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
             }`}
           >
-            DATE
+            <span className="mr-3">DATE</span>
+            <ChevronDown/>
+
           </button>
           {show && (
             <div className="absolute mt-10 bg-white border border-gray-200 rounded shadow-md z-10 p-4">
@@ -163,13 +167,14 @@ export const DiscoFilter = ({
             <button
               type="button"
               onClick={() => setShow(true)}
-              className={`rounded-full px-3.5 py-1 text-sm border transition-all border-primary ${
+              className={`rounded-full px-3.5 py-1 text-sm border transition-all flex items-center justify-center border-primary ${
                 show || isActive
                   ? "bg-primary text-white font-semibold"
                   : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
               }`}
             >
-              DISCO
+             <span className="mr-3">DISCO</span>
+             <ChevronDown/>
             </button>
             {show && (
               <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10 h-40 overflow-y-scroll">
@@ -206,3 +211,92 @@ export const DiscoFilter = ({
     </>
   );
 };
+
+
+export const PartnerFilter = ({handlePartnerSelect, isCustomer, isActive = false}) => {
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["partners"],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}partner/all`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        // return response
+
+        return response?.data?.data?.partners?.map((item) => {
+          const itemStats = response?.data?.data?.stats?.filter(
+            (search) => search.id === item.id
+          )[0];
+          return {
+            partnerImage: item?.entity?.profilePicture,
+            companyName: item?.companyName,
+            companyAddress:
+              item?.address && item?.address !== null ? item?.address : "-",
+            partnerId: item?.id,
+            email: item?.entity?.email,
+            activatedStatus: item?.entity?.status?.activated,
+            failedTransaction: itemStats?.failed_Transactions,
+            PendingTranscations: itemStats?.pending_Transactions,
+            SuccessfulTransaction: itemStats?.success_Transactions,
+          };
+        });
+      } catch (err) {
+        throw err;
+      }
+    },
+  });
+
+  const [show, setShow] = useState(false);
+  const DropDownMenuRef = useRef(null);
+  const handleClickOutside = (e) => {
+    if (DropDownMenuRef.current && !DropDownMenuRef.current.contains(e.target))
+      setShow(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  return (
+    <>
+      <div className="relative">
+        <div className="relative inline-block" ref={DropDownMenuRef}>
+          <button
+            type="button"
+            onClick={() => setShow(true)}
+            className={`rounded-full px-3.5 py-1 text-sm border transition-all flex items-center justify-center border-primary ${
+              show || isActive
+                ? "bg-primary text-white font-semibold"
+                : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
+            }`}
+          >
+            <span>{isCustomer ? "Medium" : "PARTNER"}</span>
+            <ChevronDown/>
+          </button>
+          {show && (
+            <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
+             { data?.map(ele => <button
+                type="button"
+                onClick={() => handlePartnerSelect({
+                  companyName : ele?.companyName,
+                  partnerId: ele?.partnerId,
+                })}
+                className={`block w-full text-left px-4 py-2 hover:bg-gray-100`}
+              >
+                {ele?.companyName}
+              </button>)}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  )
+
+}

@@ -2,6 +2,12 @@ import { getDiscoImage } from "../../lib/utils";
 
 export const columns = [
   {
+    accessorKey: "partnerName",
+    header: "Partner",
+    cell: (props) => <p>{props.getValue()}</p>
+  },
+
+  {
     accessorKey: "disco",
     header: "Disco",
     cell: (props) => {

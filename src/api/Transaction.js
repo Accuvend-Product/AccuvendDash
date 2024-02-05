@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -14,16 +14,24 @@ export const useGetTransactions = (query = {} , url) => {
   const [tableData, setTableData] = useState([]);
   const [isError, setIsError] = useState(false);
 
+  const partnerfilter = useMemo(()=>{
+    let  _filters = {}
+    if (filters?.partnerId) return  {...filters , partnerId: filters?.partnerId?.partnerId}
+    else return filters
+    
+  },[filters])
+
   const getTransactions = async () => {
     setIsLoading(true);
     setIsError(false);
+   
     try {
       const response = await axios.get(
         `${BASE_URL}${url ? url : 'transaction?'}${new URLSearchParams(query).toString()}${
            "&"
         }${new URLSearchParams(pagination).toString()}${
           isObjectEmpty(pagination) ? "" : "&"
-        }${new URLSearchParams(filters).toString()}`,
+        }${new URLSearchParams(partnerfilter).toString()}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

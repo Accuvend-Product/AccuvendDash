@@ -26,10 +26,11 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { add, addDays } from "date-fns";
-import { DateFilter , StatusFilter , DiscoFilter } from "./tableFilters";
+import { DateFilter , StatusFilter , DiscoFilter , PartnerFilter } from "../tableFilters";
 import { convertToISOWithLastMinute, convertToISOWithMidnight, convertToISOWithNextDay, convertToISOWithPreviousDay } from "../../lib/utils";
+import ActiveFilter from "../ActiveFilter";
 
-export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTable = false , setFilter = (item) => null , setPagination = () => null , pagination = {} , filter ={} }) => {
+export const TransactionTable = ({ tableData , isPartnerTable , dashboardType , setFilter = (item) => null , setPagination = () => null , pagination = {} , filter ={} }) => {
     const [data, setData] = useState(tableData);
     const [currentPage, setCurrentPage] = useState(1);
     const [sorting, setSorting] = useState([]);
@@ -48,7 +49,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
 
 
 
-    const pageSize = 8;
+    const pageSize = 30;
 
     //   table initial state
     const table = useReactTable({
@@ -194,6 +195,14 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
 
     //  handle click outside
     
+    const handlePartnerSelect = (partner) => {
+        setActiveFilter("PARTNER");
+        setFilter({
+          ...filter,
+          partnerId : partner,
+        });
+        setActiveFilter(null);
+      }
 
 
     
@@ -212,6 +221,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
             <div className="flex md:flex-row flex-col gap-y-3 md:items-center justify-between mb-4">
                 <div className="flex space-x-4 items-center">
                     <p className="text-body1 font-semibold">Filter by</p>
+                    {!isPartnerTable && <PartnerFilter isCustomer={dashboardType === "CUSTOMER"} isActive={filter?.partnerId} handlePartnerSelect={handlePartnerSelect}/>}
                     <DiscoFilter isActive={filter?.disco} handleDiscoSelect={handleDiscoSelect}/>
                     <DateFilter handleDateSelect={handleDateSelect} isActive={(filter?.startDate || filter?.endDate)}/>
                     <StatusFilter isActive={filter?.status} handleStatusSelect={handleStatusSelect}/>
@@ -237,50 +247,7 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                 </div>
             </div>
 
-            {/* Active Filters Tags */}
-            {(filter?.disco || filter?.startDate || filter?.endDate || filter?.status)&& <div className="flex mb-4 gap-3">
-                <span>Active Filters</span>
-                {filter?.disco && <span id="badge-dismiss-dark" class="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
-                    Disco - {filter?.disco}
-                    <button onClick={() =>{
-                        const _filter = {...filter} 
-                        delete _filter?.disco
-                        setFilter(_filter)
-                    }} type="button" class="inline-flex items-center p-1 ms-2 text-sm text-gray-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 " data-dismiss-target="#badge-dismiss-dark" aria-label="Remove">
-                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Remove badge</span>
-                    </button>
-                </span>}
-                { (filter?.startDate || filter?.endDate) && <span id="badge-dismiss-dark" class="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
-                    Date - {formattedDate(new Date(filter?.startDate).toISOString())}
-                    <button onClick={() => {
-                        const _filter = {...filter} 
-                        delete _filter?.startDate
-                        delete _filter?.endDate
-                        setFilter(_filter)
-                    }} type="button" class="inline-flex items-center p-1 ms-2 text-sm text-gray-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 " data-dismiss-target="#badge-dismiss-dark" aria-label="Remove">
-                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Remove badge</span>
-                    </button>
-                </span>}
-                {filter?.status && <span id="badge-dismiss-dark" class="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
-                    Status - {filter?.status}
-                    <button onClick={() => {
-                        const _filter = {...filter} 
-                        delete _filter?.status
-                        setFilter(_filter)
-                    }} type="button" class="inline-flex items-center p-1 ms-2 text-sm text-gray-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900 " data-dismiss-target="#badge-dismiss-dark" aria-label="Remove">
-                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Remove badge</span>
-                    </button>
-                </span>}
-            </div>}
+            <ActiveFilter filter={filter} setFilter={setFilter}/>
             
             <div className="min-h-[40vh] min-w-full overflow-x-scroll">
                 <table className="min-w-full border-b border-[#F8F7F7]">
@@ -293,6 +260,10 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                                     }
                                     if(isPartnerTable && header.column.id === "transaction reference"){
                                         return 
+                                    }
+
+                                    if(isPartnerTable && header.column.id === "partnerName"){
+                                        return
                                     }
 
                                     return (
@@ -337,6 +308,10 @@ export const TransactionTable = ({ tableData , isPartnerAdminPage , isPartnerTab
                                     }
                                     if(isPartnerTable && cell.column.id === "transaction reference"){
                                         return 
+                                    }
+
+                                    if(isPartnerTable && cell.column.id === "partnerName"){
+                                        return
                                     }
 
                                     return(
