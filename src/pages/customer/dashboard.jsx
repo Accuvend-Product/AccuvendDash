@@ -160,6 +160,9 @@ const CustomerDashboard = () => {
                 filter={filters}
                 setFilter={setFilters}
                 tableData={tableData}
+                pagination={pagination}
+                setPagination={setPagination}
+                totalNumberRecords={ isNaN(parseInt(totalTransactionData?.totalTransactions)) ? 0 : parseInt(totalTransactionData?.totalTransactions)  }
               />
             </>
           )
