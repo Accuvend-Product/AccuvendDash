@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { Link, useNavigate } from "react-router-dom";
 import { Plus, Minus } from "lucide-react";
+import { Pagination } from "../Pagination";
 
 import columns from "./columns";
 import { useEffect, useRef, useState } from "react";
@@ -45,6 +46,7 @@ export const EventTable = ({
   setPagination = () => null,
   pagination = {},
   filter = {},
+  totalNumberRecords,
 }) => {
   const [data, setData] = useState(tableData);
   const [currentPage, setCurrentPage] = useState(1);
@@ -65,16 +67,20 @@ export const EventTable = ({
   const table = useReactTable({
     data,
     columns,
+    pageCount: isNaN(totalNumberRecords / pagination?.limit) ? 0 : Math.ceil(totalNumberRecords / pagination?.limit),
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     // initial items per page
-    initialState: {
-      pagination: {
-        pageSize: pageSize,
-      },
-      pageIndex: currentPage - 1,
+    // initialState: {
+    //   pagination: {
+    //     pageSize: pageSize,
+    //   },
+    //   pageIndex: currentPage - 1,
+    // },
+    state: {
+      pagination,
     },
 
     state: {
@@ -107,6 +113,7 @@ export const EventTable = ({
 
     // Reset currentPage to 1 whenever filtering is applied
     setCurrentPage(1);
+    setPagination(prevState => ({...prevState , page: 0}))
   };
 
   const handleStatusSelect = (status) => {
@@ -154,7 +161,7 @@ export const EventTable = ({
   //  handle click outside
 
   const goToPage = (pageNumber) => {
-    table.setPageIndex(pageNumber - 1); // Subtract 1 since pageIndex is zero-based
+    setPagination(prevState => ({...prevState , page: pageNumber}))
     setCurrentPage(pageNumber);
   };
 
@@ -182,6 +189,7 @@ export const EventTable = ({
             onChange={(e) => {
               setFiltering(e.target.value);
               setCurrentPage(1);
+              setPagination(prevState => ({...prevState , page: 0}))
             }}
             type="text"
             className="px-2 py-1.5 rounded-r-md bg-inherit text-body1 outline-none focus:outline-none"
@@ -313,10 +321,11 @@ export const EventTable = ({
       {/* Pagination */}
       {table.getRowModel().rows.length > 0 && (
         <Pagination
-          currentPage={currentPage}
+          currentPage={pagination?.page}
           totalPages={table.getPageCount()}
           goToPage={goToPage}
-          table={table}
+          getCanPreviousPage={(pagination?.page > 0)} 
+          getCanNextPage={pagination?.page < table.getPageCount() }
         />
       )}
     </div>
@@ -325,42 +334,4 @@ export const EventTable = ({
 
 // export default TransactionTable;
 
-export const Pagination = ({ currentPage, totalPages, goToPage, table }) => {
-  const handlePrevPage = () => {
-    goToPage(currentPage - 1);
-  };
 
-  const handleNextPage = () => {
-    goToPage(currentPage + 1);
-  };
-
-  return (
-    <div className="flex items-center justify-center mt-10">
-      <div className="flex justify-between items-center gap-5">
-        <span className="mr-2">
-          Page {currentPage} of {totalPages}
-        </span>
-        <div className="flex items-center">
-          <button
-            onClick={handlePrevPage}
-            disabled={!table.getCanPreviousPage()}
-            className={`px-1.5 py-1 rounded-l-md text-white bg-primary ${
-              !table.getCanPreviousPage() ? "cursor-not-allowed opacity-50" : ""
-            }`}
-          >
-            <ArrowLeft />
-          </button>
-          <button
-            onClick={handleNextPage}
-            disabled={!table.getCanNextPage()}
-            className={`px-1.5 py-1 rounded-r-md text-white bg-primary ${
-              !table.getCanNextPage() ? "cursor-not-allowed opacity-50" : ""
-            }`}
-          >
-            <ArrowRight />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};

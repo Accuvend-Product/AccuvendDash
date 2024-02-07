@@ -6,8 +6,8 @@ import axios from "axios";
 import { isObjectEmpty } from "../lib/utils";
 export const useGetTransactions = (query = {} , url) => {
   const [pagination, setPagination] = useState({
-    // page: 1,
-    // limit: 8,
+    page: 0,
+    limit: 20,
   });
   const [filters, setFilters] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -72,7 +72,7 @@ export const useGetTransactions = (query = {} , url) => {
 
   useEffect(() => {
     getTransactions();
-  }, [filters, pagination]);
+  }, [filters, pagination?.limit , pagination?.page , pagination]);
 
   
   return {

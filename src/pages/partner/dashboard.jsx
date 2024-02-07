@@ -222,6 +222,9 @@ const PartnerDashboard = () => {
                 setFilter={setFilters}
                 tableData={tableData}
                 isPartnerTable={true}
+                pagination={pagination}
+                setPagination={setPagination}
+                totalNumberRecords={ isNaN(parseInt(totalTransactionData?.totalTransactions)) ? 0 : parseInt(totalTransactionData?.totalTransactions)  }
               />
             </>
           )

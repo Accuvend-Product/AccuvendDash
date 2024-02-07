@@ -16,7 +16,26 @@ const CustomerCareEvents = ({role}) => {
         tableData, 
         setPagination
     } = useGetTransactions({},`${role === "admin" ? '':'transaction?status=PENDING'}`)
-  
+    
+    const { isLoading: totalTransactionsLoading, data: totalTransactionData } =
+  useQuery({
+    queryKey: ["transactions", "total", `${new URLSearchParams({...filters , partnerId: filters?.partnerId?.partnerId }).toString()}`],
+    queryFn: async () => {
+      let _filter = {}
+      if (filters?.partnerId?.partnerId) _filter = {...filters , partnerId: filters?.partnerId?.partnerId}
+      else _filter = {...filters}
+      const response = await axios.get(`${BASE_URL}transaction/kpi?${new URLSearchParams(_filter).toString()}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const totalAmount =
+        response?.data?.data?.totalTransactionAmount[0]?.total_amount;
+      const totalTransactions = response?.data?.data?.totalTransactionCount;
+      return { totalTransactions, totalAmount };
+    },
+  });
 
   return (
     <>
@@ -38,7 +57,11 @@ const CustomerCareEvents = ({role}) => {
                         <EventTable 
                         filter={filters}
                         setFilter={setFilters}
-                        tableData={tableData} />
+                        tableData={tableData}
+                        pagination={pagination}
+                        setPagination={setPagination}
+                        totalNumberRecords={ isNaN(parseInt(totalTransactionData?.totalTransactions)) ? 0 : parseInt(totalTransactionData?.totalTransactions)  }
+                        />
                     </>
                 )
             )}

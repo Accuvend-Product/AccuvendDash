@@ -20,9 +20,12 @@ const AdminDashboard = () => {
 
   const { isLoading: totalTransactionsLoading, data: totalTransactionData } =
   useQuery({
-    queryKey: ["transactions", "total", `${new URLSearchParams(filters).toString()}`],
+    queryKey: ["transactions", "total", `${new URLSearchParams({...filters , partnerId: filters?.partnerId?.partnerId }).toString()}`],
     queryFn: async () => {
-      const response = await axios.get(`${BASE_URL}transaction/kpi?${new URLSearchParams(filters).toString()}`, {
+      let _filter = {}
+      if (filters?.partnerId?.partnerId) _filter = {...filters , partnerId: filters?.partnerId?.partnerId}
+      else _filter = {...filters}
+      const response = await axios.get(`${BASE_URL}transaction/kpi?${new URLSearchParams(_filter).toString()}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -39,10 +42,13 @@ const {
   isLoading: totalFailedTransactionsLoading,
   data: totalFailedTransactionData,
 } = useQuery({
-  queryKey: ["transactions", "total", "failed",`${new URLSearchParams({...filters , status:"failed"}).toString()}`],
+  queryKey: ["transactions", "total", "failed",`${new URLSearchParams({...filters , partnerId: filters?.partnerId?.partnerId  , status:"failed"}).toString()}`],
   queryFn: async () => {
+    let _filter = {}
+    if (filters?.partnerId?.partnerId) _filter = {...filters , partnerId: filters?.partnerId?.partnerId , status:"failed"}
+    else _filter = {...filters , status:"failed"}
     const response = await axios.get(
-      `${BASE_URL}transaction/kpi/?${new URLSearchParams({...filters , status:"failed"}).toString()}`,
+      `${BASE_URL}transaction/kpi/?${new URLSearchParams(_filter).toString()}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -217,6 +223,9 @@ const {
                 filter={filters}
                 setFilter={setFilters}
                 tableData={tableData}
+                pagination={pagination}
+                setPagination={setPagination}
+                totalNumberRecords={ isNaN(parseInt(totalTransactionData?.totalTransactions)) ? 0 : parseInt(totalTransactionData?.totalTransactions)  }
               />
             </>
           )
