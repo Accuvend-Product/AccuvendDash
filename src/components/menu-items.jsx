@@ -7,6 +7,7 @@ import {
   LogOutIcon,
   User,
   ArrowRightLeft,
+  Package,
 } from "lucide-react";
 
 
@@ -103,6 +104,10 @@ export const ParnterLinks = [
           href: "/resolution-center"
         },
         {
+          name: "CUSTOMER CARE AGENTS",
+          href: "/resolution-center"
+        },
+        {
           name: "EVENTS",
           href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`,
           active: false,
@@ -115,6 +120,14 @@ export const ParnterLinks = [
       href: `https://one.zoho.com/zohoone/accuvend/`,
       active: false,
       blank: true,
+    },
+
+    {
+      name: "PRODUCTS",
+      // icon: <Erp className="h-6 w-6 mr-2 text-2xl"/>,
+      icon: <Package strokeWidth={1} className="h-6 w-6 mr-2 text-2xl"/>, 
+      href: `/admin/products`,
+      active: false,
     },
   
   ] ;

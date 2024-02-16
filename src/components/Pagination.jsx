@@ -22,7 +22,7 @@ export const Pagination = ({ currentPage, totalPages, goToPage, getCanPreviousPa
       <div className="flex items-center justify-center mt-10">
         <div className="flex justify-between items-center gap-5">
           <span className="mr-2">
-            Page {(currentPage + 1)} of {totalPages}
+            Page {currentPage} of {totalPages}
           </span>
           <div className="flex items-center">
             <button

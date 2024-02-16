@@ -31,6 +31,7 @@ import {
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE;
 import { useNavigate, useLocation } from "react-router-dom";
+import OneSignal from "react-onesignal";
 const NotificationDropDown = ({ NotificationData }) => {
   const { isError, isLoading, data: notificationData } = NotificationData;
   const [show, setShow] = useState(false);
@@ -378,6 +379,9 @@ const Navbar = () => {
   const { uploadedImageLink, unreadNotifications , userData } = useUserData(BASE_URL);
   const NotificationData = useNotificationData(BASE_URL);
   const userEmail = localStorage.getItem("userEmail");
+
+  
+
   return (
     <div className="text-body1 border-b border-body1/80 sticky top-0 z-20">
       <div className="py-2.5 px-8 md:px-10 flex items-center justify-between mx-auto bg-white w-full">

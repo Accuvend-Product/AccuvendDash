@@ -65,12 +65,13 @@ export const TransactionTable = ({
    * Pagination
    */
 
-
   //   table initial state
   const table = useReactTable({
     data,
     columns,
-    pageCount: isNaN(totalNumberRecords / pagination?.limit) ? 0 : Math.ceil(totalNumberRecords / pagination?.limit),
+    pageCount: isNaN(totalNumberRecords / pagination?.limit)
+      ? 0
+      : Math.ceil(totalNumberRecords / pagination?.limit),
     getCoreRowModel: getCoreRowModel(),
     // getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -82,13 +83,11 @@ export const TransactionTable = ({
     //     },
     //     pageIndex: currentPage - 1,
     // },
-    state: {
-      pagination,
-    },
     onPaginationChange: setPagination, //(item) => console.log(item),
     manualPagination: true,
 
     state: {
+      pagination,
       sorting: sorting,
       globalFilter: filtering,
     },
@@ -127,8 +126,7 @@ export const TransactionTable = ({
 
     // Reset currentPage to 1 whenever filtering is applied
     setCurrentPage(1);
-    setPagination(prevState => ({...prevState , page: 0}))
-
+    setPagination((prevState) => ({ ...prevState, page: 1 }));
   };
 
   const handleStatusSelect = (status) => {
@@ -138,6 +136,7 @@ export const TransactionTable = ({
       status,
     });
     setActiveFilter(null);
+    setPagination((prevState) => ({ ...prevState, page: 1 }));
   };
 
   const handleDiscoSelect = (disco) => {
@@ -147,6 +146,7 @@ export const TransactionTable = ({
       disco,
     });
     setActiveFilter(null);
+    setPagination((prevState) => ({ ...prevState, page: 1 }));
   };
 
   // handle date select
@@ -160,6 +160,7 @@ export const TransactionTable = ({
       startDate: new Date(_selectedDate).toISOString().split("T")[0],
       endDate: convertToISOWithNextDay(_selectedDate).split("T")[0],
     });
+    setPagination((prevState) => ({ ...prevState, page: 1 }));
     setActiveFilter(null);
   };
 
@@ -171,11 +172,12 @@ export const TransactionTable = ({
       ...filter,
       partnerId: partner,
     });
+    setPagination((prevState) => ({ ...prevState, page: 1 }));
     setActiveFilter(null);
   };
 
   const goToPage = (pageNumber) => {
-    setPagination(prevState => ({...prevState , page: pageNumber}))
+    setPagination((prevState) => ({ ...prevState, page: pageNumber }));
     setCurrentPage(pageNumber);
   };
 
@@ -214,8 +216,8 @@ export const TransactionTable = ({
             value={filtering}
             onChange={(e) => {
               setFiltering(e.target.value);
-              setCurrentPage(1);
-              setPagination({...pagination, page : 0})
+              // setCurrentPage(1);
+              // setPagination({...pagination, page : 0})
             }}
             type="text"
             className="px-2 py-1.5 rounded-r-md bg-inherit text-body1 outline-none focus:outline-none"
@@ -224,7 +226,13 @@ export const TransactionTable = ({
         </div>
       </div>
 
-      <ActiveFilter filter={filter} setFilter={setFilter} />
+      <ActiveFilter
+        filter={filter}
+        setFilter={(value) => {
+          setPagination((prevState) => ({ ...prevState, page: 1 }));
+          setFilter(value);
+        }}
+      />
 
       <div className="min-h-[40vh] min-w-full overflow-x-scroll">
         <table className="min-w-full border-b border-[#F8F7F7]">
@@ -348,8 +356,8 @@ export const TransactionTable = ({
           currentPage={pagination?.page}
           totalPages={table.getPageCount()}
           goToPage={goToPage}
-          getCanPreviousPage={(pagination?.page > 0)} 
-          getCanNextPage={pagination?.page < table.getPageCount() }
+          getCanPreviousPage={pagination?.page > 1}
+          getCanNextPage={pagination?.page < table.getPageCount()}
         />
       )}
     </div>
@@ -357,5 +365,3 @@ export const TransactionTable = ({
 };
 
 // export default TransactionTable;
-
-
