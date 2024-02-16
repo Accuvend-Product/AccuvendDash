@@ -69,21 +69,12 @@ export const EventTable = ({
     columns,
     pageCount: isNaN(totalNumberRecords / pagination?.limit) ? 0 : Math.ceil(totalNumberRecords / pagination?.limit),
     getCoreRowModel: getCoreRowModel(),
-    // getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    // initial items per page
-    // initialState: {
-    //   pagination: {
-    //     pageSize: pageSize,
-    //   },
-    //   pageIndex: currentPage - 1,
-    // },
-    state: {
-      pagination,
-    },
+    
 
     state: {
+      pagination,
       sorting: sorting,
       globalFilter: filtering,
     },
@@ -113,7 +104,7 @@ export const EventTable = ({
 
     // Reset currentPage to 1 whenever filtering is applied
     setCurrentPage(1);
-    setPagination(prevState => ({...prevState , page: 0}))
+    setPagination(prevState => ({...prevState , page: 1}))
   };
 
   const handleStatusSelect = (status) => {
@@ -122,7 +113,7 @@ export const EventTable = ({
       ...filter,
       status,
     });
-    
+    setPagination(prevState => ({...prevState , page: 1}))
     setActiveFilter(null);
   };
 
@@ -132,6 +123,7 @@ export const EventTable = ({
       ...filter,
       disco,
     });
+    setPagination(prevState => ({...prevState , page: 1}))
     setActiveFilter(null);
   };
 
@@ -141,6 +133,7 @@ export const EventTable = ({
       ...filter,
       partnerId : partner,
     });
+    setPagination(prevState => ({...prevState , page: 1}))
     setActiveFilter(null);
   }
 
@@ -155,6 +148,7 @@ export const EventTable = ({
       startDate: new Date(_selectedDate).toISOString().split("T")[0],
       endDate: convertToISOWithNextDay(_selectedDate).split("T")[0],
     });
+    setPagination(prevState => ({...prevState , page: 1}))
     setActiveFilter(null);
   };
 
@@ -198,7 +192,10 @@ export const EventTable = ({
         </div>
       </div>
 
-      <ActiveFilter filter={filter} setFilter={setFilter}/>
+      <ActiveFilter filter={filter} setFilter={(value)=>{
+        setPagination(prevState => ({...prevState , page: 1}))
+        setFilter(value)
+        }}/>
 
 
       {/* card container */}

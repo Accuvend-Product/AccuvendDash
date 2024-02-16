@@ -6,8 +6,8 @@ import axios from "axios";
 import { isObjectEmpty } from "../lib/utils";
 export const useGetTransactions = (query = {} , url) => {
   const [pagination, setPagination] = useState({
-    page: 0,
-    limit: 20,
+    page: 1,
+    limit: 30,
   });
   const [filters, setFilters] = useState({});
   const [isLoading, setIsLoading] = useState(false);

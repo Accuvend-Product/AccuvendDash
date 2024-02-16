@@ -31,23 +31,23 @@ export const EventTimeline = ({ events, originalRow, showInfo }) => {
         EventConstant.METER_VALIDATION_REQUEST_SENT_TO_VENDOR,
       ],
     },
-    {
-      title: (
-        <span>
-          Disco up checked by <br /> {originalRow?.superagent}
-        </span>
-      ),
-      eventType: "DISCO_UP",
-      Icon: (props) => <DiscoUp {...props} />,
-      items_in_category: [
-        EventConstant.CHECK_DISCO_UP_INITIATED_TO_VENDOR,
-        EventConstant.CHECK_DISCO_UP_CONFIRMED_FROM_VENDOR,
-      ],
-      triggerEvents: [
-        EventConstant.CHECK_DISCO_UP_INITIATED_TO_VENDOR,
-        EventConstant.CHECK_DISCO_UP_CONFIRMED_FROM_VENDOR,
-      ],
-    },
+    // {
+    //   title: (
+    //     <span>
+    //       Disco up checked by <br /> {originalRow?.superagent}
+    //     </span>
+    //   ),
+    //   eventType: "DISCO_UP",
+    //   Icon: (props) => <DiscoUp {...props} />,
+    //   items_in_category: [
+    //     EventConstant.CHECK_DISCO_UP_INITIATED_TO_VENDOR,
+    //     EventConstant.CHECK_DISCO_UP_CONFIRMED_FROM_VENDOR,
+    //   ],
+    //   triggerEvents: [
+    //     EventConstant.CHECK_DISCO_UP_INITIATED_TO_VENDOR,
+    //     EventConstant.CHECK_DISCO_UP_CONFIRMED_FROM_VENDOR,
+    //   ],
+    // },
     {
       title: (
         <span>
@@ -197,7 +197,6 @@ const EventSubTimeline = ({ events, eventItem , partnerName }) => {
         const eventSuccess =
           eventSuccessIndexObject[eventData.eventText] === index;
         const payload = JSON.parse(eventData?.payload || "{}");
-        // transactions.events[].{name: eventType, age: eventTimestamp}
         const superagent = eventData?.eventText === "RETRY_PURCHASE_FROM_NEW_VENDOR" ?  payload?.newSuperAgent : payload?.superagent
         return (
           <li className="ms-4 mb-6 me-5">
@@ -205,7 +204,7 @@ const EventSubTimeline = ({ events, eventItem , partnerName }) => {
             <time className="mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
               {getDateTimeString(eventData?.eventTimestamp)}
             </time>
-            <h3
+            {/* <h3
               className={`text-sm font-semibold  ${
                 eventSuccess ? "text-green-900 " : "text-red-900"
               } `}
@@ -219,7 +218,7 @@ const EventSubTimeline = ({ events, eventItem , partnerName }) => {
                   partnerName
                 )
               }
-            </h3>
+            </h3> */}
             <p
               className={`text-sm font-normal ${
                 eventSuccess ? "text-green-500 " : "text-red-500"
@@ -229,7 +228,7 @@ const EventSubTimeline = ({ events, eventItem , partnerName }) => {
                 eventSuccess
                   ? EventConstant.eventsObjectHeadingsDscription[
                       eventData?.eventText
-                    ]?.description
+                    ]?.heading
                   : EventConstant.eventsObjectHeadingsDscription[
                       eventData?.eventText
                     ]?.failedStateDescription,
