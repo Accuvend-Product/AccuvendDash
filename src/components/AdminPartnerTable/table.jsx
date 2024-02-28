@@ -159,7 +159,7 @@ const AdminTileDropDown = ({ partnerData, setShowDetails ,showDetails  }) => {
               <>
                 <svg
                   aria-hidden="true"
-                  class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                  className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +243,7 @@ const AdminTileDropDown = ({ partnerData, setShowDetails ,showDetails  }) => {
                 </button>
               </li>
             </ul>
-            <div class="py-2">
+            <div className="py-2">
                 <button
                   href="#"
                   onClick={() => {
@@ -349,14 +349,14 @@ const AdminRow = ({ row, tableData }) => {
       </div>
       <div>
         <a
-          class="inline-flex justify-end mt-3 items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"
+          className="inline-flex justify-end mt-3 items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"
           href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}/${
             tableData[row.index]["partnerId"]
           }${TRANSACTION_ROUTE}`}
         >
           View Transactions
           <svg
-            class="w-4 h-4 ms-2 rtl:rotate-180"
+            className="w-4 h-4 ms-2 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

@@ -11,7 +11,7 @@ const OTPInput = (props) => {
   const inputLength = 6
   return (
     <>
-      <div class="flex justify-center mb-2 space-x-2 rtl:space-x-reverse">
+      <div className="flex justify-center mb-2 space-x-2 rtl:space-x-reverse">
         {Array.from({ length: inputLength }, (value, index) => value).map((_, index) => (
           <div>
             <input
@@ -62,7 +62,7 @@ const OTPInput = (props) => {
               type="text"
               maxlength="1"
               id="code-1"
-              class="block w-12 h-12 py-3 text-sm font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="block w-12 h-12 py-3 text-sm font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               required
             />
           </div>
@@ -70,7 +70,7 @@ const OTPInput = (props) => {
       </div>
       {/* <p
         id="helper-text-explanation"
-        class="mt-2 text-sm text-gray-500 dark:text-gray-400"
+        className="mt-2 text-sm text-gray-500 dark:text-gray-400"
       >
         Please introduce the 6 digit code we sent via email.
       </p> */}

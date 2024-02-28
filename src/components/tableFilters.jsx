@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
+import { useGetProducts } from "../api/getProducts";
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 // import Datepicker from 'flowbite-datepicker/Datepicker';
@@ -203,6 +204,72 @@ export const DiscoFilter = ({
                     {item.option}
                   </button>
                 ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export const BillerFilter = ({
+  handleDiscoSelect,
+  isPartnerAdminPage,
+  isActive = false,
+}) => {
+  const [show, setShow] = useState(false);
+  const DropDownMenuRef = useRef(null);
+  const {data , isError , isLoading} = useGetProducts()
+  const handleClickOutside = (e) => {
+    if (DropDownMenuRef.current && !DropDownMenuRef.current.contains(e.target))
+      setShow(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  return (
+    <>
+      {!isPartnerAdminPage && (
+        <div className="relative">
+          <div className="relative inline-block" ref={DropDownMenuRef}>
+            <button
+              type="button"
+              onClick={() => setShow(true)}
+              className={`rounded-full px-3.5 py-1 text-sm border transition-all flex items-center justify-center border-primary ${
+                show || isActive
+                  ? "bg-primary text-white font-semibold"
+                  : "hover:border-transparent hover:bg-primary hover:text-white text-body2 font-semibold"
+              }`}
+            >
+             <span className="mr-3">BILLER</span>
+             <ChevronDown/>
+            </button>
+            {show && (
+              <div className="absolute min-w-max mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10 h-40 overflow-y-scroll">
+                {data?.data?.data?.products.map((item) => (item?.category === "ELECTRICITY" ? <button
+                    type="button"
+                    onClick={() => {
+                      handleDiscoSelect(item?.masterProductCode);
+                      setShow(false);
+                    }}
+                    className={`block w-full text-sm text-left px-4 py-2 hover:bg-gray-100`}
+                  >
+                    {item?.productName} {item?.type ? `- ${item?.type}` : ''}
+                  </button> : <button
+                  type="button"
+                  onClick={() => {
+                    handleDiscoSelect(item?.masterProductCode);
+                    setShow(false);
+                  }}
+                  className={`block w-full text-sm text-left px-4 py-2 hover:bg-gray-100`}
+                >
+                  {item?.productName} - {item?.category}
+                </button> 
+                )) }
               </div>
             )}
           </div>

@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 
-import DetailsCard from "../../components/details-card";
-import OrderConfirmation from "../../components/order-confirmation";
+import DetailsCard from "../../components/OrderConfirmation/details-card";
+import OrderConfirmation from "../../components/OrderConfirmation/order-confirmation";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";

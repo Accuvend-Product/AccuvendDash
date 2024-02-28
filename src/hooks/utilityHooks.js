@@ -4,6 +4,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useQueryClient, QueryCache} from '@tanstack/react-query'
+
 export const useLogout = () => {
     const navigate = useNavigate();
     const [isLogginLoading , setIsLogginLoading] = useState(false);
@@ -90,3 +91,5 @@ export const useLogout = () => {
     }
 
 }
+
+

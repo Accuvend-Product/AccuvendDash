@@ -235,7 +235,7 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
                   </span>
                 </div>
                 <svg
-                  class="w-2.5 h-2.5 ms-3"
+                  className="w-2.5 h-2.5 ms-3"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -305,7 +305,7 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
                     {link?.subLinks ? (
                       <>
                         <svg
-                          class="w-2.5 h-2.5 ms-3"
+                          className="w-2.5 h-2.5 ms-3"
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
