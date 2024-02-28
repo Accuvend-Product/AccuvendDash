@@ -236,7 +236,7 @@ export const EventTable = ({
                     ? setAccordionSelectedIndex(null)
                     : setAccordionSelectedIndex(row.index)
                 }
-                class="flex items-center justify-between py-5 font-medium rtl:text-right text-gray-500 gap-3"
+                className="flex items-center justify-between py-5 font-medium rtl:text-right text-gray-500 gap-3"
                 data-accordion-target="#accordion-flush-body-1"
                 aria-expanded="true"
                 aria-controls="accordion-flush-body-1"
@@ -247,7 +247,7 @@ export const EventTable = ({
                 </span>
                 {/* <svg
                   data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
+                  className="w-3 h-3 rotate-180 shrink-0"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

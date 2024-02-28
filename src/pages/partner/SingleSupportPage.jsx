@@ -164,7 +164,7 @@ const SingleSupportPage = () => {
               <>
                 <div className="w-full flex justify-between items-start">
                   <div className="flex gap-x-2 items-start">
-                    <p class="max-w-lg text-3xl -mt-4  align-text-top font-semibold leading-normal text-gray-900 mb-2 ">
+                    <p className="max-w-lg text-3xl -mt-4  align-text-top font-semibold leading-normal text-gray-900 mb-2 ">
                       Ticket - {data?.data?.complaint?.title}
                     </p>
                     <p
@@ -179,7 +179,7 @@ const SingleSupportPage = () => {
                     <button
                       onClick={() => openAddModal()}
                       type="button"
-                      class="px-3 flex gap-x-2 items-center py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                      className="px-3 flex gap-x-2 items-center py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                     >
                       <Plus /> Add A Reply
                     </button>
@@ -187,14 +187,14 @@ const SingleSupportPage = () => {
                       onClick={() => markTicketComplete()}
                       disabled={updateComplaintMutation.isPending}
                       type="button"
-                      class="px-3 flex gap-x-2 items-center py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
+                      className="px-3 flex gap-x-2 items-center py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
                     >
                       {updateComplaintMutation.isPending ? (
                         <>
                           <svg
                             aria-hidden="true"
                             role="status"
-                            class="inline w-4 h-4 me-3 text-white animate-spin"
+                            className="inline w-4 h-4 me-3 text-white animate-spin"
                             viewBox="0 0 100 101"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -222,24 +222,24 @@ const SingleSupportPage = () => {
                     <div className="underline text-2xl my-6"> Replies</div>
                      <div className="">
                    {
-                    data?.data?.complaint?.complaintReplies?.map((item) => <article class="rounded-xl border-2 border-gray-100 bg-white pb-8 my-3">
-                    <div class="flex items-start gap-4 p-4 sm:p-6 lg:p-8">
-                      <a href="#" class="block shrink-0">
+                    data?.data?.complaint?.complaintReplies?.map((item) => <article className="rounded-xl border-2 border-gray-100 bg-white pb-8 my-3">
+                    <div className="flex items-start gap-4 p-4 sm:p-6 lg:p-8">
+                      <a href="#" className="block shrink-0">
                         {item?.entity?.profilePicture !== "" || item?.entity?.profilePicture ? <img
                           alt="Speaker"
                           src={item?.entity?.profilePicture}
-                          class="h-14 w-14 rounded-lg object-cover"
+                          className="h-14 w-14 rounded-lg object-cover"
                         />:<>
                             <User className="h-10 w-10 rounded-lg object-cover"/>
                         </>}
                       </a>
                   
                       <div>
-                        <h3 class="font-medium sm:text-sm">
-                          <span href="#" class="hover:underline"> Posted by {item?.entity?.email} </span>
+                        <h3 className="font-medium sm:text-sm">
+                          <span href="#" className="hover:underline"> Posted by {item?.entity?.email} </span>
                         </h3>
                   
-                        <p class="line-clamp-2 text-base mt-1 text-gray-700">
+                        <p className="line-clamp-2 text-base mt-1 text-gray-700">
                           {item?.message}
                         </p>
                       </div>
@@ -363,14 +363,14 @@ const AddReplyForm = ({ email, entityId, addReplyMutation, closeModal }) => {
           type="button"
           disabled={addReplyMutation.isPending}
           onClick={() => createReply()}
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2   focus:outline-none "
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2   focus:outline-none "
         >
           {addReplyMutation.isPending ? (
             <>
               <svg
                 aria-hidden="true"
                 role="status"
-                class="inline w-4 h-4 me-3 text-white animate-spin"
+                className="inline w-4 h-4 me-3 text-white animate-spin"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

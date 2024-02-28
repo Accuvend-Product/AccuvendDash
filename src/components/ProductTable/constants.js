@@ -1,4 +1,3 @@
-// ELECTRICTICITY
 export const METER_VALIDATION_REQUEST_SENT_TO_VENDOR =
   "METER_VALIDATION_REQUEST_SENT_TO_VENDOR";
 export const METER_VALIDATION_RECIEVED_FROM_VENDOR =
@@ -39,52 +38,6 @@ export const WEBHOOK_NOTIFICATION_CONFIRMED_FROM_PARTNER =
 export const WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY =
   "WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY";
 export const RETRY_PURCHASE_FROM_NEW_VENDOR = "RETRY_PURCHASE_FROM_NEW_VENDOR";
-
-// AIRTIME SPECIFIC TOPICS
-export const PHONENUMBER_VALIDATION_REQUESTED_FROM_PARTNER = "PHONENUMBER_VALIDATION_REQUESTED_FROM_PARTNER";
-export const PHONENUMBER_VALIDATION_SUCCESS = "PHONENUMBER_VALIDATION_SUCCESS";
-export const PHONENUMBER_VALIDATION_SENT_TO_PARTNER = "PHONENUMBER_VALIDATION_SENT_TO_PARTNER";
-export const AIRTIME_PURCHASE_INITIATED_BY_CUSTOMER = "AIRTIME_PURCHASE_INITIATED_BY_CUSTOMER";
-export const AIRTIME_TRANSACTION_REQUERY = "AIRTIME_TRANSACTION_REQUERY";
-export const AIRTIME_TRANSACTION_REQUERY_INITIATED = "AIRTIME_TRANSACTION_REQUERY_INITIATED";
-export const VEND_AIRTIME_REQUESTED_FROM_VENDOR = "VEND_AIRTIME_REQUESTED_FROM_VENDOR";
-export const GET_AIRTIME_FROM_VENDOR_INITIATED = "GET_AIRTIME_FROM_VENDOR_INITIATED";
-export const AIRTIME_RECEIVED_FROM_VENDOR = "AIRTIME_RECEIVED_FROM_VENDOR";
-export const AIRTIME_WEBHOOK_NOTIFICATION_SENT_TO_PARTNER = "AIRTIME_WEBHOOK_NOTIFICATION_SENT_TO_PARTNER";
-export const AIRTIME_WEBHOOK_NOTIFICATION_CONFIRMED_FROM_PARTNER = "AIRTIME_WEBHOOK_NOTIFICATION_CONFIRMED_FROM_PARTNER";
-export const AIRTIME_WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY = "AIRTIME_WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY";
-export const AIRTIME_TRANSACTION_COMPLETE = "AIRTIME_TRANSACTION_COMPLETE";
-export const GET_AIRTIME_FROM_VENDOR_RETRY = "GET_AIRTIME_FROM_VENDOR_RETRY";
-export const RETRY_AIRTIME_PURCHASE_FROM_NEW_VENDOR = "RETRY_AIRTIME_PURCHASE_FROM_NEW_VENDOR";
-export const REQUEST_TIMEDOUT = "REQUEST_TIMEDOUT";
-export const AIRTIME_PURCHASE_RETRY_FROM_NEW_VENDOR = "AIRTIME_PURCHASE_RETRY_FROM_NEW_VENDOR";
-export const AIRTIME_SENT_TO_PARTNER = "AIRTIME_SENT_TO_PARTNER";
-export const AIRTIME_SENT_TO_USER_EMAIL = "AIRTIME_SENT_TO_USER_EMAIL";
-
-// DATA
-export const DATA_PURCHASE_INITIATED_BY_CUSTOMER =
-  "DATA_PURCHASE_INITIATED_BY_CUSTOMER";
-export const DATA_TRANSACTION_REQUERY = "DATA_TRANSACTION_REQUERY";
-export const DATA_TRANSACTION_REQUERY_INITIATED =
-  "DATA_TRANSACTION_REQUERY_INITIATED";
-export const VEND_DATA_REQUESTED_FROM_VENDOR =
-  "VEND_DATA_REQUESTED_FROM_VENDOR";
-export const GET_DATA_FROM_VENDOR_INITIATED = "GET_DATA_FROM_VENDOR_INITIATED";
-export const DATA_RECEIVED_FROM_VENDOR = "DATA_RECEIVED_FROM_VENDOR";
-export const DATA_WEBHOOK_NOTIFICATION_SENT_TO_PARTNER =
-  "DATA_WEBHOOK_NOTIFICATION_SENT_TO_PARTNER";
-export const DATA_WEBHOOK_NOTIFICATION_CONFIRMED_FROM_PARTNER =
-  "DATA_WEBHOOK_NOTIFICATION_CONFIRMED_FROM_PARTNER";
-export const DATA_WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY =
-  "DATA_WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY";
-export const DATA_TRANSACTION_COMPLETE = "DATA_TRANSACTION_COMPLETE";
-export const GET_DATA_FROM_VENDOR_RETRY = "GET_DATA_FROM_VENDOR_RETRY";
-export const RETRY_DATA_PURCHASE_FROM_NEW_VENDOR =
-  "RETRY_DATA_PURCHASE_FROM_NEW_VENDOR";
-export const DATA_PURCHASE_RETRY_FROM_NEW_VENDOR =
-  "DATA_PURCHASE_RETRY_FROM_NEW_VENDOR";
-export const DATA_SENT_TO_PARTNER = "DATA_SENT_TO_PARTNER";
-export const DATA_SENT_TO_USER_EMAIL = "DATA_SENT_TO_USER_EMAIL";
 
 // (%vendor% and %partner%)
 export const eventsObjectHeadingsDscription = {
@@ -138,8 +91,7 @@ export const eventsObjectHeadingsDscription = {
       "Alert! Confirmation of %disco% connection status from the %vendor% failed. We're actively investigating and resolving the confirmation hiccup.",
   },
   POWER_PURCHASE_INITIATED_BY_CUSTOMER: {
-    heading:
-      "%partner% has initiated the process to purchase power through our platform.",
+    heading: "%partner% has initiated the process to purchase power through our platform.",
     description:
       "%partner% has initiated the process to purchase power through our platform.",
     failedStateDescription:
@@ -162,11 +114,13 @@ export const eventsObjectHeadingsDscription = {
     heading: "Oops! Token Request Failed",
     description:
       "we encountered an issue while trying to get the meter token from %vendor% .",
-    failedStateDescription: "The attempt to request an meter token failed.",
+    failedStateDescription:
+      "The attempt to request an meter token failed.",
   },
   TOKEN_REQUEST_TIMEDOUT: {
     heading: "Time's Up! Token Request Timed Out",
-    description: "The request for an meter token timed out.",
+    description:
+      "The request for an meter token timed out.",
     failedStateDescription:
       "The request for a meter token took longer than expected.",
   },
@@ -207,7 +161,8 @@ export const eventsObjectHeadingsDscription = {
   },
   TOKEN_SENT_TO_PARTNER: {
     heading: "Meter Token Sent to %Partner%",
-    description: "We've securely sent the meter token to  %partner%.",
+    description:
+      "We've securely sent the meter token to  %partner%.",
     failedStateDescription:
       "The attempt to send the meter token to %partner% failed. ",
   },
@@ -221,13 +176,15 @@ export const eventsObjectHeadingsDscription = {
   },
   TOKEN_SENT_TO_EMAIL: {
     heading: "Meter Token Sent to User's email",
-    description: "We've sent the meter token directly to user's email address.",
+    description:
+      "We've sent the meter token directly to user's email address.",
     failedStateDescription:
       "The attempt to send the meter token to your email address failed.",
   },
   TOKEN_SENT_TO_NUMBER: {
     heading: "Meter Token Sent to User's Number",
-    description: "Your meter token is en route to your phone number.",
+    description:
+      "Your meter token is en route to your phone number.",
     failedStateDescription:
       "The attempt to send the meter token to your phone number failed.",
   },
@@ -260,7 +217,8 @@ export const eventsObjectHeadingsDscription = {
       "The retry attempt to send a webhook notification to %partner% failed.",
   },
   RETRY_PURCHASE_FROM_NEW_VENDOR: {
-    heading: "Retrying the Purchase Process with a New vendor, %vendor%",
+    heading:
+      "Retrying the Purchase Process with a New vendor, %vendor%",
     description:
       "We're restarting the purchase process with a different, %vendor% for better results",
     failedStateDescription:

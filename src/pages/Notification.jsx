@@ -18,10 +18,10 @@ const Notification = () => {
           <div className="p-2">
             <div className="w-full flex justify-between items-center mb-6">
               <div className="">
-                <p class="max-w-lg text-2xl font-semibold leading-normal text-gray-900 mb-2 ">
+                <p className="max-w-lg text-2xl font-semibold leading-normal text-gray-900 mb-2 ">
                 Notification Center
                 </p>
-                <p class="text-left text-sm text-gray-500 ">
+                <p className="text-left text-sm text-gray-500 ">
                     Stay Informed with Our Timely Notifications and Updates
                 </p>
               </div>

@@ -1,4 +1,5 @@
-import { getDiscoImage } from "../../lib/utils";
+import { useGetBillerImage, useGetProducts } from "../../api/getProducts";
+import { getBillerImage } from "../../lib/utils";
 
 export const columns = [
   {
@@ -8,40 +9,48 @@ export const columns = [
   },
 
   {
-    accessorKey: "disco",
-    header: "Disco",
+    accessorKey: "biller",
+    header: "Biller",
     cell: (props) => {
-      const disco = props.getValue();
-      const imageUrl = props.row.original.image;
-      // const imageArray = ["EKO","PORTHARCOURT", "YOLA"]
-      // const random_ = Math.floor(Math.random() * 3);
+      const billerCode = props.getValue();
+      const biller_image = useGetBillerImage(billerCode)
       return (
         <div className="flex items-center py-0.5">
           <img
-            src={getDiscoImage(disco?.toUpperCase())}
-            alt={`${disco} logo`}
+            src={biller_image[0]}
+            alt={`${biller_image[1]} logo`}
             className="mr-2 h-9 w-9 object-contain"
-            // style={{
-            //   width: "50px",
-            //   height: "50px",
-            //   objectFit: "contain", // Preserve aspect ratio
-            // }}
           />
-          <p className="">{disco}</p>
+          <p className=" capitalize">{biller_image[1]?.toLowerCase()}</p>
         </div>
       );
     },
   },
+  // {
+  //   accessorKey: "meter number",
+  //   header: "Meter",
+  //   cell: (props) => <p>{props.getValue()}</p>,
+  // },
   {
     accessorKey: "meter number",
-    header: "Meter",
-    cell: (props) => <p>{props.getValue()}</p>,
+    header: "Utility Number",
+    cell: (props) => {
+      const original_row = props.row.original
+      if(original_row?.productType === "AIRTIME" ||original_row?.productType === "DATA"  ) return <p>{original_row["user number"]}</p>
+      else return <p>{original_row["meter number"]}</p>
+    },
   },
   {
-    accessorKey: "customer name",
-    header: "Customer",
+    accessorKey: "productType",
+    header: "Utility Type",
     cell: (props) => <p>{props.getValue()}</p>,
   },
+
+  // {
+  //   accessorKey: "customer name",
+  //   header: "Customer",
+  //   cell: (props) => <p>{props.getValue()}</p>,
+  // },
   {
     accessorKey: "bank reference",
     header: "Bank Reference",

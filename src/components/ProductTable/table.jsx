@@ -18,6 +18,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUp,
+  Loader,
   Search,
 } from "lucide-react";
 import DatePicker from "react-datepicker";
@@ -32,7 +33,6 @@ import {
   StatusFilter,
   DiscoFilter,
   PartnerFilter,
-  BillerFilter,
 } from "../tableFilters";
 import {
   convertToISOWithLastMinute,
@@ -41,8 +41,11 @@ import {
   convertToISOWithPreviousDay,
 } from "../../lib/utils";
 import ActiveFilter from "../ActiveFilter";
+import LoadingSpinner from "../ui/loading";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-export const TransactionTable = ({
+export const ProductTable = ({
   tableData,
   isPartnerTable,
   dashboardType,
@@ -50,7 +53,7 @@ export const TransactionTable = ({
   setPagination = () => null,
   pagination = {},
   filter = {},
-  totalNumberRecords,
+  totalNumberRecords = 0,
 }) => {
   const [data, setData] = useState(tableData);
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,17 +77,9 @@ export const TransactionTable = ({
       ? 0
       : Math.ceil(totalNumberRecords / pagination?.limit),
     getCoreRowModel: getCoreRowModel(),
-    // getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    // initial items per page
-    // initialState: {
-    //     pagination: {
-    //         pageSize: pageSize,
-    //     },
-    //     pageIndex: currentPage - 1,
-    // },
-    onPaginationChange: setPagination, //(item) => console.log(item),
+    onPaginationChange: setPagination,
     manualPagination: true,
 
     state: {
@@ -150,16 +145,6 @@ export const TransactionTable = ({
     setPagination((prevState) => ({ ...prevState, page: 1 }));
   };
 
-  const handleBillerSelect = (disco) => {
-    setActiveFilter("DISCO");
-    setFilter({
-      ...filter,
-      disco,
-    });
-    setActiveFilter(null);
-    setPagination((prevState) => ({ ...prevState, page: 1 }));
-  };
-
   // handle date select
   const handleDateSelect = (_selectedDate) => {
     console.log("Selected Date:", _selectedDate);
@@ -197,16 +182,16 @@ export const TransactionTable = ({
       <div className="flex md:flex-row flex-col gap-y-3 md:items-center justify-between mb-4">
         <div className="flex space-x-4 items-center">
           <p className="text-body1 font-semibold">Filter by</p>
-          {!isPartnerTable && (
+          {/* {!isPartnerTable && (
             <PartnerFilter
               isCustomer={dashboardType === "CUSTOMER"}
               isActive={filter?.partnerId}
               handlePartnerSelect={handlePartnerSelect}
             />
           )}
-          <BillerFilter
+          <DiscoFilter
             isActive={filter?.disco}
-            handleDiscoSelect={handleBillerSelect}
+            handleDiscoSelect={handleDiscoSelect}
           />
           <DateFilter
             handleDateSelect={handleDateSelect}
@@ -215,7 +200,7 @@ export const TransactionTable = ({
           <StatusFilter
             isActive={filter?.status}
             handleStatusSelect={handleStatusSelect}
-          />
+          /> */}
         </div>
 
         {/* seach area */}
@@ -227,8 +212,6 @@ export const TransactionTable = ({
             value={filtering}
             onChange={(e) => {
               setFiltering(e.target.value);
-              // setCurrentPage(1);
-              // setPagination({...pagination, page : 0})
             }}
             type="text"
             className="px-2 py-1.5 rounded-r-md bg-inherit text-body1 outline-none focus:outline-none"
@@ -237,37 +220,12 @@ export const TransactionTable = ({
         </div>
       </div>
 
-      <ActiveFilter
-        filter={filter}
-        setFilter={(value) => {
-          setPagination((prevState) => ({ ...prevState, page: 1 }));
-          setFilter(value);
-        }}
-      />
-
       <div className="min-h-[40vh] min-w-full overflow-x-scroll">
         <table className="min-w-full border-b border-[#F8F7F7]">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="bg-[#F8F7F7] text-body2">
                 {headerGroup.headers.map((header, index) => {
-                  if (
-                    !isPartnerTable &&
-                    header.column.id === "bank reference"
-                  ) {
-                    return;
-                  }
-                  if (
-                    isPartnerTable &&
-                    header.column.id === "transaction reference"
-                  ) {
-                    return;
-                  }
-
-                  if (isPartnerTable && header.column.id === "partnerName") {
-                    return;
-                  }
-
                   return (
                     <th
                       onClick={header.column.getToggleSortingHandler()}
@@ -297,62 +255,13 @@ export const TransactionTable = ({
                     </th>
                   );
                 })}
+                <th></th>
               </tr>
             ))}
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr
-                className={`border-bborder-[#F8F7F7] hover:bg-blue-50 hover:cursor-pointer hover:text-blue-800 hover:underline`}
-                key={row.id}
-                onClick={() =>
-                  navigate(
-                    `/transaction/details/${
-                      tableData[row.index]["transaction reference"]
-                    }`
-                  )
-                }
-              >
-                {row.getVisibleCells().map((cell) => {
-                  if (!isPartnerTable && cell.column.id === "bank reference") {
-                    return;
-                  }
-                  if (
-                    isPartnerTable &&
-                    cell.column.id === "transaction reference"
-                  ) {
-                    return;
-                  }
-
-                  if (isPartnerTable && cell.column.id === "partnerName") {
-                    return;
-                  }
-
-                  // if(cell.column.id ==== )
-
-                  return (
-                    <td
-                      key={cell.id}
-                      className={`py-1 px-2 text-sm ${
-                        cell.column.id === "status"
-                          ? "text-center"
-                          : "text-left"
-                      }`}
-                    >
-                      <Link
-                        to={`/transaction/details/${
-                          tableData[cell.row.index]["transaction reference"]
-                        }`}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Link>
-                    </td>
-                  );
-                })}
-              </tr>
+              <ProductTableRow row={row} tableData={tableData} />
             ))}
           </tbody>
         </table>
@@ -377,4 +286,157 @@ export const TransactionTable = ({
   );
 };
 
-// export default TransactionTable;
+const ProductTableRow = ({ row, tableData }) => {
+  const [showDetails, setShowDetails] = useState(false);
+  return (
+    <>
+      <tr
+        className={`border-bborder-[#F8F7F7] hover:bg-blue-50 hover:cursor-pointer hover:text-blue-800 hover:underline`}
+        key={row.id}
+        // onClick={() =>
+        //   navigate(
+        //     `/transaction/details/${
+        //       tableData[row.index]["transaction reference"]
+        //     }`
+        //   )
+        // }
+      >
+        {row.getVisibleCells().map((cell) => {
+          return (
+            <td key={cell.id} className={`py-2 px-2 text-left`}>
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </td>
+          );
+        })}
+        <td className="py-2 px-2 text-left">
+          <div className="grid grid-cols-2 gap-1">
+            <button className="font-medium text-blue-600 hover:underline">
+              Edit
+            </button>
+            <button
+              className="font-medium text-blue-600 hover:underline"
+              onClick={() => setShowDetails(prevState => !prevState)}
+            >
+              {!showDetails ? 'View': 'Hide'}
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colSpan={12}>
+          {showDetails && (
+            <ProductCommissionRow ProductId={tableData[row.index]["id"]} />
+          )}
+        </td>
+      </tr>
+    </>
+  );
+};
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const ProductCommissionRow = ({ ProductId }) => {
+  const { isloading, data, isError } = useQuery({
+    queryKey: [`products-${ProductId}`],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/master/product/info?productId=${ProductId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        return response?.data?.data?.product?.vendorProducts;
+      } catch (err) {
+        throw err;
+      }
+    },
+  });
+
+  const TableHeader = [
+    { key: "vendorName", Text: "Vendor" },
+    { key: "bundleAmount", Text: "Bundle Amount" },
+    { key: "commission", Text: "Commission" },
+    { key: "bonus", Text: "Bonus" },
+    { key: "vendorCode", Text: "Vendor Code" },
+    { key: "vendorHttpUrl", Text: "URL" },
+    { key: "schemaData", Text: "Schema" },
+  ];
+  return (
+    <>
+      {isloading ? (
+        <div className="flex items-center justify-center h-56">
+          <div role="status">
+            <svg
+              aria-hidden="true"
+              className="w-8 h-8 text-gray-200 animate-spin  fill-blue-600"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"
+              />
+            </svg>
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <div className="px-7">
+          <table className="border-b ">
+            <thead>
+              <tr className="bg-[#d6d6d6] text-body2">
+                {TableHeader?.map((item, index) => (
+                  <th
+                    className={`py-1 px-2 text-sm border-b bg-[#d6d6d6] text-left`}
+                  >
+                    {item?.Text}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data?.map((row, index) => (
+                <tr key={index}>
+                  {TableHeader?.map((cell, index) => {
+                    if (cell?.key === "schemaData")
+                      return (
+                        <td className={`py-2 px-2 text-left`}>
+                          <div class="overflow-scroll max-h-full">
+                            <pre>
+                              <code
+                                id="code-block"
+                                class="text-sm text-gray-500 whitespace-pre"
+                              >
+                                {JSON.stringify(row[cell?.key],null,2)}
+                              </code>
+                            </pre>
+                          </div>
+                        </td>
+                      );
+                    if (cell?.key === "vendorHttpUrl")
+                    return (
+                      <td className={`py-2 px-2 text-left`}>
+                        <a className="font-medium text-blue-600 underline cursor-pointer" href={row[cell?.key] ? row[cell?.key] : "null"}>{row[cell?.key] ? row[cell?.key] : "null"}</a>
+                      </td>
+                    );
+                    return (
+                      <td className={`py-2 px-2 text-left`}>
+                        {row[cell?.key] ? row[cell?.key] : "null"}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </>
+  );
+};

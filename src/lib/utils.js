@@ -1,19 +1,23 @@
 import { clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
-import ABUJA from "../images/disco-images/ABUJA.jpeg";
-import IBADAN from "../images/disco-images/IBADAN.jpeg";
-import KANO from "../images/disco-images/KANO.jpeg";
-import YOLA from "../images/disco-images/YOLA.jpeg";
-import BENIN from "../images/disco-images/BENIN.jpeg";
-import IKEJA from "../images/disco-images/IKEJA.jpeg";
-import PORTHACOURT from "../images/disco-images/PORTHACOURT.jpeg";
-import EKO from "../images/disco-images/EKO.jpeg";
-import JOS from "../images/disco-images/JOS.jpeg";
-import WHATSAPP_IMAGE_1 from "../images/disco-images/WhatsApp Image 2023-12-14 at 14.06.48 (3).jpeg";
-import ENUGU from "../images/disco-images/ENUGU.jpeg";
-import KADUNA from "../images/disco-images/KADUNA.jpeg";
-import PLUG from "../images/disco-images/plug.png";
+import ABUJA from "../images/biller-images/ABUJA.jpeg";
+import IBADAN from "../images/biller-images/IBADAN.jpeg";
+import KANO from "../images/biller-images/KANO.jpeg";
+import YOLA from "../images/biller-images/YOLA.jpeg";
+import BENIN from "../images/biller-images/BENIN.jpeg";
+import IKEJA from "../images/biller-images/IKEJA.jpeg";
+import PORTHACOURT from "../images/biller-images/PORTHACOURT.jpeg";
+import EKO from "../images/biller-images/EKO.jpeg";
+import JOS from "../images/biller-images/JOS.jpeg";
+import ENUGU from "../images/biller-images/ENUGU.jpeg";
+import KADUNA from "../images/biller-images/KADUNA.jpeg";
+import PLUG from "../images/biller-images/plug.png";
+import ABA from "../images/biller-images/ABA.png";
+import MTN from "../images/biller-images/MTN.png";
+import _9MOBILE from "../images/biller-images/9MOBILE.png";
+import GLO from "../images/biller-images/GLO.png";
+import AIRTEL from "../images/biller-images/AIRTEL.png";
  
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
@@ -124,7 +128,7 @@ export const getDateTimeString = (inputDate) => {
 }
 
 
-export const getDiscoImage = (disco) => {
+export const getBillerImage = (biller) => {
   const logos = {
       ABUJA,
       IBADAN,
@@ -137,7 +141,34 @@ export const getDiscoImage = (disco) => {
       JOS,
       ENUGU,
       KADUNA,
+      ABA, 
+      GLO, 
+      "9MOBILE": _9MOBILE,
+      MTN,
+      AIRTEL
     };
-
-  return logos[disco] ? logos[disco] : PLUG
+  console.log(biller)
+  return logos[biller] ? logos[biller] : PLUG
 }
+
+export function convertZodErrorToObject(error) {
+  // Initialize an empty object to store field errors
+  const errorsObject = {};
+
+  // Iterate through each error in the errors array
+  error.errors.forEach((err) => {
+    // Extract the field name and message from the error
+    const fieldName = err.path[0];
+    const errorMessage = err.message;
+
+    // Add the field name and message to the errors object
+    errorsObject[fieldName] = errorMessage;
+  });
+
+  // Return the errors object
+  return errorsObject;
+}
+
+// export checkIfStringIsNumber() 
+
+

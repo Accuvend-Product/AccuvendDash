@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 
-import DetailsCard from "../components/details-card";
-import OrderConfirmation from "../components/order-confirmation";
+import DetailsCard from "../components/OrderConfirmation/details-card";
+import OrderConfirmation from "../components/OrderConfirmation/order-confirmation";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -9,6 +9,53 @@ import LoadingSpinner from "../components/ui/loading";
 import MainContent from "../components/MainContent";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { useQuery } from "@tanstack/react-query";
+import DetailsCardAirtime from "../components/OrderConfirmation/details-card-airtime";
+import DetailsCardData from "../components/OrderConfirmation/details-card-data";
+import OrderConfirmationAirtime from "../components/OrderConfirmation/order-confirmation-airtime";
+import OrderConfirmationData from "../components/OrderConfirmation/order-confirmation-data";
+
+
+
+const GetDetailCard = ({transaction}) => {
+    switch (transaction.productType) {
+        case "DATA":
+            return <DetailsCardData transaction={transaction} />;
+            break;
+
+        case "AIRTIME":
+            return <DetailsCardAirtime transaction={transaction} />;
+            break;
+        
+        case "ELECTRICITY":
+            return <DetailsCard transaction={transaction} />;
+            break;
+    
+        default:
+            return <DetailsCard transaction={transaction} />;
+            break;
+    }
+}
+
+
+const GetOrderConfirmation = ({transaction}) => {
+    switch (transaction.productType) {
+        case "DATA":
+            return <OrderConfirmationData transaction={transaction} />;
+            break;
+
+        case "AIRTIME":
+            return <OrderConfirmationAirtime transaction={transaction} />;
+            break;
+        
+        case "ELECTRICITY":
+            return <OrderConfirmation transaction={transaction} />;
+            break;
+    
+        default:
+            return <OrderConfirmation transaction={transaction} />;
+            break;
+    }
+}
 
 
 const TransactionDetails = ({sidebarType=''}) => {
@@ -45,8 +92,8 @@ const TransactionDetails = ({sidebarType=''}) => {
 
                 {/* both cards */}
                 <div className="mt-8 flex flex-col md:flex-row md:gap-x-16 items-stretch gap-y-8">
-                    <DetailsCard transaction={transactionDetails} />
-                    <OrderConfirmation transaction={transactionDetails} />
+                    <GetDetailCard transaction={transactionDetails} />
+                    <GetOrderConfirmation transaction={transactionDetails} />
                 </div>
 
                 <div className="mt-10"></div>

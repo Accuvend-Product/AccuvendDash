@@ -1,30 +1,9 @@
 import PropTypes from 'prop-types';
-import { getDiscoImage as getImage } from '../lib/utils';
+import { getBillerImage as getImage } from '../../lib/utils';
+import { getStatusClass, formatTimeStamp } from './commons';
+import { useGetBillerImage } from "../../api/getProducts";
 
 const DetailsCard = ({transaction}) => {
-
-    const formatTimeStamp = (_date) => {
-        let date = new Date()
-        try{
-            date = new Date(_date);
-        }catch(err){
-        }
-        const options = {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-          };
-          const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-            date
-          );
-        return formattedDate
-        
-    }
-
-    
 
         const {
           transactionTimestamp,
@@ -34,24 +13,11 @@ const DetailsCard = ({transaction}) => {
           disco,
           powerUnit,
           user,
+          transactionType,
+          biller
         } = transaction;   
-        let statusClass; 
-        switch (transaction?.status.toLowerCase()) {
-            case "complete":
-                statusClass =
-                    "bg-green-100 text-green-800 font-bold py-2 px-3  text-xs";
-                break;
-            case "failed":
-                statusClass = "bg-red-100 text-red-800 font-bold py-2 px-3  text-xs";
-                break;
-            case "pending":
-                statusClass =
-                    "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
-                break;
-            
-            default:
-                statusClass = "bg-black text-white font-bold py-2 px-3  text-xs";
-        }
+        const statusClass = getStatusClass(status)
+        const biller_image = useGetBillerImage(biller);
         return (
         <div className="rounded-xl border border-gray-300 w-full md:w-[60%]">
             {/* head section */}
@@ -74,6 +40,11 @@ const DetailsCard = ({transaction}) => {
                     <div className="flex justify-between  py-2 px-8">
                         <p className="font-bold">Meter number</p>
                         <p className="text-gray-500">{meter?.meterNumber}</p>
+                    </div>
+                    <hr />
+                    <div className="flex justify-between  py-2 px-8">
+                        <p className="font-bold">Utility Type</p>
+                        <p className="text-gray-500">{transactionType}</p>
                     </div>
                     <hr />
                     <div className="flex justify-between  py-2 px-8">
@@ -117,25 +88,25 @@ const DetailsCard = ({transaction}) => {
     );
 };
 
-DetailsCard.propTypes = {
-  transaction: PropTypes.shape({
-    transactionTimestamp: PropTypes.string,
-    amount: PropTypes.string,
-    partner: PropTypes.string,
-    meter: PropTypes.shape({
-      meterNumber: PropTypes.string,
-      vendType: PropTypes.string,
-    }),
-    status: PropTypes.string,
-    disco: PropTypes.string,
-    powerUnit: PropTypes.shape({
-      token: PropTypes.string,
-    }),
-    user: PropTypes.shape({
-      name: PropTypes.string,
-      address: PropTypes.string,
-    }),
-  }),
-};
+// DetailsCard.propTypes = {
+//   transaction: PropTypes.shape({
+//     transactionTimestamp: PropTypes.string,
+//     amount: PropTypes.string,
+//     partner: PropTypes.string,
+//     meter: PropTypes.shape({
+//       meterNumber: PropTypes.string,
+//       vendType: PropTypes.string,
+//     }),
+//     status: PropTypes.string,
+//     disco: PropTypes.string,
+//     powerUnit: PropTypes.shape({
+//       token: PropTypes.string,
+//     }),
+//     user: PropTypes.shape({
+//       name: PropTypes.string,
+//       address: PropTypes.string,
+//     }),
+//   }),
+// };
 
 export default DetailsCard;

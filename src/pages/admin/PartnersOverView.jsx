@@ -129,7 +129,7 @@ const PartnersOverView = () => {
                     <button
                       onClick={() => openAddModal()}
                       type="button"
-                      class="px-3 flex gap-x-2 items-center py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                      className="px-3 flex gap-x-2 items-center py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                     >
                       <Plus /> Invite Partner
                     </button>
@@ -194,7 +194,7 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
             value={email}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
-          {emailRequried && <p class="mt-2 text-sm text-red-600 ">Partner's Email is required</p>}
+          {emailRequried && <p className="mt-2 text-sm text-red-600 ">Partner's Email is required</p>}
         </div>
 
         <div className="mb-6">
@@ -210,7 +210,7 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
             value={name}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
-          {nameRequried && <p class="mt-2 text-sm text-red-600 ">Partner's Name is required</p>}
+          {nameRequried && <p className="mt-2 text-sm text-red-600 ">Partner's Name is required</p>}
         </div>
       </div>
 
@@ -219,14 +219,14 @@ const InvitePartnerForm = ({ invitePartnerMutation, closeModal }) => {
           type="button"
           disabled={invitePartnerMutation.isPending}
           onClick={() => invitePartner()}
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2   focus:outline-none "
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2   focus:outline-none "
         >
           {invitePartnerMutation.isPending ? (
             <>
               <svg
                 aria-hidden="true"
                 role="status"
-                class="inline w-4 h-4 me-3 text-white animate-spin"
+                className="inline w-4 h-4 me-3 text-white animate-spin"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

@@ -66,7 +66,7 @@ const PartnerTransctions = () => {
             <div className=" ml-auto pt-20 py-8">
                 {/* cards */}
                 <a href={`${ADMIN_ROUTE}${PARTNERS_ROUTE}`} className="text-blue-900">Partner</a>
-                <span class="mx-2 text-gray-400">/</span>
+                <span className="mx-2 text-gray-400">/</span>
                 {/* <a>zenith</a> */}
             </div>
 

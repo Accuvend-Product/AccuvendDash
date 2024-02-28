@@ -340,7 +340,7 @@ function App() {
       <TransactionDataProvider>
         <SelectRoutes />
         <Toaster />
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <ReactQueryDevtools initialIsOpen={false} />
       </TransactionDataProvider>
     </QueryClientProvider>
   );

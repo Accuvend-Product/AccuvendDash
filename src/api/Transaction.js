@@ -54,10 +54,13 @@ export const useGetTransactions = (query = {} , url) => {
           "transaction date": transaction?.transactionTimestamp,
           amount: `₦${transaction?.amount}`,
           status: transaction?.status.toLowerCase(),
-          selection: transaction?.partnerId ?? "TESTID",
+          selection: transaction?.partnerId ?? "",
+          productType: transaction?.productType,
+          biller: transaction?.biller,
           events : transaction?.events,
           superagent: transaction?.superagent,
           partnerName : transaction?.partner?.companyName,
+          "user number": transaction?.user?.phoneNumber
         })
       );
       setTableData(transformedData);
