@@ -57,7 +57,7 @@ const DetailsCardData = ({ transaction }) => {
           </div>
           <hr />
           <div className="flex justify-between  py-2 px-8">
-            <p className="font-bold">Biller</p>
+            <p className="font-bold">Network</p>
             <div className="flex gap-2 items-center">
               <img className='h-6 aspect-auto'   src={biller_image[0]}
                 alt={`${biller_image[1]} logo`} />
