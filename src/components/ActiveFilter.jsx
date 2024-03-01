@@ -39,7 +39,7 @@ const ActiveFilter = ({filter , setFilter, isAdmin}) => {
                     </button>
                 </span>}
                 
-                {filter?.disco && <span id="badge-dismiss-dark" className="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
+                {/* {filter?.disco && <span id="badge-dismiss-dark" className="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
                     Disco : {filter?.disco}
                     <button onClick={() =>{
                         const _filter = {...filter} 
@@ -51,7 +51,7 @@ const ActiveFilter = ({filter , setFilter, isAdmin}) => {
                     </svg>
                     <span className="sr-only">Remove badge</span>
                     </button>
-                </span>}
+                </span>} */}
 
                 {filter?.disco && <span id="badge-dismiss-dark" className="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-gray-800 bg-gray-100 rounded">
                     Biller : {mapProductCodesToName[filter?.disco]}
