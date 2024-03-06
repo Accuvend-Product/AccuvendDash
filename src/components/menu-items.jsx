@@ -103,10 +103,10 @@ export const ParnterLinks = [
           name: "RESOLUTION CENTER",
           href: "/resolution-center"
         },
-        {
-          name: "CUSTOMER CARE AGENTS",
-          href: "/resolution-center"
-        },
+        // {
+        //   name: "CUSTOMER CARE AGENTS",
+        //   href: "/resolution-center"
+        // },
         {
           name: "EVENTS",
           href: `${ADMIN_ROUTE}${SUPPORT_ROUTE}${EVENT_ROUTE}`,
