@@ -172,3 +172,28 @@ export function convertZodErrorToObject(error) {
 // export checkIfStringIsNumber() 
 
 
+
+
+/**
+ * Calculates the duration between two timestamps in seconds, minutes, and hours.
+ * @param {string} startTime - The start timestamp in ISO 8601 format.
+ * @param {string} endTime - The end timestamp in ISO 8601 format.
+ * @returns {string} A string representation of the duration in hours, minutes, or seconds.
+ */
+export function calculateDuration(startTime, endTime) {
+  // Convert timestamps to Date objects
+  const startDate = new Date(startTime);
+  const endDate = new Date(endTime);
+
+  // Calculate the difference in milliseconds
+  const duration = endDate - startDate;
+
+  // Convert milliseconds to seconds, minutes, and hours
+  const seconds = Math.floor(duration / 1000);
+  const minutes = Math.floor(duration / (1000 * 60));
+  const hours = Math.floor(duration / (1000 * 60 * 60));
+
+  if(hours > 0) return `${hours} hrs`;
+  if(minutes > 0) return `${minutes} mins`;
+  return `${seconds} secs`;
+}

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { mapProductToObject, useGetProducts } from '../api/getProducts';
+import { useMapProducts } from '../hooks/useMapProducts';
 
  //   format date
  const formattedDate = (inputDate) => {
@@ -15,10 +16,11 @@ import { mapProductToObject, useGetProducts } from '../api/getProducts';
 const ActiveFilter = ({filter , setFilter, isAdmin}) => {
     // get all current products 
     //map item to key using memo
-    const {data , isError , isLoading} = useGetProducts()
-    const mapProductCodesToName = useMemo(()=>{
-        return mapProductToObject(data?.data?.data?.products)
-    },[data])
+    // const {data , isError , isLoading} = useGetProducts()
+    // const mapProductCodesToName = useMemo(()=>{
+    //     return mapProductToObject(data?.data?.data?.products)
+    // },[data])
+    const mapProductCodesToName = useMapProducts();
   return (
     <>
     {/* Active Filters Tags */}

@@ -6,12 +6,22 @@ import PaymentConfirmed from "../icons/payment-confirmed";
 import { Check, PlayCircle } from "lucide-react";
 import * as EventConstant from "./constants";
 import { getDateTimeString } from "../../lib/utils";
+import { useMapProducts } from "../../hooks/useMapProducts";
 export const columns = [
   
   {
     accessorKey: "customer name",
     header: "Customer",
     cell: (props) => <p>{props.getValue()}</p>,
+  },
+  {
+    accessorKey: "disco",
+    header: "Disco",
+    cell: (props) =>{
+      const mapProductCodesToName = useMapProducts();
+      if(props.getValue()) return <>{mapProductCodesToName[props.getValue()]}</>
+      else ""
+    },
   },
   {
     accessorKey: "customer phone",
