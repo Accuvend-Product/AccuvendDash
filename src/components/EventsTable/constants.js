@@ -186,14 +186,14 @@ export const eventsObjectHeadingsDscription = {
   },
   GET_TRANSACTION_TOKEN_FROM_VENDOR_INITIATED: {
     heading:
-      "We've begun the process of obtaining a transaction token from %vendor% .",
+      "We've begun the process of obtaining a meter token from %vendor% .",
     description: "Ensuring a secure and smooth transaction.",
     failedStateDescription:
-      "The attempt to initiate the retrieval of a transaction token from the %vendor%  failed.",
+      "The attempt to initiate the retrieval of a meter token from the %vendor%  failed.",
   },
   GET_TRANSACTION_TOKEN_FROM_VENDOR_RETRY: {
     heading:
-      "Let's Try Again! Retry Transaction Token Retrieval from %vendor% ",
+      "Let's Try Again! Retry Meter token Retrieval from %vendor% ",
     description:
       "We're giving it another shot to retrieve the Meter token from %vendor% ",
     failedStateDescription:
