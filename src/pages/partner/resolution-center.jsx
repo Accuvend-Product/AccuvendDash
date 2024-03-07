@@ -11,7 +11,7 @@ import { useGetComplaints  } from "../../api/Complaints.js";
 import { SupportTicketTable } from "../../components/SupportTicketTable/table";
 const VITE_PORTAL_TYPE = import.meta.env.VITE_PORTAL_TYPE;
 const ResolutionCenter = () => {
-  const { email, isUserDataLoading , entityId } = useUserData(BASE_URL);
+  const { email, isUserDataLoading , entityId , userData} = useUserData(BASE_URL);
   
   const {ModalProvider: AddComplaintModal, openModal : openAddModal , closeModal} = useModal("New Support Request")
   // get Complaints 
@@ -59,7 +59,7 @@ const ResolutionCenter = () => {
     <>
       <>  
       <AddComplaintModal>
-        <AddSupportTicketForm closeModal={closeModal} createComplaintMutation={createComplaintMutation} email={email} entityId={entityId}/>
+        <AddSupportTicketForm closeModal={closeModal} createComplaintMutation={createComplaintMutation} email={userData?.entity?.email} entityId={userData?.entity?.id}/>
       </AddComplaintModal>
       </>
       <MainContent>
