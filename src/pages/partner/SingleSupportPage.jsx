@@ -34,7 +34,7 @@ function displayStatus(status) {
 
 const SingleSupportPage = () => {
   const { id } = useParams();
-  const { email, isUserDataLoading, entityId } = useUserData(BASE_URL);
+  const { email, isUserDataLoading, entityId , userData } = useUserData(BASE_URL);
   const queryClient = useQueryClient();
   const {
     ModalProvider: AddReplyModal,
@@ -129,8 +129,8 @@ const SingleSupportPage = () => {
           <AddReplyForm
             closeModal={closeModal}
             addReplyMutation={addReplyMutation}
-            email={email}
-            entityId={entityId}
+            email={userData?.entity?.email}
+            entityId={userData?.entity?.id}
           />
         </AddReplyModal>
       </>
@@ -217,6 +217,12 @@ const SingleSupportPage = () => {
                       )}
                     </button>}
                   </div>
+                </div>
+                <div className="my-6 py-2 px-5 bg-slate-100 rounded-md">
+                  <div className=" text-lg mb-3">Original Message</div>
+                  <p className="mb-3 text-gray-500">
+                    {data?.data?.complaint?.message}
+                  </p>
                 </div>
                 <div className="">
                     <div className="underline text-2xl my-6"> Replies</div>
