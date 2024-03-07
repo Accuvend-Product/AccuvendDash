@@ -28,7 +28,7 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { add, addDays } from "date-fns";
-import { DateFilter, StatusFilter, DiscoFilter, PartnerFilter } from "../tableFilters";
+import { DateFilter, StatusFilter, DiscoFilter, PartnerFilter, BillerFilter } from "../tableFilters";
 import {
   convertToISOWithLastMinute,
   convertToISOWithMidnight,
@@ -165,7 +165,8 @@ export const EventTable = ({
         <div className="flex space-x-4 items-center">
           <p className="text-body1 font-semibold">Filter by</p>
           <PartnerFilter isActive={filter?.partnerId} handlePartnerSelect={handlePartnerSelect}/>
-          <DiscoFilter isActive={filter?.disco} handleDiscoSelect={handleDiscoSelect}/>
+          {/* <DiscoFilter isActive={filter?.disco} handleDiscoSelect={handleDiscoSelect}/> */}
+          <BillerFilter isActive={filter?.disco} handleDiscoSelect={handleDiscoSelect}/>
           <DateFilter
             handleDateSelect={handleDateSelect}
             isActive={filter?.startDate || filter?.endDate}
@@ -214,6 +215,16 @@ export const EventTable = ({
                 <span className="text-sm mr-4">
                   ( {tableData[row.index]["meter number"]} )
                 </span>
+                <span className="text-sm mr-4 ">
+                  {/* ( {tableData[row.index]["meter number"]} ) */}
+                  {row.getVisibleCells().filter((cell) => cell.column.id === "disco").map((cell) => {
+                    return <>
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext()
+                    )}</>
+                  })}
+                </span>
                 <span className={`text-xs font-medium me-2 px-2.5 py-1 rounded-full ${
                   (()=>{
                     if(tableData[row.index]["status"] === "pending"){
@@ -245,42 +256,27 @@ export const EventTable = ({
                   {accordionSelectedIndex === row.index ? "Hide" : "Show"}{" "}
                   Information
                 </span>
-                {/* <svg
-                  data-accordion-icon
-                  className="w-3 h-3 rotate-180 shrink-0"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5 5 1 1 5"
-                  />
-                </svg> */}
                 {accordionSelectedIndex === row.index ? <Minus /> : <Plus />}
               </button>
             </div>
-
-            {(accordionSelectedIndex === row.index) && row.getVisibleCells().map(
+            <div className="mb-3">
+              <span>Transaction Audit Report : </span>
+              <a className="font-medium text-blue-600 underline" href={`http://auditreport.accuvend.ng/report/${tableData[row.index]["transaction reference"]}`} target="_blank">Click here</a>
+            </div>
+            {(accordionSelectedIndex === row.index) && <>
+            
+            {row.getVisibleCells().map(
               (cell) =>
                 cell.column.id !== "events" &&
                 cell.column.id !== "customer name" &&
-                cell.column.id !== "meter number" && (
+                cell.column.id !== "meter number" && 
+                cell.column.id !== "disco" &&
+                (
                   <div
-                    className={`flex gap-x-2 ${
-                      cell.column.id === "customer name" ? "" : "text-sm"
-                    }`}
+                    className={`flex gap-x-2 text-sm`}
                     key={cell.id}
                   >
-                    <span
-                      className={`${
-                        cell.column.id === "customer name" ? "hidden" : ""
-                      }`}
-                    >
+                    <span>
                       {cell.column.columnDef.header} -{" "}
                     </span>{" "}
                     <span>
@@ -289,9 +285,10 @@ export const EventTable = ({
                         cell.getContext()
                       )}
                     </span>
+                    
                   </div>
                 )
-            )}
+            )}</>}
 
             {/* {row.getVisibleCells().map((cell) => cell.column.id === 'events' &&  (
                         <div className="mt-7">

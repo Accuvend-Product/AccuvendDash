@@ -6,7 +6,7 @@ import DiscoUp from "../icons/Disco-up";
 import PaymentConfirmed from "../icons/payment-confirmed";
 import { Check, PlayCircle } from "lucide-react";
 import * as EventConstant from "./constants";
-import { getDateTimeString } from "../../lib/utils";
+import { calculateDuration, getDateTimeString } from "../../lib/utils";
 
 export const EventTimeline = ({ events, originalRow, showInfo }) => {
   //   const events = props.events;
@@ -105,7 +105,7 @@ export const EventTimeline = ({ events, originalRow, showInfo }) => {
       triggerEvents: [
         EventConstant.TOKEN_SENT_TO_PARTNER,
         EventConstant.TOKEN_SENT_TO_EMAIL,
-        // EventConstant.TOKEN_SENT_TO_NUMBER,
+        EventConstant.TOKEN_SENT_TO_NUMBER,
       ],
       Icon: (props) => <Check {...props} />,
     },
@@ -164,24 +164,12 @@ export const EventTimeline = ({ events, originalRow, showInfo }) => {
                 </h3>
               </div>
               {showInfo && (
-                <div className="mt-5">
-                  <ol className="relative border-s border-gray-200">
-                    <EventSubTimeline events={events} partnerName={originalRow?.partnerName} eventItem={eventItem} />
-                  </ol>
-                </div>
+                <EventSubTimeline events={events} partnerName={originalRow?.partnerName} eventItem={eventItem} />
               )}
             </li>
           );
         })}
       </ol>
-      {/* <div className="flex items-center gap-x-7  ">
-              <button type="button" className="text-sm cursor-pointer hover:bg-blue-900 bg-blue-800 py-3 px-3 text-white rounded-md">
-                  Create Ticket
-              </button>
-              <button type="button" className="w-10 h-10 text-green-500 hover:text-green-800 cursor-pointer">
-                  <PlayCircle strokeWidth={1.5} className="w-full h-full" />
-              </button>
-            </div> */}
     </div>
   );
 };
@@ -190,55 +178,63 @@ const EventSubTimeline = ({ events, eventItem , partnerName }) => {
   const subEvents = events
     .sort((a, b) => new Date(a?.createdAt) - new Date(b?.createdAt))
     ?.filter((ele) => eventItem?.items_in_category?.includes(ele?.eventText));
+
   const eventSuccessIndexObject = eventCountData(subEvents);
+  let Duration = "0 secs"
+  if(subEvents.length > 0 ) Duration = calculateDuration(subEvents[0].createdAt, subEvents[subEvents.length - 1].createdAt)
   return (
     <>
-      {subEvents?.map((eventData, index) => {
-        const eventSuccess =
-          eventSuccessIndexObject[eventData.eventText] === index;
-        const payload = JSON.parse(eventData?.payload || "{}");
-        const superagent = eventData?.eventText === "RETRY_PURCHASE_FROM_NEW_VENDOR" ?  payload?.newSuperAgent : payload?.superagent
-        return (
-          <li className="ms-4 mb-6 me-5">
-            <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-            <time className="mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
-              {getDateTimeString(eventData?.eventTimestamp)}
-            </time>
-            {/* <h3
-              className={`text-sm font-semibold  ${
-                eventSuccess ? "text-green-900 " : "text-red-900"
-              } `}
-            >
-              {
-                parseVendorPartnerName(
-                  EventConstant.eventsObjectHeadingsDscription[
-                    eventData?.eventText
-                  ]?.heading,
-                  superagent,
-                  partnerName
-                )
-              }
-            </h3> */}
-            <p
-              className={`text-sm font-normal ${
-                eventSuccess ? "text-green-500 " : "text-red-500"
-              }`}
-            >
-              {parseVendorPartnerName(
-                eventSuccess
-                  ? EventConstant.eventsObjectHeadingsDscription[
-                      eventData?.eventText
-                    ]?.heading
-                  : EventConstant.eventsObjectHeadingsDscription[
-                      eventData?.eventText
-                    ]?.failedStateDescription,
-                    superagent,
-                    partnerName
-              )}
-            </p>
-          </li>
-        );
-      })}
+      <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Duration: {Duration}</time>
+      <div className="mt-5">
+        <ol className="relative border-s border-gray-200">
+          {subEvents?.map((eventData, index) => {
+            const eventSuccess =
+              eventSuccessIndexObject[eventData.eventText] === index;
+            const payload = JSON.parse(eventData?.payload || "{}");
+            const superagent = eventData?.eventText === "RETRY_PURCHASE_FROM_NEW_VENDOR" ?  payload?.newSuperAgent : payload?.superagent
+            return (
+              <li className="ms-4 mb-6 me-5">
+                <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                <time className="mb-1 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
+                  {getDateTimeString(eventData?.eventTimestamp)}
+                </time>
+                {/* <h3
+                  className={`text-sm font-semibold  ${
+                    eventSuccess ? "text-green-900 " : "text-red-900"
+                  } `}
+                >
+                  {
+                    parseVendorPartnerName(
+                      EventConstant.eventsObjectHeadingsDscription[
+                        eventData?.eventText
+                      ]?.heading,
+                      superagent,
+                      partnerName
+                    )
+                  }
+                </h3> */}
+                <p
+                  className={`text-sm font-normal ${
+                    eventSuccess ? "text-green-500 " : "text-red-500"
+                  }`}
+                >
+                  {parseVendorPartnerName(
+                    eventSuccess
+                      ? EventConstant.eventsObjectHeadingsDscription[
+                          eventData?.eventText
+                        ]?.heading
+                      : EventConstant.eventsObjectHeadingsDscription[
+                          eventData?.eventText
+                        ]?.failedStateDescription,
+                        superagent,
+                        partnerName
+                  )}
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </>
   );
 };
