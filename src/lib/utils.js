@@ -7,7 +7,7 @@ import KANO from "../images/biller-images/KANO.jpeg";
 import YOLA from "../images/biller-images/YOLA.jpeg";
 import BENIN from "../images/biller-images/BENIN.jpeg";
 import IKEJA from "../images/biller-images/IKEJA.jpeg";
-import PORTHACOURT from "../images/biller-images/PORTHACOURT.jpeg";
+import PORTHARCOURT from "../images/biller-images/PORTHARCOURT.jpeg";
 import EKO from "../images/biller-images/EKO.jpeg";
 import JOS from "../images/biller-images/JOS.jpeg";
 import ENUGU from "../images/biller-images/ENUGU.jpeg";
@@ -136,7 +136,7 @@ export const getBillerImage = (biller) => {
       YOLA,
       BENIN,
       IKEJA,
-      PORTHACOURT,
+      PORTHARCOURT,
       EKO,
       JOS,
       ENUGU,

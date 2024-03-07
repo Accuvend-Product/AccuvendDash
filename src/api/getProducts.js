@@ -65,6 +65,7 @@ export const useGetBillerImage = (billerCode) => {
     if(!biller){
         return [getBillerImage() , '']
     }
+    console.log(biller[0]?.productName?.toUpperCase())
     // Extract biller image URL and name from the filtered biller data
     return [getBillerImage(biller[0]?.productName?.toUpperCase()), biller[0]?.productName];
 };
