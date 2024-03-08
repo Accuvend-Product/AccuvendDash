@@ -47,7 +47,10 @@ export const columns = [
   {
     accessorKey: "partnerName",
     header: "Partner",
-    cell: (props) => <p> {props.getValue()}</p>,
+    cell: (props) => {
+      const row = props.row.original
+      return <p> {props.getValue()} ( { row?.channel} )</p>
+    },
   },
   {
     accessorKey: "superagent",

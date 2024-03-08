@@ -60,7 +60,8 @@ export const useGetTransactions = (query = {} , url) => {
           events : transaction?.events,
           superagent: transaction?.superagent,
           partnerName : transaction?.partner?.companyName,
-          "user number": transaction?.user?.phoneNumber
+          "user number": transaction?.user?.phoneNumber ,
+          "channel": transaction?.channel
         })
       );
       setTableData(transformedData);
