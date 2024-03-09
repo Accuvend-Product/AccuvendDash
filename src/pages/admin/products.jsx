@@ -6,9 +6,16 @@ import { Plus } from "lucide-react";
 import { ProductTable } from "../../components/ProductTable/table";
 import { useModal } from "../../hooks/useModal";
 import ProductForm from "../../components/products-forms/ProductForm";
+import ProductUpdateForm from "../../components/products-forms/ProductUpdateForm";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Product = () => {
+
+  // State to select the Product to be updated 
+
+  const [updateId, setUpdateId] = useState(null)
+
+
   // API call to get all products
   const { isLoading, data : tableData, isError } = useQuery({
     queryKey: ["products"],
@@ -128,7 +135,7 @@ const Product = () => {
 })
 
   const {ModalProvider: AddProductModal, openModal : openAddModal , closeModal: closeAddModal } = useModal('Add New Product')
-  // const {ModalProvider: UpdateProductModal, openModal : openUpdateModal , closeModal: closeUpdateModal  } = useModal('Update Product')
+  const {ModalProvider: UpdateProductModal, openModal : openUpdateModal , closeModal: closeUpdateModal  } = useModal('Update Product')
 
   return (
     <>
@@ -137,9 +144,19 @@ const Product = () => {
           closeModal={closeAddModal} 
           createProductCommissionMutation={createProductCommissionMutation}
           createProductMutation={createProductMutation}
-          
            />
       </AddProductModal>
+      <UpdateProductModal>
+        <ProductUpdateForm
+          vendorData={vendorData?.data?.data?.vendors}
+          updateProductCommissionMutation={updateProductCommissionMutation}
+          updateProductMutation={updateProductMutation}
+          createProductCommissionMutation={createProductCommissionMutation}
+          updateId={updateId}
+          closeModal={closeUpdateModal}
+        
+        />
+      </UpdateProductModal>
       <MainContent>
         <div className="w-full mt-10">
           <div className="w-full flex justify-between items-center">
@@ -185,6 +202,8 @@ const Product = () => {
             <>
               {/* Render your cards here */}
               <ProductTable
+                setUpdateId={setUpdateId}
+                openUpdateModal={openUpdateModal}
                 tableData={tableData?.data?.data?.products}
               />
             

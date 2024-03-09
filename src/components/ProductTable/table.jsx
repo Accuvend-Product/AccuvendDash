@@ -49,6 +49,8 @@ export const ProductTable = ({
   tableData,
   isPartnerTable,
   dashboardType,
+  setUpdateId,
+  openUpdateModal,
   setFilter = (item) => null,
   setPagination = () => null,
   pagination = {},
@@ -261,7 +263,12 @@ export const ProductTable = ({
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <ProductTableRow row={row} tableData={tableData} />
+              <ProductTableRow
+                setUpdateId={setUpdateId}
+                openUpdateModal={openUpdateModal}
+                row={row}
+                tableData={tableData}
+              />
             ))}
           </tbody>
         </table>
@@ -286,7 +293,7 @@ export const ProductTable = ({
   );
 };
 
-const ProductTableRow = ({ row, tableData }) => {
+const ProductTableRow = ({ row, tableData, setUpdateId, openUpdateModal }) => {
   const [showDetails, setShowDetails] = useState(false);
   return (
     <>
@@ -310,14 +317,20 @@ const ProductTableRow = ({ row, tableData }) => {
         })}
         <td className="py-2 px-2 text-left">
           <div className="grid grid-cols-2 gap-1">
-            <button className="font-medium text-blue-600 hover:underline">
+            <button
+              onClick={() => {
+                setUpdateId(tableData[row.index]["id"])
+                openUpdateModal()
+              }}
+              className="font-medium text-blue-600 hover:underline"
+            >
               Edit
             </button>
             <button
               className="font-medium text-blue-600 hover:underline"
-              onClick={() => setShowDetails(prevState => !prevState)}
+              onClick={() => setShowDetails((prevState) => !prevState)}
             >
-              {!showDetails ? 'View': 'Hide'}
+              {!showDetails ? "View" : "Hide"}
             </button>
           </div>
         </td>
@@ -335,7 +348,7 @@ const ProductTableRow = ({ row, tableData }) => {
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ProductCommissionRow = ({ ProductId }) => {
   const { isloading, data, isError } = useQuery({
-    queryKey: [`products-${ProductId}`],
+    queryKey: [`products-vendor-${ProductId}`],
     queryFn: async () => {
       try {
         const response = await axios.get(
@@ -413,18 +426,23 @@ const ProductCommissionRow = ({ ProductId }) => {
                                 id="code-block"
                                 class="text-sm text-gray-500 whitespace-pre"
                               >
-                                {JSON.stringify(row[cell?.key],null,2)}
+                                {JSON.stringify(row[cell?.key], null, 2)}
                               </code>
                             </pre>
                           </div>
                         </td>
                       );
                     if (cell?.key === "vendorHttpUrl")
-                    return (
-                      <td className={`py-2 px-2 text-left`}>
-                        <a className="font-medium text-blue-600 underline cursor-pointer" href={row[cell?.key] ? row[cell?.key] : "null"}>{row[cell?.key] ? row[cell?.key] : "null"}</a>
-                      </td>
-                    );
+                      return (
+                        <td className={`py-2 px-2 text-left`}>
+                          <a
+                            className="font-medium text-blue-600 underline cursor-pointer"
+                            href={row[cell?.key] ? row[cell?.key] : "null"}
+                          >
+                            {row[cell?.key] ? row[cell?.key] : "null"}
+                          </a>
+                        </td>
+                      );
                     return (
                       <td className={`py-2 px-2 text-left`}>
                         {row[cell?.key] ? row[cell?.key] : "null"}
