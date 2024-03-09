@@ -66,8 +66,8 @@ createProductMutation}) => {
     // Zod Validation
     const commissionSchema = object({
         vendor: string().refine(value => vendorData.map(item => item?.id).includes(value),{message: "Vendor must be one of: " + vendorData.map(item => item?.name).join(", ")}),
-        commission: string().refine(value => !isNaN(parseFloat(value)) , {message: "Commission should be a number"}),
-        bonus: string().refine(value => !isNaN(parseFloat(value)) , {message: "Bonus should be a number"}),
+        commission: string().refine(value => !isNaN(parseFloat(value)) && parseFloat(value) >= 0 , {message: "Commission should be a number"}),
+        bonus: string().refine(value => !isNaN(parseFloat(value)) && parseFloat(value) >= 0 , {message: "Bonus should be a number"}),
         url: string(),
         schemaData: string().refine((value) => {
             try{
