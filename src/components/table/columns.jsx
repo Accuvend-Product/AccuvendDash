@@ -1,5 +1,6 @@
 import { useGetBillerImage, useGetProducts } from "../../api/getProducts";
 import { getBillerImage } from "../../lib/utils";
+import { getStatusClass } from "../OrderConfirmation/commons";
 
 export const columns = [
   {
@@ -106,24 +107,8 @@ export const columns = [
     header: "Status",
     cell: (props) => {
       const status = props.getValue();
-      let statusClass;
-
-      switch (status) {
-        case "complete":
-          statusClass =
-            "bg-green-100 text-green-800 font-bold py-2 px-3  text-xs";
-          break;
-        case "failed":
-          statusClass = "bg-red-100 text-red-800 font-bold py-2 px-3  text-xs";
-          break;
-        case "pending":
-          statusClass =
-            "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
-          break;
-        default:
-          statusClass = "bg-black text-white font-bold py-2 px-3  text-xs";
-      }
-
+      let statusClass = getStatusClass(status)
+      
       return <p className={statusClass}>{status}</p>;
     },
   },

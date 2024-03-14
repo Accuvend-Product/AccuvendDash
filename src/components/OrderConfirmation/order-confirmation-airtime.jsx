@@ -3,7 +3,8 @@ import RedCheck from "../icons/red-check";
 import PropTypes from "prop-types";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useMemo } from "react";
-import { getIcon , getBgColor , checkEventExist} from "./commons";
+import { formatTimeStamp } from "./commons";
+import { getIcon , getBgColor , checkEventExist , returnEventIfExist} from "./commons";
 import {
 
   //
@@ -38,8 +39,11 @@ const OrderConfirmationAirtime = ({ transaction }) => {
             <div className="mt-2">
               {getIcon(true, checkEventExist(events,PHONENUMBER_VALIDATION_REQUESTED_FROM_PARTNER))}
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Validate Phone</h1>
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <h1 className="font-bold text-lg">Validate Phone</h1>
+                <date className="text-xs relative top-[1px]">{formatTimeStamp(returnEventIfExist(events,PHONENUMBER_VALIDATION_REQUESTED_FROM_PARTNER)?.eventTimestamp , 'time')}</date>
+              </div>
               <p className="text-sm">Phone Number - {user?.phoneNumber}</p>
             </div>
           </div>
@@ -69,8 +73,11 @@ const OrderConfirmationAirtime = ({ transaction }) => {
                 checkEventExist(events,AIRTIME_PURCHASE_INITIATED_BY_CUSTOMER)
               )}
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Confirm Payment</h1>
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <h1 className="font-bold text-lg">Confirm Payment</h1>
+                <date className="text-xs relative top-[1px]">{formatTimeStamp(returnEventIfExist(events,AIRTIME_PURCHASE_INITIATED_BY_CUSTOMER)?.eventTimestamp , 'time')}</date>
+              </div>
               <p className="text-sm">
                 Amount - ₦{Number(amount)?.toLocaleString()}
               </p>
@@ -88,8 +95,11 @@ const OrderConfirmationAirtime = ({ transaction }) => {
                 checkEventExist(events, AIRTIME_RECEIVED_FROM_VENDOR)
               )}
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Generate Token</h1>
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <h1 className="font-bold text-lg">Generate Airtime</h1>
+                <date className="text-xs relative top-[1px]">{formatTimeStamp(returnEventIfExist(events,AIRTIME_RECEIVED_FROM_VENDOR)?.eventTimestamp , 'time')}</date>
+              </div>
               {checkEventExist(events, AIRTIME_RECEIVED_FROM_VENDOR) ? (
                 <p className="text-sm">Airtime generated successfully</p>
               ) : (
@@ -114,8 +124,11 @@ const OrderConfirmationAirtime = ({ transaction }) => {
                 checkEventExist(events,AIRTIME_SENT_TO_PARTNER)
               )}
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Send Airtime</h1>
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <h1 className="font-bold text-lg">Send Airtime</h1>
+                <date className="text-xs relative top-[1px]">{formatTimeStamp(returnEventIfExist(events,AIRTIME_SENT_TO_PARTNER)?.eventTimestamp , 'time')}</date>
+              </div>
               <p
                 className={`text-sm ${
                   checkEventExist(events,AIRTIME_SENT_TO_PARTNER) ? "font-semibold" : ""

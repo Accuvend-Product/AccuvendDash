@@ -3,7 +3,7 @@ import RedCheck from "../icons/red-check";
 import PropTypes from "prop-types";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useMemo } from "react";
-import { getIcon , getBgColor , checkEventExist} from "./commons";
+import { getIcon , getBgColor , checkEventExist , returnEventIfExist} from "./commons";
 import {
   METER_VALIDATION_RECIEVED_FROM_VENDOR,
   POWER_PURCHASE_INITIATED_BY_CUSTOMER,
@@ -11,6 +11,7 @@ import {
   TOKEN_SENT_TO_PARTNER,
   METER_VALIDATION_SENT_PARTNER,
 } from "../EventsTable/constants";
+import { formatTimeStamp } from "./commons";
 
 const OrderConfirmation = ({ transaction }) => {
   const { amount, meter, disco, powerUnit, user, events } = transaction;
@@ -35,8 +36,11 @@ const OrderConfirmation = ({ transaction }) => {
             <div className="mt-2">
               {getIcon(true, checkEventExist(events,METER_VALIDATION_SENT_PARTNER))}
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Validate Meter</h1>
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <h1 className="font-bold text-lg">Validate Meter</h1>
+                <date className="text-xs relative top-[1px]">{formatTimeStamp(returnEventIfExist(events,METER_VALIDATION_RECIEVED_FROM_VENDOR)?.eventTimestamp , 'time')}</date>
+              </div>
               <p className="text-sm">Meter Number - {meter?.meterNumber}</p>
               <p className="text-sm">Name - {user?.name}</p>
               <p className="text-sm">Address - {user?.address}</p>
@@ -68,8 +72,11 @@ const OrderConfirmation = ({ transaction }) => {
                 checkEventExist(events,POWER_PURCHASE_INITIATED_BY_CUSTOMER)
               )}
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Confirm Payment</h1>
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <h1 className="font-bold text-lg">Confirm Payment</h1>
+                <date className="text-xs">{formatTimeStamp(returnEventIfExist(events,POWER_PURCHASE_INITIATED_BY_CUSTOMER)?.eventTimestamp , 'time')}</date>
+              </div>
               <p className="text-sm">
                 Amount - ₦{Number(amount)?.toLocaleString()}
               </p>
@@ -87,8 +94,11 @@ const OrderConfirmation = ({ transaction }) => {
                 checkEventExist(events,TOKEN_RECIEVED_FROM_VENDOR)
               )}
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Generate Token</h1>
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <h1 className="font-bold text-lg">Generate Token</h1>
+                <date className="text-xs">{formatTimeStamp(returnEventIfExist(events,TOKEN_RECIEVED_FROM_VENDOR)?.eventTimestamp , 'time')}</date>
+              </div>
               {checkEventExist(events,TOKEN_RECIEVED_FROM_VENDOR) ? (
                 <p className="text-sm">Token generated successfully</p>
               ) : (
@@ -113,8 +123,11 @@ const OrderConfirmation = ({ transaction }) => {
                 checkEventExist(events,TOKEN_SENT_TO_PARTNER)
               )}
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Send Token</h1>
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <h1 className="font-bold text-lg">Send Token</h1>
+                <date className="text-xs">{formatTimeStamp(returnEventIfExist(events,TOKEN_SENT_TO_PARTNER)?.eventTimestamp , 'time')}</date>
+              </div>
               <p
                 className={`text-sm ${
                   checkEventExist(events,TOKEN_SENT_TO_PARTNER) ? "font-semibold" : ""
