@@ -12,6 +12,19 @@ export const checkEventExist = (events, event) => {
 };
 
 /**
+ * Returns the first occurrence of an event in the events array that matches the specified event type.
+ * @param {Array<Object>} events - An array of event objects to search through.
+ * @param {string} event - The event type to search for.
+ * @returns {Object} Returns the event object if found, otherwise returns an empty object.
+ */
+
+export const returnEventIfExist = (events , event) => {
+    const _event = events?.filter((item) => item?.eventType === event);
+    if (_event.length > 0) return  _event[0];
+    else return {}
+}
+
+/**
 * Function to determine background color based on previous and current state.
 * @param {boolean} prevState - The previous state.
 * @param {boolean} currentState - The current state.
@@ -75,8 +88,11 @@ export const getStatusClass = (status) => {
           statusClass = "bg-red-100 text-red-800 font-bold py-2 px-3  text-xs";
           break;
       case "pending":
-          statusClass = "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
+          statusClass = "bg-gray-100 text-black-800 font-bold py-2 px-3  text-xs";
           break;
+      case "inprogress":
+            statusClass = "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
+            break;
       default:
           statusClass = "bg-black text-white font-bold py-2 px-3  text-xs";
   }
@@ -84,16 +100,19 @@ export const getStatusClass = (status) => {
 }
 
 /**
- * Function to format a timestamp into a readable date string.
+ * Formats a timestamp into a readable date or time string.
  * @param {string} _date - The timestamp to format.
- * @returns {string} Returns the formatted date string.
+ * @param {string} type - The type of formatting ('date' for date only, 'time' for time only).
+ * @returns {string} Returns the formatted date or time string.
  */
-export const formatTimeStamp = (_date) => {
+
+export const formatTimeStamp = (_date , type) => {
   let date = new Date();
   try {
       date = new Date(_date);
   } catch (err) {
       // Handle invalid date format gracefully
+      return ''
   }
   const options = {
       month: "short",
@@ -103,6 +122,23 @@ export const formatTimeStamp = (_date) => {
       minute: "numeric",
       second: "numeric",
   };
-  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
-  return formattedDate;
+  if(type === 'time') {
+    delete options.month
+    delete options.day
+    delete options.year
+  }
+
+  if(type === 'date') {
+    delete options.hour
+    delete options.minute
+    delete options.seconds
+  }
+
+  try{
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
+    return formattedDate;
+  }catch(err){
+    return ''
+  }
+  
 }

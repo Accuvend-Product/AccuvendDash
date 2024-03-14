@@ -41,7 +41,7 @@ export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
             <ChevronDown/>
           </button>
           {show && (
-            <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
+            <div className="absolute min-w-max mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
               <button
                 type="button"
                 onClick={() => handleStatusSelect("PENDING")}
@@ -62,6 +62,13 @@ export const StatusFilter = ({ handleStatusSelect, isActive = false }) => {
                 className={`block w-full text-left px-4 py-2 hover:bg-gray-100`}
               >
                 Completed
+              </button>
+              <button
+                type="button"
+                onClick={() => handleStatusSelect("INPROGRESS")}
+                className={`block w-full text-left px-4 py-2 hover:bg-gray-100`}
+              >
+                In-progress
               </button>
             </div>
           )}
@@ -348,7 +355,7 @@ export const PartnerFilter = ({handlePartnerSelect, isCustomer, isActive = false
             <ChevronDown/>
           </button>
           {show && (
-            <div className="absolute mt-1 py-2 bg-white border border-gray-200 rounded shadow-md z-10">
+            <div className="absolute mt-1 min-w-max py-2 bg-white border border-gray-200 rounded shadow-md z-10">
              { data?.map(ele => <button
                 type="button"
                 onClick={() => handlePartnerSelect({

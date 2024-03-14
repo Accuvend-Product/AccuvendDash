@@ -37,6 +37,7 @@ import {
 } from "../../lib/utils";
 import { EventTimeline } from "./components";
 import ActiveFilter from "../ActiveFilter";
+import { getStatusClass } from "../OrderConfirmation/commons";
 
 export const EventTable = ({
   tableData,
@@ -227,13 +228,8 @@ export const EventTable = ({
                 </span>
                 <span className={`text-xs font-medium me-2 px-2.5 py-1 rounded-full ${
                   (()=>{
-                    if(tableData[row.index]["status"] === "pending"){
-                      return 'bg-yellow-100 text-yellow-800'
-                    }else if(tableData[row.index]["status"] === "complete"){
-                      return 'bg-green-100 text-green-800'
-                    }else{
-
-                    }
+                    const statusColor = getStatusClass(tableData[row.index]["status"])
+                    return statusColor
                   })()
                 }`}> 
                   {tableData[row.index]["status"]}

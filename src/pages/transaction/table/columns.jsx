@@ -1,3 +1,5 @@
+import { getStatusClass } from "../../../components/OrderConfirmation/commons";
+
 export const columns = [
   {
     accessorKey: "partner",
@@ -50,23 +52,24 @@ export const columns = [
     header: "Status",
     cell: (props) => {
       const status = props.getValue();
-      let statusClass;
 
-      switch (status) {
-        case "active":
-          statusClass =
-            "bg-green-100 text-green-800 font-bold py-2 px-3  text-xs";
-          break;
-        case "inactive":
-          statusClass = "bg-red-100 text-red-800 font-bold py-2 px-3  text-xs";
-          break;
-        case "pending":
-          statusClass =
-            "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
-          break;
-        default:
-          statusClass = "bg-black text-white font-bold py-2 px-3  text-xs";
-      }
+      let statusClass = getStatusClass(status)
+
+      // switch (status) {
+      //   case "active":
+      //     statusClass =
+      //       "bg-green-100 text-green-800 font-bold py-2 px-3  text-xs";
+      //     break;
+      //   case "inactive":
+      //     statusClass = "bg-red-100 text-red-800 font-bold py-2 px-3  text-xs";
+      //     break;
+      //   case "pending":
+      //     statusClass =
+      //       "bg-yellow-100 text-yellow-800 font-bold py-2 px-3  text-xs";
+      //     break;
+      //   default:
+      //     statusClass = "bg-black text-white font-bold py-2 px-3  text-xs";
+      // }
 
       return <p className={statusClass}>{status}</p>;
     },
