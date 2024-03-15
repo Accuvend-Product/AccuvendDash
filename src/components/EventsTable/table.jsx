@@ -39,6 +39,8 @@ import { EventTimeline } from "./components";
 import ActiveFilter from "../ActiveFilter";
 import { getStatusClass } from "../OrderConfirmation/commons";
 
+const VITE_ENV_ADMIN =  import.meta.env.VITE_ENV_ADMIN
+
 export const EventTable = ({
   tableData,
   isPartnerAdminPage,
@@ -54,6 +56,17 @@ export const EventTable = ({
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
   const [activeFilter, setActiveFilter] = useState(null);
+
+  let audit_report_base_link = ''
+
+  if(VITE_ENV_ADMIN === 'TEST'){
+    audit_report_base_link = 'http://auditreport.accuvend.ng/report/test/'
+  }else if(VITE_ENV_ADMIN === 'SANDBOX'){
+    audit_report_base_link = 'http://auditreport.accuvend.ng/report/sandbox/'
+  }else{
+    audit_report_base_link = 'http://auditreport.accuvend.ng/report/'
+  }
+  
   
 
   
@@ -257,7 +270,7 @@ export const EventTable = ({
             </div>
             <div className="mb-3">
               <span>Transaction Audit Report : </span>
-              <a className="font-medium text-blue-600 underline" href={`http://auditreport.accuvend.ng/report/${tableData[row.index]["transaction reference"]}`} target="_blank">Click here</a>
+              <a className="font-medium text-blue-600 underline" href={`${audit_report_base_link}${tableData[row.index]["transaction reference"]}`} target="_blank">Click here</a>
             </div>
             {(accordionSelectedIndex === row.index) && <>
             
