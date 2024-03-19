@@ -121,7 +121,6 @@ export const DateFilter = ({ handleDateSelect, isActive = false }) => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <StaticDatePicker onChange={(date) => {
                     const _date = date.toDate()
-                    console.log(_date)
                     setSelectedDate(_date)
                   }} onAccept={() =>{
                     setShow(false)
