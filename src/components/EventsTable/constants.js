@@ -40,6 +40,8 @@ export const WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY =
   "WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY";
 export const RETRY_PURCHASE_FROM_NEW_VENDOR = "RETRY_PURCHASE_FROM_NEW_VENDOR";
 
+export const SMS_TOKEN_SENT_TO_USER = 'SMS_TOKEN_SENT_TO_USER'
+
 // AIRTIME SPECIFIC TOPICS
 export const PHONENUMBER_VALIDATION_REQUESTED_FROM_PARTNER = "PHONENUMBER_VALIDATION_REQUESTED_FROM_PARTNER";
 export const PHONENUMBER_VALIDATION_SUCCESS = "PHONENUMBER_VALIDATION_SUCCESS";
@@ -230,6 +232,12 @@ export const eventsObjectHeadingsDscription = {
     description: "Your meter token is en route to your phone number.",
     failedStateDescription:
       "The attempt to send the meter token to your phone number failed.",
+  },
+  SMS_TOKEN_SENT_TO_USER: {
+    heading: "Meter Token Sent to User's Number",
+    description: "Your meter token is en route to user's phone number.",
+    failedStateDescription:
+      "The attempt to send the meter token to user's phone number failed.",
   },
   PARTNER_TRANSACTION_COMPLETE: {
     heading: "Transaction with  %partner% Successfully Completed",

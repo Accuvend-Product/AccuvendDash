@@ -98,6 +98,7 @@ export const EventTimeline = ({ events, originalRow, showInfo }) => {
         EventConstant.TOKEN_SENT_TO_PARTNER_RETRY,
         EventConstant.TOKEN_SENT_TO_EMAIL,
         EventConstant.TOKEN_SENT_TO_NUMBER,
+        EventConstant.SMS_TOKEN_SENT_TO_USER,
         EventConstant.WEBHOOK_NOTIFICATION_SENT_TO_PARTNER,
         EventConstant.WEBHOOK_NOTIFICATION_CONFIRMED_FROM_PARTNER,
         EventConstant.WEBHOOK_NOTIFICATION_TO_PARTNER_RETRY,
@@ -105,7 +106,7 @@ export const EventTimeline = ({ events, originalRow, showInfo }) => {
       triggerEvents: [
         EventConstant.TOKEN_SENT_TO_PARTNER,
         EventConstant.TOKEN_SENT_TO_EMAIL,
-        EventConstant.TOKEN_SENT_TO_NUMBER,
+        EventConstant.SMS_TOKEN_SENT_TO_USER
       ],
       Icon: (props) => <Check {...props} />,
     },
