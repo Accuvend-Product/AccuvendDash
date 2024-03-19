@@ -42,11 +42,6 @@ const ExportToCsvbutton = (props) => {
     openModal()
     try{
       const data = await asyncReFetch()
-
-      // mapping productdata
-
-      
-      
       
       //generate csv content 
       const csvContent2 = generateCSVContent(props.columns?.reduce((acc,prev) => {
