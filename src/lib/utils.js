@@ -147,7 +147,6 @@ export const getBillerImage = (biller) => {
       MTN,
       AIRTEL
     };
-  console.log(biller)
   return logos[biller] ? logos[biller] : PLUG
 }
 
@@ -196,4 +195,55 @@ export function calculateDuration(startTime, endTime) {
   if(hours > 0) return `${hours} hrs`;
   if(minutes > 0) return `${minutes} mins`;
   return `${seconds} secs`;
+}
+
+
+
+export function generateCSVContent (headers, items , valuefunction = (value , key) => value){
+  let str  = ''
+  //generate the headers 
+  for(let header in headers){
+    str += header + ','
+  }
+  str += '\r\n';
+
+
+  //generating body 
+  for(let item of items){
+    for(let header in headers){ 
+      if(valuefunction === null){
+        str += item[header] + ','
+      }else {
+        str += valuefunction(item[header],header) + ','
+      }
+    }
+    str += '\r\n'
+  }
+   
+  return str
+}
+
+// content is a string
+export function exportCSVFile(fileTitle , content , htmLlink , reactLinkRef) {
+  
+
+  var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+
+  var blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+  if (navigator.msSaveBlob) { // IE 10+
+      navigator.msSaveBlob(blob, exportedFilenmae);
+  } else {
+      if(!link && !reactLinkRef ) var link = document.createElement("a");
+      else var link = htmLlink
+      if (link.download !== undefined) { // feature detection
+          // Browsers that support HTML5 download attribute
+          var url = URL.createObjectURL(blob);
+          link.setAttribute("href", url);
+          link.setAttribute("download", exportedFilenmae);
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      }
+  }
 }

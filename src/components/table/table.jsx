@@ -41,6 +41,7 @@ import {
   convertToISOWithPreviousDay,
 } from "../../lib/utils";
 import ActiveFilter from "../ActiveFilter";
+import ExportToCsvbutton from "./ExportToCsvbutton";
 
 export const TransactionTable = ({
   tableData,
@@ -219,22 +220,46 @@ export const TransactionTable = ({
         </div>
 
         {/* seach area */}
-        <div className="flex items-center bg-[#F7F7F7] p-1 rounded-[8px]">
-          <button className="p-2 rounded-l-md">
-            <Search className="w-4 h-4 text-body1" />
-          </button>
-          <input
-            value={filtering}
-            onChange={(e) => {
-              setFiltering(e.target.value);
-              // setCurrentPage(1);
-              // setPagination({...pagination, page : 0})
-            }}
-            type="text"
-            className="px-2 py-1.5 rounded-r-md bg-inherit text-body1 outline-none focus:outline-none"
-            placeholder="Search records"
-          />
+        <div className="flex items-center gap-x-2">
+          {isPartnerTable && <div>
+            <ExportToCsvbutton filter={filter} columns={[
+               {
+                accessorKey: "biller",
+                header: "Biller",
+               },
+               {
+                accessorKey: "meter number",
+                header: "Utility Number"
+              },{accessorKey: "productType",
+              header: "Utility Type",}, {accessorKey: "bank reference",
+              header: "Bank Reference",}, { accessorKey: "transaction date",
+              header: "Date",} , 
+              { accessorKey: "amount",
+              header: "Amount",},
+              { accessorKey: "status",
+              header: "Status",}
+
+            ]}/>
+          </div>}
+          <div className="flex items-center bg-[#F7F7F7] p-1 rounded-[8px]">
+              <button className="p-2 rounded-l-md">
+                <Search className="w-4 h-4 text-body1" />
+              </button>
+              <input
+                value={filtering}
+                onChange={(e) => {
+                  setFiltering(e.target.value);
+                  // setCurrentPage(1);
+                  // setPagination({...pagination, page : 0})
+                }}
+                type="text"
+                className="px-2 py-1.5 rounded-r-md bg-inherit text-body1 outline-none focus:outline-none"
+                placeholder="Search records"
+              />
+          </div>
+          
         </div>
+        
       </div>
 
       <ActiveFilter

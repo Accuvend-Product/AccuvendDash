@@ -16,7 +16,7 @@ const DetailsCardAirtime = ({transaction}) => {
         transactionType,
         biller,
       } = transaction;
-      console.log(biller)
+      
       const statusClass = getStatusClass(status);
       const biller_image = useGetBillerImage(biller);
       return (
