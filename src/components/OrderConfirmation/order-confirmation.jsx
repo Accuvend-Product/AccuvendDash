@@ -43,7 +43,7 @@ const OrderConfirmation = ({ transaction }) => {
               </div>
               <p className="text-sm">Meter Number - {meter?.meterNumber}</p>
               <p className="text-sm">Name - {user?.name}</p>
-              <p className="text-sm">Address - {user?.address}</p>
+              <p className="text-sm">Address - {meter?.address}</p>
             </div>
           </div>
           {/* <div
