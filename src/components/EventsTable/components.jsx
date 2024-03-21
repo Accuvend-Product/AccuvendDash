@@ -82,7 +82,7 @@ export const EventTimeline = ({ events, originalRow, showInfo }) => {
         EventConstant.TOKEN_RECIEVED_FROM_VENDOR,
         EventConstant.VEND_ELECTRICITY_REQUESTED_FROM_VENDOR,
         // EventConstant.GET_TRANSACTION_TOKEN_REQUESTED_FROM_VENDOR,
-        EventConstant.GET_TRANSACTION_TOKEN_FROM_VENDOR_INITIATED,
+        // EventConstant.GET_TRANSACTION_TOKEN_FROM_VENDOR_INITIATED,
       ],
       Icon: (props) => <TokenGenerated {...props} />,
     },
