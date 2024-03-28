@@ -279,7 +279,35 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
                   role="menuitem" */}
 
               {links.map((link) => (
-                <span className="flex flex-col">
+                <IconDropDownItem  link={link} location={location} navigate={navigate}/>
+              ))}
+            </div>
+
+            <div className="p-2">
+              <button
+                onClick={handleLogout}
+                disabled={isLogginLoading}
+                className={`flex w-full px-4 py-2 text-sm items-center text-red-700 hover:bg-red-50 ${
+                  isLogginLoading ? "text-gray-200" : "text-black"
+                } gap-2`}
+              >
+                <LogOutIcon className="w-4 h-4" />
+                <p className="">
+                  {isLogginLoading ? "LOGGING OUT ..." : "LOGOUT"}
+                </p>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
+const IconDropDownItem = ({location , link, navigate }) => {
+  const [showSupportSubLinks, setShowSupportSublinks] = useState();
+  return <>
+   <span className="flex flex-col">
                   <a
                     href={link.href}
                     className="flex items-center justify-between  rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
@@ -293,10 +321,8 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
                     key={link.name}
                     onClick={(event) => {
                       if (link.subLinks) {
-                        if (link.name === "CUSTOMER SUPPORT") {
                           event.preventDefault();
                           setShowSupportSublinks((prevState) => !prevState);
-                        }
                       }
                     }}
                   >
@@ -351,29 +377,8 @@ const IconDropDown = ({ uploadedImageLink, userEmail }) => {
                     ""
                   )}
                 </span>
-              ))}
-            </div>
-
-            <div className="p-2">
-              <button
-                onClick={handleLogout}
-                disabled={isLogginLoading}
-                className={`flex w-full px-4 py-2 text-sm items-center text-red-700 hover:bg-red-50 ${
-                  isLogginLoading ? "text-gray-200" : "text-black"
-                } gap-2`}
-              >
-                <LogOutIcon className="w-4 h-4" />
-                <p className="">
-                  {isLogginLoading ? "LOGGING OUT ..." : "LOGOUT"}
-                </p>
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </>
-  );
-};
+  </>
+}
 
 const Navbar = () => {
   const { uploadedImageLink, unreadNotifications , userData } = useUserData(BASE_URL);
